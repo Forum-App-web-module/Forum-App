@@ -8,7 +8,7 @@ def _get_connection() -> Connection:
         password='admin',
         host='localhost',
         port=3306,
-        database='ordering_api_db'
+        database='forum_app'
     )
 
 

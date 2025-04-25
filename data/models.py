@@ -32,7 +32,11 @@ class Category(BaseModel):
         )
 
 class Replies(BaseModel):
-    pass
+    id: int | None
+    creator_id: int
+    topic_id: int
+    text: str
+    created_at: datetime | None = None
 
 class Topic(BaseModel):
     id: int
