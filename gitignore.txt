@@ -154,5 +154,7 @@ cython_debug/
 #.idea/
 .idea/
 
+/.vscode
+
 #__pycache__/
 #*.pyc
