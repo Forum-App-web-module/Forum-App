@@ -1,11 +1,11 @@
-from pydantic import BaseModel, constr, 
+from pydantic import BaseModel, constr
 from datetime import datetime
 
 
 class Messages(BaseModel):
     id: int | None
     text: str
-    sent_on: datetime | None = datetime.now.strftime('%Y-%m-%d %H:%M:%S')
+    sent_on: datetime | None = datetime.now
 
 class Users(BaseModel):
     id: int | None
