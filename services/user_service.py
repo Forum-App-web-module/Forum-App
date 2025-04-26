@@ -1,5 +1,6 @@
 from data.models import Users, UserResponse, UserResponseList
 from data.database import insert_query, read_query, update_query
+from hashlib import sha256
 
 
 
@@ -62,3 +63,8 @@ def exists(username: str):
 def update_bio(username: str, bio: str):
     result = update_query('UPDATE users SET bio = ? WHERE username = ?', (bio, username))
     return result
+
+def hash_password(password: str, salt):
+    solted = password + salt
+    return sha256(solted.encode("utf-8")).hexdigest()
+

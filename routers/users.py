@@ -2,7 +2,7 @@ from fastapi import APIRouter, Response, Body
 from typing import Optional
 from fastapi.responses import JSONResponse
 from data.models import Users, RegisterData
-from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio
+from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio, hash_password
 from mariadb import IntegrityError, DataError
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
@@ -21,7 +21,8 @@ def search_user(username: Optional[str]="", is_admin: Optional[str] = "False"):
 @user_router.post('/register', status_code=201)
 # Creates user profile
 def register(data: RegisterData):
-    try: new_id = create(data.username, data.email, data.password)
+    #data.username[2:4] - password salt extracted from username. Example of basic salt.
+    try: new_id = create(data.username, data.email, hash_password(data.password, data.username[2:4]))
     except IntegrityError as integ:
         return JSONResponse (status_code=400, content= {"message": f"Invalid input - {integ}"})
     if new_id:
