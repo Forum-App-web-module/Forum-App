@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `forum_app`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(15) NOT NULL,
   `email` VARCHAR(40) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(65) NOT NULL,
   `bio` VARCHAR(150) NULL,
   `is_admin` TINYINT(4) 0,
   `is_active` TINYINT(4) 1,
