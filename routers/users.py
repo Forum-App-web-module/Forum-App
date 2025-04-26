@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Response, Body
 from typing import Optional
 from fastapi.responses import JSONResponse
-from data.models import Users, RegisterData
-from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio, hash_password
+from data.models import Users, RegisterData, LoginData
+from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio, hash_password, try_login
 from mariadb import IntegrityError, DataError
+from jose import jwt
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
 
@@ -28,6 +29,18 @@ def register(data: RegisterData):
     if new_id:
         return JSONResponse (status_code=201, content= {"message": f"Account with username {data.username} created successfully"})
     else: return JSONResponse (status_code=500, content= {"message": "Server error - contact addministrator"})
+
+
+@user_router.post('/login')
+def login(login: LoginData):
+
+    user = try_login(login.username, hash_password(login.password, login.username[2:4]))
+
+    if user:
+        secret = "A69"
+        token = jwt.encode({'key': user}, secret, algorithm='HS256')
+        return {"JWT": token}
+    else: return JSONResponse(status_code=400, content={"message": "Invalid login data"})
 
 
 @user_router.get('/{username}')

@@ -68,3 +68,8 @@ def hash_password(password: str, salt):
     solted = password + salt
     return sha256(solted.encode("utf-8")).hexdigest()
 
+def try_login(username, hash_password):
+    user_data = read_query('SELECT * from users WHERE username = ? and password = ?', (username, hash_password))
+
+    return True if user_data else False
+
