@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `forum_app`.`users` (
   `username` VARCHAR(15) NOT NULL,
   `email` VARCHAR(40) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
-  `bio` VARCHAR(45) NULL,
-  `is_admin` BIT(1) NULL,
-  `is_active` BIT(1) NULL,
+  `bio` VARCHAR(150) NULL,
+  `is_admin` TINYINT(4) 0,
+  `is_active` TINYINT(4) 1,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
