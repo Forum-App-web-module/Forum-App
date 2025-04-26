@@ -16,6 +16,34 @@ class Users(BaseModel):
     is_admin: bool | None = False
     is_active: bool | None = True
 
+    @classmethod
+    def from_query_result(cls, id, username, email, password, bio, is_admin, is_active):
+        return cls(username = username,
+                   email = email,
+                   bio = bio,
+                   is_admin = is_admin)
+
+class LoginData(BaseModel):
+    username: str
+    password: str
+
+class RegisterData(BaseModel):
+    username: constr(min_length=6, max_length=30)
+    email: str
+    password: constr(min_length=6, max_length=30)
+
+class UserResponse(BaseModel):
+    username: str
+    email: str
+    bio: str | None
+    is_admin: bool
+    is_active: bool
+
+class UserResponseList(BaseModel):
+    username: str
+    is_admin: bool
+
+
 class Category(BaseModel):
     id: int 
     name: str
