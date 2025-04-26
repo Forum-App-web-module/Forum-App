@@ -5,7 +5,7 @@ from mariadb.connections import Connection
 def _get_connection() -> Connection:
     return connect(
         user='root',
-        password='1997',
+        password='Admin',
         host='localhost',
         port=3306,
         database='forum_app'
