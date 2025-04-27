@@ -1,14 +1,13 @@
 from fastapi import APIRouter, HTTPException, Header, Body
-from data.models import Replies
 from services import reply_service
-from jose import jwt, JWTError
+from jose import JWTError
 from security.jwt_auth import verify_access_token
 
 
 replies_router = APIRouter(prefix='/replies', tags=['Replies'])
 
 @replies_router.post("/{topic_id}", status_code=201)
-def create_reply(topic_id: int, reply: str = Body(..., min_length=1, max_length=400), token: str = Header()): #token: str = Header()
+def create_reply(topic_id: int, reply: str = Body(..., min_length=1, max_length=400), token: str = Header()):
     # token verification
     try:
         payload = verify_access_token(token)

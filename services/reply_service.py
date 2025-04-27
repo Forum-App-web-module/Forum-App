@@ -2,7 +2,6 @@ from data.database import insert_query
 from data.models import Replies
 
 def create_reply(reply: str, topic_id: int, user_id: int):
-    #creator_id, topic_id, reply_text, *rest = reply.creator_id, reply.topic_id, reply.text
 
     if reply and topic_id:
         query = """

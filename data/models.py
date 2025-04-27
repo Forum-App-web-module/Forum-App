@@ -62,6 +62,7 @@ class Category(BaseModel):
             lock = bool(row[3])
         )
 
+# Possibly useless
 class Replies(BaseModel):
     id: int | None
     creator_id: int
