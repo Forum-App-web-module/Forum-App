@@ -73,12 +73,14 @@ def try_login(username, hash_password):
     user_data = read_query('SELECT * from users WHERE username = ? and password = ?', (username, hash_password))[0]
 
     if user_data:
-        return UserResponse(id = user_data[0],
-                            username = user_data[1],
-                            email = user_data[2],
-                            bio = user_data[3],
-                            is_admin = user_data[4],
-                            is_active = user_data[5]) 
+        return {
+            "id" : user_data[0],
+            "username" : user_data[1],
+            "email" : user_data[2],
+            "bio" : user_data[4],
+            "is_admin" : user_data[5],
+            "is_active" : user_data[6]
+        }
     else: return False
 
     
