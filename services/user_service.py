@@ -10,13 +10,14 @@ def create(user_username, user_email, user_password):
     return new_id
 
 def find_user_by_username(username):
-    data = read_query('SELECT username, email, bio, is_admin, is_active FROM users WHERE username = ?', (username,))
+    data = read_query('SELECT id, username, email, bio, is_admin, is_active FROM users WHERE username = ?', (username,))
     if not data:
         return None
     
-    username, email, bio, is_admin, is_active = data[0]
+    id, username, email, bio, is_admin, is_active = data[0]
 
     return UserResponse(
+        id=id,
         username = username,
         email=email,
         bio = bio,
