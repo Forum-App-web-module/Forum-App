@@ -33,11 +33,14 @@ class RegisterData(BaseModel):
     password: constr(min_length=6, max_length=30)
 
 class UserResponse(BaseModel):
+    id: int
     username: str
     email: str
     bio: str | None
     is_admin: bool
     is_active: bool
+
+    
 
 class UserResponseList(BaseModel):
     username: str

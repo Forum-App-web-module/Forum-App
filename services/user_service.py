@@ -70,7 +70,16 @@ def hash_password(password: str, salt):
     return sha256(solted.encode("utf-8")).hexdigest()
 
 def try_login(username, hash_password):
-    user_data = read_query('SELECT * from users WHERE username = ? and password = ?', (username, hash_password))
+    user_data = read_query('SELECT * from users WHERE username = ? and password = ?', (username, hash_password))[0]
 
-    return user_data if user_data else False
+    if user_data:
+        return UserResponse(id = user_data[0],
+                            username = user_data[1],
+                            email = user_data[2],
+                            bio = user_data[3],
+                            is_admin = user_data[4],
+                            is_active = user_data[5]) 
+    else: return False
+
+    
 
