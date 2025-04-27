@@ -72,5 +72,5 @@ def hash_password(password: str, salt):
 def try_login(username, hash_password):
     user_data = read_query('SELECT * from users WHERE username = ? and password = ?', (username, hash_password))
 
-    return True if user_data else False
+    return user_data if user_data else False
 
