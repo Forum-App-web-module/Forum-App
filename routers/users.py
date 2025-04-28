@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Response, Body
+from fastapi import APIRouter, Response, Body, Header
 from typing import Optional
 from fastapi.responses import JSONResponse
 from data.models import Users, RegisterData, LoginData
-from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio, hash_password, try_login
+from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio, try_login
+from security.secrets import hash_password
+from security.jwt_auth import verify_access_token, create_access_token
 from mariadb import IntegrityError, DataError
 from jose import jwt
 
@@ -11,7 +13,12 @@ user_router = APIRouter(prefix='/users', tags=['Users'])
 @user_router.get('/')
 # Searches user profile by filters: Username and role.
 #  2 options: 1 search by username and role. 2 Search all admins.
-def search_user(username: Optional[str]="", is_admin: Optional[str] = "False"):
+def search_user(username: Optional[str]="", is_admin: Optional[str] = "False", token: str = Header()):
+    # token authentication
+    payload = verify_access_token(token)
+    if not payload:
+        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+
     if not username and is_admin.lower() == "false":
         return JSONResponse (status_code=400, content= {"message": f"Please select at least one search parameters."})
 
@@ -22,7 +29,7 @@ def search_user(username: Optional[str]="", is_admin: Optional[str] = "False"):
 @user_router.post('/register', status_code=201)
 # Creates user profile
 def register(data: RegisterData):
-    #data.username[2:4] - password salt extracted from username. Example of basic salt.
+    #data.username[2:4] - password salt extracted from username(3rd and 4th char). Example of basic salt.
     try: new_id = create(data.username, data.email, hash_password(data.password, data.username[2:4]))
     except IntegrityError as integ:
         return JSONResponse (status_code=400, content= {"message": f"Invalid input - {integ}"})
@@ -36,16 +43,19 @@ def login(login: LoginData):
 
     user = try_login(login.username, hash_password(login.password, login.username[2:4]))
 
-    if user:
-        secret = "A69"
-        token = jwt.encode({'key': user}, secret, algorithm='HS256')
-        return {"JWT": token}
+    if user: 
+        return create_access_token(user)
     else: return JSONResponse(status_code=400, content={"message": "Invalid login data"})
 
 
 @user_router.get('/{username}')
 # Returns User profile information
-def get_profile(username: str):
+def get_profile(username: str, token: str = Header()):
+
+    # token authentication
+    payload = verify_access_token(token)
+    if not payload:
+        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
     
     user_information = find_user_by_username(username)
     if not user_information:
@@ -54,10 +64,16 @@ def get_profile(username: str):
         return user_information
 
 
-@user_router.put('/{username}/bio')
-# Update user bio BY authorized user.
-def update_profile_bio(username: str, bio: str = Body(..., min_length=1, max_length=150)):
-    result = update_bio(username, bio)
+@user_router.put('/bio')
+# Update user bio BY the user.
+def update_profile_bio(bio: str = Body(..., min_length=1, max_length=150), token: str = Header()):
+
+    # token authentication
+    payload = verify_access_token(token)
+    if not payload:
+        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+    
+    result = update_bio(payload["key"]["username"], bio)
 
     # following is mariadb validation error. No need to proceed if Body validation error above.
     # except DataError as dat:
@@ -69,14 +85,20 @@ def update_profile_bio(username: str, bio: str = Body(..., min_length=1, max_len
 
 @user_router.put('/deactivate/{username}')
 # Deactivation(block) of account BY ADMIN
-def deactivate_user(username: str):
+def deactivate_user(username: str, token: str = Header()):
 
-#  requires ADMIN authorization
+    # token authentication
+    payload = verify_access_token(token)
+    if not payload:
+        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+    #  ADMIN authorization
+    if payload["key"]["is_admin"] == 0:
+        return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
+
     if not exists(username):
         return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
 
     result = deactivate(username)
-
     if result:
         return JSONResponse(status_code=200, content={"message": f"{username} is now blocked."})
 
@@ -84,14 +106,21 @@ def deactivate_user(username: str):
 
 @user_router.put('/activate/{username}')
 # Activation(Unblock) account BY ADMIN
-def activate_user(username: str):
+def activate_user(username: str, token: str = Header()):
+
+    # token authentication
+    payload = verify_access_token(token)
+    if not payload:
+        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+    #  ADMIN authorization
+    if payload["key"]["is_admin"] == 0:
+        return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
 
 #  requires ADMIN authorization
     if not exists(username):
         return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
 
     result = activate(username)
-
     if result:
         return JSONResponse(status_code=200, content={"message": f"{username} is activated."})
 
@@ -100,13 +129,20 @@ def activate_user(username: str):
 
 @user_router.put('/promote/{username}')
 # Promote user into admin.
-def promote_user(username: str):
-    # requires ADMIN Authorization
+def promote_user(username: str, token: str = Header()):
+    
+     # token authentication
+    payload = verify_access_token(token)
+    if not payload:
+        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+    #  ADMIN authorization
+    if payload["key"]["is_admin"] == 0:
+        return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
+
     if not exists(username):
         return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
     
     result = promote(username)
-
     if result:
         return JSONResponse(status_code=200, content={"message": f"{username} is now Admin."})
 

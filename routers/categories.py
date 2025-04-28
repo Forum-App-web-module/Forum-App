@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Response
 from services import category_service
 
-category_router = APIRouter(prefix="/categories")
+category_router = APIRouter(prefix="/categories", tags=["Categories"])
 
 @category_router.get('/')
 def view_categories():
     return category_service.get_all
 
-@category_router.get_category_by_id('/{category_id}')
+@category_router.get('/{category_id}')
 def view_category(category_id: int):
     categroy = category_service.get_category_by_id(category_id)
     if not categroy:

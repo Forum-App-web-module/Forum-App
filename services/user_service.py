@@ -65,21 +65,17 @@ def update_bio(username: str, bio: str):
     result = update_query('UPDATE users SET bio = ? WHERE username = ?', (bio, username))
     return result
 
-def hash_password(password: str, salt):
-    solted = password + salt
-    return sha256(solted.encode("utf-8")).hexdigest()
-
 def try_login(username, hash_password):
-    user_data = read_query('SELECT * from users WHERE username = ? and password = ?', (username, hash_password))[0]
+    user_data = read_query('SELECT id, username, email, bio, is_admin, is_active from users WHERE username = ? and password = ?', (username, hash_password))[0]
 
     if user_data:
         return {
             "id" : user_data[0],
             "username" : user_data[1],
             "email" : user_data[2],
-            "bio" : user_data[4],
-            "is_admin" : user_data[5],
-            "is_active" : user_data[6]
+            "bio" : user_data[3],
+            "is_admin" : user_data[4],
+            "is_active" : user_data[5]
         }
     else: return False
 

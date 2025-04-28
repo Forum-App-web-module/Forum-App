@@ -15,7 +15,7 @@ def create_reply(topic_id: int, reply: str = Body(..., min_length=1, max_length=
         raise HTTPException(status_code=401, detail="Invalid token")
 
     # DB creator_id extract from token
-    user_id = payload["key"]["id"]
+    user_id = payload["id"]
 
     # insert reply in the DB
     try:

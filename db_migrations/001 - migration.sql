@@ -1,0 +1,2 @@
+ALTER TABLE `forum_app`.`messages` 
+CHANGE COLUMN `sent_on` `sent_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ;
