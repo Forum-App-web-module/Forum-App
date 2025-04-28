@@ -53,7 +53,7 @@ def create_reply(
 
     return {"message": "Reply created successfully"}
 
-@replies_router.post("/{topic_id}/vote/{reply_id}", status_code=201)
+@replies_router.put("/{topic_id}/vote/{reply_id}", status_code=201)
 def vote_on_reply(
         topic_id: int,
         reply_id: int,
@@ -110,7 +110,7 @@ def vote_on_reply(
     if result:
         return {"message": "Vote was updated. Long live democracy!"}
 
-@replies_router.post("/{topic_id}/top/{reply_id}", status_code=201)
+@replies_router.put("/{topic_id}/top/{reply_id}", status_code=201)
 def mark_best_reply(
         topic_id: int,
         reply_id: int,
