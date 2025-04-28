@@ -6,6 +6,31 @@ class Messages(BaseModel):
     id: int | None
     text: str
     sent_on: datetime | None = datetime.now
+    sender_id: int
+    receiver_id: int
+
+    @classmethod 
+    def from_query_result(cls, id, text, sent_on, sender_id, receiver_id):
+        return cls(id = id,
+                   text = text,
+                   sent_on = sent_on,
+                   sender_id = sender_id,
+                   receiver_id = receiver_id)
+
+class MessageOut(BaseModel):
+    id: int | None
+    text: str
+    sent_on: datetime | None = datetime.now
+    sender_username: str
+    receiver_username: str
+
+    @classmethod 
+    def from_query_result(cls, id, text, sent_on, sender_username, receiver_username):
+        return cls(id = id,
+                   text = text,
+                   sent_on = sent_on,
+                   sender_username = sender_username,
+                   receiver_username = receiver_username)
 
 class Users(BaseModel):
     id: int | None
@@ -40,7 +65,7 @@ class UserResponse(BaseModel):
     is_admin: bool
     is_active: bool
 
-    
+
 
 class UserResponseList(BaseModel):
     username: str

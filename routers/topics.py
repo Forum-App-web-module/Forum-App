@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response
 from services import topic_service
 
-topic_router = APIRouter(prefix='/topics')
+topic_router = APIRouter(prefix='/topics', tags=["Topics"])
 
 @topic_router.get('/')
 def view_topics():
