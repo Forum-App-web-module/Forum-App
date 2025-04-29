@@ -12,8 +12,6 @@ def create_topic(
     token: str = Header()
     ):
     payload = verify_access_token(token)
-    if not payload:
-        return Response(content='{"message":"Authentication failed."}', status_code=401)
     
     author_id = payload['id']
     new_id = topic_service.create_topic(title, category_id, author_id)
@@ -31,7 +29,7 @@ def view_topics():
     
     return topics
 
-#vieww topic by id, show replies
+#view topic by id, show replies
 @topic_router.get('/{topic_id}')
 def view_topic_by_id(topic_id: int):
     topic_replies = topic_service.get_topic_with_replies(topic_id)
@@ -48,8 +46,6 @@ def create_reply(
         token: str = Header()
 ):
     payload = verify_access_token(token)
-    if not payload:
-        return Response(content='{"messgae":"Authentication failed"}', status_code=401)
     
     user_id = payload['id']
     reply_service.create_reply(text, topic_id, user_id)
