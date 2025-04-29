@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Response, Body, Header
+from fastapi import APIRouter, Body, Header
 from typing import Optional
 from fastapi.responses import JSONResponse
 from data.models import Users, RegisterData, LoginData
 from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio, try_login
 from security.secrets import hash_password
 from security.jwt_auth import verify_access_token, create_access_token
-from mariadb import IntegrityError, DataError
-from jose import jwt
+from mariadb import IntegrityError
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
 
@@ -15,10 +14,8 @@ user_router = APIRouter(prefix='/users', tags=['Users'])
 #  2 options: 1 search by username and role. 2 Search all admins.
 def search_user(username: Optional[str]="", is_admin: Optional[str] = "False", token: str = Header()):
     # token authentication
-    payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
-
+    verify_access_token(token)
+    
     if not username and is_admin.lower() == "false":
         return JSONResponse (status_code=400, content= {"message": f"Please select at least one search parameters."})
 
@@ -53,9 +50,7 @@ def login(login: LoginData):
 def get_profile(username: str, token: str = Header()):
 
     # token authentication
-    payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+    verify_access_token(token)
     
     user_information = find_user_by_username(username)
     if not user_information:
@@ -70,8 +65,6 @@ def update_profile_bio(bio: str = Body(..., min_length=1, max_length=150), token
 
     # token authentication
     payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
     
     result = update_bio(payload["key"]["username"], bio)
 
@@ -89,8 +82,7 @@ def deactivate_user(username: str, token: str = Header()):
 
     # token authentication
     payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+
     #  ADMIN authorization
     if payload["key"]["is_admin"] == 0:
         return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
@@ -110,8 +102,7 @@ def activate_user(username: str, token: str = Header()):
 
     # token authentication
     payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+
     #  ADMIN authorization
     if payload["key"]["is_admin"] == 0:
         return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
@@ -133,8 +124,7 @@ def promote_user(username: str, token: str = Header()):
     
      # token authentication
     payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
+    
     #  ADMIN authorization
     if payload["key"]["is_admin"] == 0:
         return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
