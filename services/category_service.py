@@ -3,13 +3,13 @@ from data.models import Category, Topic
 from fastapi import Response
 
 def get_all():
-    sql = '''SELECT id, name, is_private, lock from categories'''
+    sql = '''SELECT id, name, is_private, `lock` from categories'''
     rows = read_query(sql)
 
     return [Category.from_query_result(row) for row in rows]  
 
 def get_category_by_id(category_id: int):
-    sql = '''SELECT id, name, is_private, lock FROM categories WHERE id = ?'''
+    sql = '''SELECT id, name, is_private, `lock` FROM categories WHERE id = ?'''
     rows = read_query(sql, (category_id,))
     if not rows:
         return None # return message in router
@@ -22,7 +22,7 @@ def get_topics_by_category(category_id: int, search: str = "", sort_by: str = "t
         sort_by = "title"
 
     sql = f'''
-        SELECT id, title, category_id, author_id, best_reply_id, lock
+        SELECT id, title, category_id, author_id, best_reply_id, `lock`
         FROM topics
         WHERE category_id = ?
             AND title LIKE ?

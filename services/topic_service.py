@@ -12,7 +12,7 @@ def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limi
         sort_by = "title"
 
     sql = f'''
-    SELECT id, title, category_id, author_id, best_reply_id, lock FROM topics
+    SELECT id, title, category_id, author_id, best_reply_id, `lock` FROM topics
     WHERE title LIKE ?
     ORDER BY {sort_by}
     LIMIT ? OFFSET ?
@@ -28,7 +28,7 @@ def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limi
     return topics
 
 def get_topic_with_replies(topic_id: int):
-    sql = '''SELECT id, title, category_id, author_id, best_reply_id, lock FROM topics WHERE id = ?'''
+    sql = '''SELECT id, title, category_id, author_id, best_reply_id, `lock` FROM topics WHERE id = ?'''
     rows = read_query(sql, (topic_id,))
     
     if not rows:

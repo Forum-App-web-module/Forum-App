@@ -100,7 +100,7 @@ class Topic(BaseModel):
     title: str
     category_id: int
     author_id: int
-    best_reply_id: int
+    best_reply_id: int | None = None
     lock: bool
 
     @classmethod
