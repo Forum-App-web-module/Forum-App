@@ -1,6 +1,7 @@
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 from fastapi.responses import JSONResponse
+from fastapi import HTTPException
 
 SECRET_KEY = "A69"
 ALGORITHM = "HS256"
@@ -16,9 +17,12 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     return {"JWT": token}
 
 def verify_access_token(token: str):
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    if not payload:
-        raise JWTError()
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Authentication failed!")
+    # if not payload:
+    #     raise HTTPException(status_code=401, detail="Authentication failed!")
     return payload
 
 
