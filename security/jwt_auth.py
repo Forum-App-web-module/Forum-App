@@ -2,10 +2,19 @@ from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 from fastapi.responses import JSONResponse
 from fastapi import HTTPException
+from dotenv import load_dotenv
+from os import getenv
 
-SECRET_KEY = "A69"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 180
+load_dotenv(dotenv_path="key_example.env")
+
+SECRET_KEY = getenv("SECRET_KEY")
+ALGORITHM = getenv("ALGORITHM")
+# ACCESS_TOKEN_EXPIRE_MINUTES = getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+
+
+# SECRET_KEY = "A69"
+# ALGORITHM = "HS256"
+# ACCESS_TOKEN_EXPIRE_MINUTES = 180
 
 
 def create_access_token(data: dict, expires_delta: timedelta = None):

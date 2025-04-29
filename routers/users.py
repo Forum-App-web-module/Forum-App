@@ -26,8 +26,7 @@ def search_user(username: Optional[str]="", is_admin: Optional[str] = "False", t
 @user_router.post('/register', status_code=201)
 # Creates user profile
 def register(data: RegisterData):
-    #data.username[2:4] - password salt extracted from username(3rd and 4th char). Example of basic salt.
-    try: new_id = create(data.username, data.email, hash_password(data.password, data.username[2:4]))
+    try: new_id = create(data.username, data.email, hash_password(data.password))
     except IntegrityError as integ:
         return JSONResponse (status_code=400, content= {"message": f"Invalid input - {integ}"})
     if new_id:
@@ -38,7 +37,7 @@ def register(data: RegisterData):
 @user_router.post('/login')
 def login(login: LoginData):
 
-    user = try_login(login.username, hash_password(login.password, login.username[2:4]))
+    user = try_login(login.username, hash_password(login.password))
 
     if user: 
         return create_access_token(user)
@@ -66,7 +65,7 @@ def update_profile_bio(bio: str = Body(..., min_length=1, max_length=150), token
     # token authentication
     payload = verify_access_token(token)
     
-    result = update_bio(payload["key"]["username"], bio)
+    result = update_bio(payload["username"], bio)
 
     # following is mariadb validation error. No need to proceed if Body validation error above.
     # except DataError as dat:
@@ -124,7 +123,7 @@ def promote_user(username: str, token: str = Header()):
     
      # token authentication
     payload = verify_access_token(token)
-    
+
     #  ADMIN authorization
     if payload["key"]["is_admin"] == 0:
         return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
