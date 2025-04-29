@@ -1,4 +1,4 @@
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
 
 
@@ -34,9 +34,9 @@ class MessageOut(BaseModel):
 
 class Users(BaseModel):
     id: int | None
-    username: constr(min_length=6, max_length=30)
-    email: str
-    password: constr(min_length=6, max_length=30)
+    username: str = Field(min_length=6, max_length=30)
+    email: EmailStr
+    password: str = Field(min_length=6, max_length=30)
     bio: str | None
     is_admin: bool | None = False
     is_active: bool | None = True
@@ -49,13 +49,13 @@ class Users(BaseModel):
                    is_admin = is_admin)
 
 class LoginData(BaseModel):
-    username: constr(min_length=6, max_length=30)
-    password: constr(min_length=6, max_length=30)
+    username: str = Field(min_length=6, max_length=30)
+    password: str = Field(min_length=6, max_length=30)
 
 class RegisterData(BaseModel):
-    username: constr(min_length=6, max_length=30)
-    email: constr(regex=r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-    password: constr(min_length=6, max_length=30)
+    username: str = Field(min_length=6, max_length=30)
+    email: EmailStr
+    password: str = Field(min_length=6, max_length=30)
 
 class UserResponse(BaseModel):
     id: int
