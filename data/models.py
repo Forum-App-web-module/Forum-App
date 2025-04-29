@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Annotated
 
@@ -38,7 +38,7 @@ class MessageOut(BaseModel):
 class Users(BaseModel):
     id: int | None
     username: Username
-    email: EmailStr
+    email: str
     password: Password
     bio: str | None
     is_admin: bool | None = False
@@ -57,7 +57,7 @@ class LoginData(BaseModel):
 
 class RegisterData(BaseModel):
     username: Username
-    email: EmailStr
+    email: str
     password: Password
 
 class UserResponse(BaseModel):

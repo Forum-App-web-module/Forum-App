@@ -37,10 +37,7 @@ def create_reply(
     """
 
     # token verification
-    try:
-        payload = verify_access_token(token)
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+    payload = verify_access_token(token)
 
     # DB creator_id extract from token
     user_id = payload["id"]
@@ -94,10 +91,11 @@ def vote_on_reply(
     """
 
     # token verification
-    try:
-        payload = verify_access_token(token)
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+    payload = verify_access_token(token)
+
+
+    # TODO:
+    # check category is_private; topic lock; category_member can_write
 
     # DB creator_id extract from token
     user_id = payload["id"]
@@ -139,10 +137,7 @@ def mark_best_reply(
         HTTPException: If the user is not the author of the topic.
     """
     # token verification
-    try:
-        payload = verify_access_token(token)
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+    payload = verify_access_token(token)
 
     # DB creator_id extract from token
     user_id = payload["key"]["id"]
