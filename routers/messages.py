@@ -12,8 +12,6 @@ def get_conversations(token: str = Header()):
     
     # token authentication
     payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
 
     conversations = list_conversations(payload["id"])
 
@@ -29,10 +27,9 @@ def get_specific_conversation(username: str, token: str = Header()):
 
      # token authentication
     payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
     
     user_information = find_user_by_username(username)
+
     if not user_information:
         return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
     
@@ -50,8 +47,6 @@ def create_message(username: str, text: str = Body(..., min_length=1, max_length
     
      # token authentication
     payload = verify_access_token(token)
-    if not payload:
-        return JSONResponse(status_code=401, content={"message": "Authentication failed."})
     
     user_information = find_user_by_username(username)
     if not user_information:
@@ -61,6 +56,6 @@ def create_message(username: str, text: str = Body(..., min_length=1, max_length
 
     if result:
         JSONResponse (status_code=201, content={"message":"Message is created"})
-    JSONResponse (status_code=201, content={"message":"Message failed"})
+    JSONResponse (status_code=500, content={"message":"Message failed"})
 
 
