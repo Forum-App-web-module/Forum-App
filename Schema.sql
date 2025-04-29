@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS `forum_app`.`users` (
   `email` VARCHAR(40) NOT NULL,
   `password` VARCHAR(65) NOT NULL,
   `bio` VARCHAR(150) NULL,
-  `is_admin` TINYINT(4) 0,
-  `is_active` TINYINT(4) 1,
+  `is_admin` TINYINT(4) DEFAULT 0,
+  `is_active` TINYINT(4) DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
@@ -74,7 +74,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `forum_app`.`topics` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
-  `categories_id` INT NOT NULL,
+  `category_id` INT NOT NULL,
   `author_id` INT NOT NULL,
   `best_reply_id` INT NULL,
   `lock` BIT(1) NULL,
