@@ -1,6 +1,9 @@
 from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
+from typing import Annotated
 
+Username = Annotated[str, Field(min_length=6, max_length=30)]
+Password = Annotated[str, Field(min_length=6, max_length=30)]
 
 class Messages(BaseModel):
     id: int | None
@@ -34,9 +37,9 @@ class MessageOut(BaseModel):
 
 class Users(BaseModel):
     id: int | None
-    username: str = Field(min_length=6, max_length=30)
+    username: Username
     email: EmailStr
-    password: str = Field(min_length=6, max_length=30)
+    password: Password
     bio: str | None
     is_admin: bool | None = False
     is_active: bool | None = True
@@ -49,13 +52,13 @@ class Users(BaseModel):
                    is_admin = is_admin)
 
 class LoginData(BaseModel):
-    username: str = Field(min_length=6, max_length=30)
-    password: str = Field(min_length=6, max_length=30)
+    username: Username
+    password: Password
 
 class RegisterData(BaseModel):
-    username: str = Field(min_length=6, max_length=30)
+    username: Username
     email: EmailStr
-    password: str = Field(min_length=6, max_length=30)
+    password: Password
 
 class UserResponse(BaseModel):
     id: int
