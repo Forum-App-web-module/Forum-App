@@ -61,6 +61,6 @@ def create_message(username: str, text: str = Body(..., min_length=1, max_length
 
     if result:
         JSONResponse (status_code=201, content={"message":"Message is created"})
-    JSONResponse (status_code=201, content={"message":"Message failed"})
+    JSONResponse (status_code=500, content={"message":"Message failed"})
 
 

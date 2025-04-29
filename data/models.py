@@ -20,7 +20,7 @@ class Messages(BaseModel):
 class MessageOut(BaseModel):
     id: int | None
     text: str
-    sent_on: datetime | None = datetime.now
+    sent_on: datetime | None
     sender_username: str
     receiver_username: str
 
@@ -49,12 +49,12 @@ class Users(BaseModel):
                    is_admin = is_admin)
 
 class LoginData(BaseModel):
-    username: str
-    password: str
+    username: constr(min_length=6, max_length=30)
+    password: constr(min_length=6, max_length=30)
 
 class RegisterData(BaseModel):
     username: constr(min_length=6, max_length=30)
-    email: str
+    email: constr(regex=r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
     password: constr(min_length=6, max_length=30)
 
 class UserResponse(BaseModel):
