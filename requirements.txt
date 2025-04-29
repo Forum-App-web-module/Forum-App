@@ -1,0 +1,6 @@
+fastapi==0.115.12
+jose==1.0.0
+mariadb==1.1.12
+pydantic==2.11.3
+python_jose==3.4.0
+uvicorn==0.34.2
