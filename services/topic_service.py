@@ -56,3 +56,12 @@ def get_topic_with_replies(topic_id: int):
         "topic": topic,
         "replies": replies
             }
+
+def lock_topic(topic_id):
+    pass
+
+def unlock_topic(topic_id):
+    pass
+
+def is_locked(topic_id):
+    pass

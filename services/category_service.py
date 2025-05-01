@@ -35,50 +35,22 @@ def get_topics_by_category(category_id: int, search: str = "", sort_by: str = "t
     return [Topic.from_query_result(row) for row in rows]
 
 
-def locked_category(category_id: int, locked: bool):
+def lock_category(category_id: int, lock: bool):
     pass
 
+def is_locked(category_id):
+    pass
 
 def create_caterogory():
     pass
 
-def make_private(category_id):
-    pass
-def make_non_private(category_id):
+def update_privacy(category_id: int, lock: bool):
     pass
 
-def give_access(category_id, user_id):
+def is_private(category_id):
     pass
 
-def revoke_access(category_id, user_id): 
-    pass
 
-def give_write_access(category_id, user_id):
-    pass
-
-def revoke_write_access(categiry_id, user_id):
-    pass
-
-def view_privileged_users(category_id):
-    pass
-
-def lock_topic(topic_id):
-    pass
-
-def unlock_topic(topic_id):
-    pass
-
-def lock_category(category_id):
-    pass
-
-def unlock_category(category_id):
-    pass
-
-def is_member(category_id, user_id):
-    pass
-
-def can_write(category_id, user_id):
-    pass
 
 
     

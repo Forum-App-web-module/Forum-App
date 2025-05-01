@@ -7,6 +7,7 @@ from security.secrets import hash_password
 from security.jwt_auth import verify_access_token, create_access_token
 from security.authorization import admin_auth
 from mariadb import IntegrityError
+from common.responses import BadRequest, Created, Forbidden, Unauthorized, Succesfull, InternalServerError
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
 
@@ -18,7 +19,7 @@ def search_user(username: Optional[str]="", is_admin: Optional[str] = "False", t
     verify_access_token(token)
     
     if not username and is_admin.lower() == "false":
-        return JSONResponse (status_code=400, content= {"message": f"Please select at least one search parameters."})
+        return BadRequest(content = "Please select at least one search parameters.")
 
     users_list = get_users(username, is_admin)
 
@@ -29,10 +30,10 @@ def search_user(username: Optional[str]="", is_admin: Optional[str] = "False", t
 def register(data: RegisterData):
     try: new_id = create(data.username, data.email, hash_password(data.password))
     except IntegrityError as integ:
-        return JSONResponse (status_code=400, content= {"message": f"Invalid input - {integ}"})
+        return BadRequest(content = "Invalid input - {integ}")
     if new_id:
-        return JSONResponse (status_code=201, content= {"message": f"Account with username {data.username} created successfully"})
-    else: return JSONResponse (status_code=500, content= {"message": "Server error - contact addministrator"})
+        return Created(content = f"Account with username {data.username} created successfully")
+    else: return InternalServerError (content = "Server error - contact addministrator")
 
 
 @user_router.post('/login')
@@ -42,7 +43,7 @@ def login(login: LoginData):
 
     if user: 
         return create_access_token(user)
-    else: return JSONResponse(status_code=400, content={"message": "Invalid login data"})
+    else: return BadRequest(content = "Invalid login data")
 
 
 @user_router.get('/{username}')
@@ -54,7 +55,7 @@ def get_profile(username: str, token: str = Header()):
     
     user_information = find_user_by_username(username)
     if not user_information:
-        return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
+        return BadRequest(content = f'There is no account with username: {username}')
     else: 
         return user_information
 
@@ -73,7 +74,7 @@ def update_profile_bio(bio: str = Body(..., min_length=1, max_length=150), token
     #     return JSONResponse (status_code=400, content= {"message": f"Invalid input - {dat} , max lenght is 150 characters."})
     
     if result:
-        return JSONResponse(status_code=200, content={"message": f"Bio is updated"})
+        return Succesfull(content= f"Bio is updated")
     
 
 @user_router.put('/deactivate/{username}')
@@ -87,13 +88,13 @@ def deactivate_user(username: str, token: str = Header()):
     admin_auth(payload)
 
     if not exists(username):
-        return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
+        return BadRequest(content = f'There is no account with username: {username}')
 
     result = deactivate(username)
     if result:
-        return JSONResponse(status_code=200, content={"message": f"{username} is now blocked."})
+        return Succesfull(content = f"{username} is now blocked.")
 
-    else: return JSONResponse(status_code=200, content={"message": f'{username} already has been blocked.'})
+    else: return Succesfull(content = f'{username} already has been blocked.')
 
 @user_router.put('/activate/{username}')
 # Activation(Unblock) account BY ADMIN
@@ -107,13 +108,13 @@ def activate_user(username: str, token: str = Header()):
 
 #  requires ADMIN authorization
     if not exists(username):
-        return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
+        return BadRequest(content = f'There is no account with username: {username}')
 
     result = activate(username)
     if result:
-        return JSONResponse(status_code=200, content={"message": f"{username} is activated."})
+        return Succesfull(content = f"{username} is activated.")
 
-    else: return JSONResponse(status_code=200, content={"message": f'{username} is already activated.'})
+    else: return Succesfull(content = f'{username} is already activated.')
 
 
 @user_router.put('/promote/{username}')
@@ -127,11 +128,10 @@ def promote_user(username: str, token: str = Header()):
     admin_auth(payload)
 
     if not exists(username):
-        return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
+        return BadRequest(content = f'There is no account with username: {username}')
     
     result = promote(username)
-    if result:
-        return JSONResponse(status_code=200, content={"message": f"{username} is now Admin."})
+    if result:Succesfull(content = f"{username} is now Admin.")
 
-    else: return JSONResponse(status_code=200, content={"message": f'{username} is already Admin.'})
+    else: return Succesfull(content = f'{username} is already Admin.')
 
