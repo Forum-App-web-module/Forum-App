@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Header, Body
-from fastapi.responses import JSONResponse
 from services import topic_service, reply_service
 from security.jwt_auth import verify_access_token
+from common.responses import NotFound, Created
 
 topic_router = APIRouter(prefix='/topics', tags=["Topics"])
 
@@ -18,15 +18,14 @@ def create_topic(
     new_id = topic_service.create_topic(title, category_id, author_id)
 
     if new_id:
-        return JSONResponse(status_code=201, content=f'{"message":"Topic {title} created"}')
-    return JSONResponse(status_code=500, content="Failed to create topic")  #fix status code
+        return Created(content=f'Topic {title} created')
 
 #view all topics, no authentication needed
 @topic_router.get('/')
 def view_topics():
     topics = topic_service.get_all_topics()
     if not topics:
-        return JSONResponse(status_code=404, content={"messgae":"No topics found"})
+        return NotFound(content="No topics found")
     
     return topics
 
@@ -35,7 +34,7 @@ def view_topics():
 def view_topic_by_id(topic_id: int):
     topic_replies = topic_service.get_topic_with_replies(topic_id)
     if not topic_replies: 
-        return JSONResponse(status_code=404, content={"messgae":"No topic found for the given ID"})
+        return NotFound(content="No topic found for the given ID")
     
     return topic_replies
 
@@ -51,4 +50,4 @@ def create_reply(
     user_id = payload['id']
     reply_service.create_reply(text, topic_id, user_id)
 
-    return JSONResponse(status_code=201, content={"messgae":"Reply created"})
+    return Created(content="Reply created")
