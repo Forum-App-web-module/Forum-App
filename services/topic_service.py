@@ -2,7 +2,7 @@ from data.database import read_query, insert_query
 from data.models import Topic, Replies
 
 def create_topic(title: str, category_id: int, author_id: int):
-    sql = """INSERT INTO topics (title, category_id, author_id, lock) VALUES (?, ?, ?, 0)""" # value = 0 false
+    sql = """INSERT INTO topics (title, category_id, author_id, locked) VALUES (?, ?, ?, 0)""" # value = 0 false
     params = (title, category_id, author_id)
 
     return insert_query(sql, params)
@@ -12,7 +12,7 @@ def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limi
         sort_by = "title"
 
     sql = f'''
-    SELECT id, title, category_id, author_id, best_reply_id, `lock` FROM topics
+    SELECT id, title, category_id, author_id, best_reply_id, locked FROM topics
     WHERE title LIKE ?
     ORDER BY {sort_by}
     LIMIT ? OFFSET ?
@@ -22,20 +22,20 @@ def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limi
     rows = read_query(sql, params)
     topics = []
     for row in rows:
-        id, title, category_id, author_id, best_reply_id, lock = row
-        topics.append(Topic.from_query_result((id, title, category_id, author_id, best_reply_id, bool(lock))))
+        id, title, category_id, author_id, best_reply_id, locked = row
+        topics.append(Topic.from_query_result((id, title, category_id, author_id, best_reply_id, bool(locked))))
 
     return topics
 
 def get_topic_with_replies(topic_id: int):
-    sql = '''SELECT id, title, category_id, author_id, best_reply_id, `lock` FROM topics WHERE id = ?'''
+    sql = '''SELECT id, title, category_id, author_id, best_reply_id, locked FROM topics WHERE id = ?'''
     rows = read_query(sql, (topic_id,))
     
     if not rows:
         return None # return message in router
     
-    id, title, category_id, author_id, best_reply_id, lock = rows[0]
-    topic = Topic.from_query_result((id, title, category_id, author_id, best_reply_id, bool(lock)))
+    id, title, category_id, author_id, best_reply_id, locked = rows[0]
+    topic = Topic.from_query_result((id, title, category_id, author_id, best_reply_id, bool(locked)))
 
     sql_with_replies = '''
     SELECT id, creator_id, topic_id, text, created_on
