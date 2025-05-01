@@ -5,6 +5,7 @@ from data.models import Users, RegisterData, LoginData
 from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio, try_login
 from security.secrets import hash_password
 from security.jwt_auth import verify_access_token, create_access_token
+from security.authorization import admin_auth
 from mariadb import IntegrityError
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
@@ -83,8 +84,7 @@ def deactivate_user(username: str, token: str = Header()):
     payload = verify_access_token(token)
 
     #  ADMIN authorization
-    if payload["key"]["is_admin"] == 0:
-        return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
+    admin_auth(payload)
 
     if not exists(username):
         return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})
@@ -103,8 +103,7 @@ def activate_user(username: str, token: str = Header()):
     payload = verify_access_token(token)
 
     #  ADMIN authorization
-    if payload["key"]["is_admin"] == 0:
-        return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
+    admin_auth(payload)
 
 #  requires ADMIN authorization
     if not exists(username):
@@ -125,8 +124,7 @@ def promote_user(username: str, token: str = Header()):
     payload = verify_access_token(token)
 
     #  ADMIN authorization
-    if payload["key"]["is_admin"] == 0:
-        return JSONResponse(status_code=403, content={"message": "Admin role authorization is needed."})
+    admin_auth(payload)
 
     if not exists(username):
         return JSONResponse(status_code=400, content={"message": f'There is no account with username: {username}'})

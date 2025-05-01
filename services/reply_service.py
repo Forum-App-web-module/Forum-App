@@ -39,12 +39,12 @@ def vote_on_r(topic_id: int, reply_id: int, user_id: int, vote: str):
 
     # record the vote in the DB
     vote_data = query_count(
-        "select * from votes where users_id = ? and replies_id = ?", (user_id, reply_id))
+        "select * from votes where user_id = ? and reply_id = ?", (user_id, reply_id))
 
     if vote_data > 0:
-        update_query("update votes set vote = ? where users_id = ? and replies_id = ?", (int(vote), user_id, reply_id))
+        update_query("update votes set vote = ? where user_id = ? and reply_id = ?", (int(vote), user_id, reply_id))
     else:
-        insert_query("insert into votes (users_id, replies_id, vote) values (?, ?, ?)", (user_id, reply_id, int(vote)))
+        insert_query("insert into votes (user_id, reply_id, vote) values (?, ?, ?)", (user_id, reply_id, int(vote)))
 
     return True
 
