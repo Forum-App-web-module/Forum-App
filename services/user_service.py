@@ -1,16 +1,24 @@
 from data.models import Users, UserResponse, UserResponseList
-from data.database import insert_query, read_query, update_query
+
+from data import database
 from hashlib import sha256
 
 
 
 
-def create(user_username, user_email, user_password):
-    new_id = insert_query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', (user_username, user_email, user_password))
+def create(user_username, user_email, user_password, insert_data_func = None):
+
+    if insert_data_func is None:
+        insert_data_func = database.insert_query
+
+    new_id = insert_data_func('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', (user_username, user_email, user_password))
     return new_id
 
-def find_user_by_username(username):
-    data = read_query('SELECT id, username, email, bio, is_admin, is_active FROM users WHERE username = ?', (username,))
+def find_user_by_username(username, get_data_func = None):
+    if get_data_func is None:
+        get_data_func = database.read_query
+
+    data = get_data_func('SELECT id, username, email, bio, is_admin, is_active FROM users WHERE username = ?', (username,))
     if not data:
         return None
     
@@ -25,7 +33,7 @@ def find_user_by_username(username):
         is_active = bool(is_active)
     )
 
-def get_users(search_username: str | None, search_is_admin: str | None ):
+def get_users(search_username: str | None, search_is_admin: str | None, get_data_func = None):
 
     if search_username:
         username = search_username + "%"
@@ -36,37 +44,62 @@ def get_users(search_username: str | None, search_is_admin: str | None ):
         is_admin = 1
     else: is_admin = 0
 
-    query = 'SELECT username, is_admin FROM users WHERE username LIKE ? and is_admin = ?'
+    if get_data_func is None:
+        get_data_func = database.read_query
 
-    data = read_query(query, (username, is_admin))
+    data = get_data_func('SELECT username, is_admin FROM users WHERE username LIKE ? and is_admin = ?', (username, is_admin))
     if not data:
         return None
     
     users = [UserResponseList(username=row[0], is_admin=bool(row[1])) for row in data]
     return users
 
-def promote(username: str):
-    result = update_query('UPDATE users SET is_admin = ? WHERE username = ?', (1, username))
+def promote(username: str, update_func = None):
+
+    if update_func is None:
+        update_func = database.update_query
+
+    result = update_func('UPDATE users SET is_admin = ? WHERE username = ?', (1, username))
     return result
 
-def deactivate(username: str):
-    result = update_query('UPDATE users SET is_active = ? WHERE username = ?', (0, username))
+def deactivate(username: str, update_func = None):
+
+    if update_func is None:
+        update_func = database.update_query
+
+    result = update_func('UPDATE users SET is_active = ? WHERE username = ?', (0, username))
     return result
 
-def activate(username: str):
-    result = update_query('UPDATE users SET is_active = ? WHERE username = ?', (1, username))
+def activate(username: str, update_func = None):
+
+    if update_func is None:
+        update_func = database.update_query
+
+    result = update_func('UPDATE users SET is_active = ? WHERE username = ?', (1, username))
     return result
 
-def exists(username: str):
-    result = read_query('SELECT username FROM users WHERE username = ?', (username,))
+def exists(username: str, get_data_func = None):
+
+    if get_data_func is None:
+        get_data_func = database.read_query
+
+    result = get_data_func('SELECT username FROM users WHERE username = ?', (username,))
     return result
 
-def update_bio(username: str, bio: str):
-    result = update_query('UPDATE users SET bio = ? WHERE username = ?', (bio, username))
+def update_bio(username: str, bio: str, update_func = None):
+
+    if update_func is None:
+        update_func = database.update_query
+
+    result = update_func('UPDATE users SET bio = ? WHERE username = ?', (bio, username))
     return result
 
-def try_login(username, hash_password):
-    user_data = read_query('SELECT id, username, email, bio, is_admin, is_active from users WHERE username = ? and password = ?', (username, hash_password))[0]
+def try_login(username, hash_password, get_data_func = None):
+
+    if get_data_func is None:
+        get_data_func = database.read_query
+
+    user_data = get_data_func('SELECT id, username, email, bio, is_admin, is_active from users WHERE username = ? and password = ?', (username, hash_password))[0]
 
     if user_data:
         return {
