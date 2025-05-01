@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 from services import category_service
 
 category_router = APIRouter(prefix="/categories", tags=["Categories"])
@@ -14,7 +15,7 @@ def view_categories():
 def view_category(category_id: int):
     categroy = category_service.get_category_by_id(category_id)
     if not categroy:
-        return Response(content='{"message":"No category found for this id"}', status_code=404)
+        return JSONResponse(status_code=404, content={"message":"No category found with this ID"})
     
     return categroy
 
@@ -23,6 +24,6 @@ def view_category(category_id: int):
 def view_category_topics(category_id: int):
     topics = category_service.get_topics_by_category(category_id)
     if not topics:
-        return Response(content='{"message":"No topics found for this category"}', status_code=204)
+        return JSONResponse(status_code=204, content={"message":"No topics found for this category"})
     
     return topics
