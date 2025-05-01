@@ -47,8 +47,10 @@ def create_caterogory():
 def update_privacy(category_id: int, lock: bool):
     pass
 
-def is_private(category_id):
-    pass
+def is_private(category_id, locked: bool):
+    sql = '''UPDATE categories SET locked = ? WHERE id = ?'''
+    params = (locked, category_id)
+    return read_query(sql, params)
 
 
 

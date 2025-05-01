@@ -1,7 +1,6 @@
 
 
-
-
+# TODO: Boby
 def is_member(category_id, user_id):
     pass
 
@@ -11,6 +10,7 @@ def can_write(category_id, user_id):
 def give_access(category_id, user_id):
     pass
 
+# TODO: Pesho
 def revoke_access(category_id, user_id): 
     pass
 
