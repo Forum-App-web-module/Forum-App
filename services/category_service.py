@@ -1,4 +1,4 @@
-from data.database import read_query
+from data.database import read_query, insert_query, update_query
 from data.models import Category, Topic
 from fastapi import Response
 
@@ -35,17 +35,28 @@ def get_topics_by_category(category_id: int, search: str = "", sort_by: str = "t
     return [Topic.from_query_result(row) for row in rows]
 
 
-def lock_category(category_id: int, lock: bool):
-    pass
+def create_category(name: str):
+    sql = '''INSERT INTO categories (name, is_private, locked) VALUES (?, 0, 0)'''
+    new_category = insert_query(sql, (name,))
+    return new_category
 
-def is_locked(category_id):
-    pass
+def lock_category(category_id: int, lock: bool): #locks/unlocks category only
+    sql = '''UPDATE categories SET locked = ? WHERE id = ?'''
+    category_status = update_query(sql, (int(lock), category_id))
+    return category_status
 
-def create_caterogory():
-    pass
+def is_locked(category_id: int):
+    category = get_category_by_id(category_id)
+    if not category:
+        return True
+    return category.lock
+    
 
-def update_privacy(category_id: int, lock: bool):
-    pass
+def update_privacy(category_id: int, lock: bool):  # should be is_private, the below is updating
+    category = get_category_by_id(category_id)
+    if not category:
+        return True
+    return category.is_private
 
 def is_private(category_id, locked: bool):
     sql = '''UPDATE categories SET locked = ? WHERE id = ?'''
