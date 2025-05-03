@@ -19,7 +19,7 @@ class NotFound(Response):
 
 
 
-class Succesfull(Response):
+class Successful(Response):
     def __init__(self, content=''):
         super().__init__(status_code=200, content=content)
 

@@ -1,4 +1,6 @@
 from fastapi import APIRouter, HTTPException, Header, Body
+
+from common.responses import BadRequest, Created
 from services import reply_service
 from security.jwt_auth import verify_access_token
 
@@ -18,12 +20,11 @@ def create_reply(
     user_id = payload["id"]
 
     # insert reply in the DB
-    try:
-        reply_service.create_reply(reply, topic_id, user_id)
-    except ValueError as e:
-        raise HTTPException(status_code=422, detail=str(e))
+    if not reply_service.create_reply(reply, topic_id, user_id):
+        return BadRequest(content="Invalid input parameters")
+    else:
+        return Created(content="Reply created successfully")
 
-    return {"message": "Reply created successfully"}
 
 @replies_router.put("/{topic_id}/vote/{reply_id}", status_code=201)
 def vote_on_reply(
@@ -39,13 +40,11 @@ def vote_on_reply(
     # DB creator_id extract from token
     user_id = payload["id"]
 
-    try:
-        result = reply_service.vote_on_r(topic_id, reply_id, user_id, vote)
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+    if not reply_service.vote_on_r(topic_id, reply_id, user_id, vote):
+        return BadRequest(content="Invalid input parameters")
+    else:
+        return Created(content="Vote was updated. Long live democracy!")
 
-    if result:
-        return {"message": "Vote was updated. Long live democracy!"}
 
 @replies_router.put("/{topic_id}/top/{reply_id}", status_code=201)
 def mark_best_reply(
@@ -59,15 +58,10 @@ def mark_best_reply(
     # DB creator_id extract from token
     user_id = payload["key"]["id"]
 
-    try:
-        result = reply_service.mark_best_reply(topic_id, reply_id, user_id)
-    except ValueError as e:
-        raise HTTPException(status_code=401, detail=str(e))
-
-    if result:
-        return {"message": "Best reply marked successfully"}
-
-
+    if not reply_service.mark_best_reply(topic_id, reply_id, user_id):
+        return BadRequest(content="Invalid input parameters")
+    else:
+        return Created(content="Best reply marked successfully")
 
 
 

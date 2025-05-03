@@ -6,7 +6,7 @@ from category_members_service import is_member
 
 def create_reply(reply: str, topic_id: int, user_id: int):
 
-    if reply and topic_id and not is_locked(topic_id):
+    if not is_locked(topic_id):
         category_is_private = is_private(topic_id)[2]
         if category_is_private and is_member(user_id, topic_id):            
             insert_reply_to_db(reply, topic_id, user_id)
@@ -31,11 +31,6 @@ def insert_reply_to_db(reply, topic_id, user_id):
 
 
 def vote_on_r(topic_id: int, reply_id: int, user_id: int, vote: str):
-    # validate user exists
-    user_exists = query_count("SELECT COUNT(*) FROM users WHERE id = ?", (user_id,))
-    if user_exists == 0:
-        raise ValueError("User does not exist.")
-
     # validate reply belongs to topic
     query = """
         select * from replies
@@ -43,24 +38,34 @@ def vote_on_r(topic_id: int, reply_id: int, user_id: int, vote: str):
         and topic_id = ?
         """
 
-    # TODO:
-    # check if category is_private
-
     reply_exists = query_count(query, (reply_id, topic_id))
 
     if reply_exists == 0:
-        raise ValueError("Wrong parameters. Reply does not exist or does not belong to the topic.")
+        # raise ValueError("Wrong parameters. Reply does not exist or does not belong to the topic.")
+        return False
 
+    category_is_private = is_private(topic_id)[2]
+    if category_is_private and is_member(user_id, topic_id):
+        vote_to_db(reply_id, user_id, vote)
+        return True
+    elif not category_is_private:
+        vote_to_db(reply_id, user_id, vote)
+        return True
+    else:
+        return False
+
+
+def vote_to_db(reply_id, user_id, vote):
     # record the vote in the DB
     vote_data = query_count(
         "select * from votes where user_id = ? and reply_id = ?", (user_id, reply_id))
-
     if vote_data > 0:
-        update_query("update votes set vote = ? where user_id = ? and reply_id = ?", (int(vote), user_id, reply_id))
+        update_query("update votes set vote = ? where user_id = ? and reply_id = ?",
+                     (int(vote), user_id, reply_id))
     else:
-        insert_query("insert into votes (user_id, reply_id, vote) values (?, ?, ?)", (user_id, reply_id, int(vote)))
+        insert_query("insert into votes (user_id, reply_id, vote) values (?, ?, ?)",
+                     (user_id, reply_id, int(vote)))
 
-    return True
 
 def mark_best_reply(topic_id: int, reply_id: int, user_id: int):
     # validate user is author of topic
