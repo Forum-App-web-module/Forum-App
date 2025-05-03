@@ -1,23 +1,34 @@
 from data.database import insert_query, query_count, update_query
 from data.models import Replies
+from category_service import is_private
+from topic_service import is_locked
+from category_members_service import is_member
 
 def create_reply(reply: str, topic_id: int, user_id: int):
 
-    if reply and topic_id:
-        query = """
-            insert into replies
-            (creator_id,
-            topic_id,
-            text,
-            created_on)
-            values (?, ?, ?, NOW())
-            """
+    if reply and topic_id and not is_locked(topic_id):
+        category_is_private = is_private(topic_id)[2]
+        if category_is_private and is_member(user_id, topic_id):            
+            insert_reply_to_db(reply, topic_id, user_id)
+            return True
+        elif not category_is_private:
+            insert_reply_to_db(reply, topic_id, user_id)
+            return True
 
-        insert_query(query, (user_id, topic_id, reply))
-    else:
-        raise ValueError("Reply text and topic id are required")
+    return False
 
-    return True
+
+def insert_reply_to_db(reply, topic_id, user_id):
+    query = """
+                insert into replies
+                (creator_id,
+                topic_id,
+                text,
+                created_on)
+                values (?, ?, ?, NOW())
+                """
+    insert_query(query, (user_id, topic_id, reply))
+
 
 def vote_on_r(topic_id: int, reply_id: int, user_id: int, vote: str):
     # validate user exists
@@ -31,6 +42,9 @@ def vote_on_r(topic_id: int, reply_id: int, user_id: int, vote: str):
         where id = ?
         and topic_id = ?
         """
+
+    # TODO:
+    # check if category is_private
 
     reply_exists = query_count(query, (reply_id, topic_id))
 

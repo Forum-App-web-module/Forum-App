@@ -34,6 +34,16 @@ def get_topics_by_category(category_id: int, search: str = "", sort_by: str = "t
     rows = read_query(sql, params)   
     return [Topic.from_query_result(row) for row in rows]
 
+def get_category_by_topic(topic_id: int):
+    sql = '''
+        SELECT c.id, c.name, c.is_private, c.locked FROM topics t
+            JOIN categories c
+            ON t.category_id = c.id
+        WHERE t.id = ?
+        '''
+    category = read_query(sql, (topic_id,))[0]
+    return category if category else None
+
 
 def create_category(name: str):
     sql = '''INSERT INTO categories (name, is_private, locked) VALUES (?, 0, 0)'''
@@ -52,13 +62,13 @@ def is_locked(category_id: int):
     return category.lock
     
 
-def update_privacy(category_id: int, lock: bool):  # should be is_private, the below is updating
+def is_private(category_id: int):  # should be is_private, the below is updating
     category = get_category_by_id(category_id)
     if not category:
-        return True
+        return None
     return category.is_private
 
-def is_private(category_id, locked: bool):
+def update_privacy(category_id, locked: bool):
     sql = '''UPDATE categories SET locked = ? WHERE id = ?'''
     params = (locked, category_id)
     return read_query(sql, params)
