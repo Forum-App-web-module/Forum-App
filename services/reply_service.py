@@ -68,22 +68,24 @@ def vote_to_db(reply_id, user_id, vote):
 
 
 def mark_best_reply(topic_id: int, reply_id: int, user_id: int):
+    is_author = validate_is_author(topic_id, user_id)
+
+    if not is_author:
+        return False
+    else:
+        update_query("update topics set best_reply_id = ? where id = ?", (reply_id, topic_id))
+        return True
+
+
+def validate_is_author(topic_id, user_id):
     # validate user is author of topic
     query = """
         select * from topics
         where id = ?
         and author_id = ?
     """
-
     is_author = query_count(query, (topic_id, user_id))
-
-    if is_author == 0:
-        raise ValueError("You are not the author of this topic.")
-
-    # update the DB
-    if is_author == 1:
-        update_query("update topics set best_reply_id = ? where id = ?", (reply_id, topic_id))
-        return True
+    return is_author
 
 
 
