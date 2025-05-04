@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from security.jwt_auth import verify_access_token
 from services.user_service import find_user_by_username
 from services.message_service import create, list_messages, list_conversations
-from common.responses import Succesfull, BadRequest, NoContent, Created
+from common.responses import Successful, BadRequest, NoContent, Created
 
 message_router = APIRouter(prefix='/messages', tags=['Messages'])
 
@@ -17,7 +17,7 @@ def get_conversations(token: str = Header()):
     conversations = list_conversations(payload["id"])
 
     if not conversations:
-        return Succesfull(content = f'You dont have any started conversations')
+        return Successful(content = f'You dont have any started conversations')
 
     return conversations
 

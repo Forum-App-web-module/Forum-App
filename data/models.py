@@ -117,4 +117,15 @@ class Topic(BaseModel):
             lock = bool(row[5])
         )
 
+class PrivilegedUsersResponse(BaseModel):
+    username: str
+    can_write: bool
+
+    @classmethod
+    def from_query_result(cls, row):
+        return cls(
+            username = row[0],
+            can_write = bool(row[1])
+        )
+
 

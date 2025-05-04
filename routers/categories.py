@@ -37,7 +37,7 @@ def view_category_topics(category_id: int):
 @category_router.post('/', status_code=201)
 def create_category(token: str = Header(), name: str = Body(..., min_length=3, max_length=20)):
     # Admin authorization returns an error or None
-    if admin_auth(token) is None:
+    if admin_auth(token):
         # call service
         category_service.create_category(name)
         return Created(content=f'Category {name} created')
@@ -47,8 +47,16 @@ def create_category(token: str = Header(), name: str = Body(..., min_length=3, m
 @category_router.put('/privicy/{category_id}', status_code=201)
 def update_privacy(category_id: int, is_private: int = Body(...,regex='^(0|1))$'), token: str = Header()):
     # Admin authorization returns an error or None
-    if admin_auth(token) is None:
+    if admin_auth(token):
         # call service
         category_service.update_privacy(category_id, is_private)
         return Created(content=f'Category {category_id} privacy updated')
 
+# Lock Category
+@category_router.put('/{category_id}/lock')
+def lock_category(category_id: int, lock: int = Body(..., regex='^(1|0)$'), token: str = Header()):
+    # Admin authorization returns an error or None
+    if admin_auth(token):
+        # call service
+        category_service.lock_category(category_id, lock)
+        return Created(content=f'Category {category_id} locked')

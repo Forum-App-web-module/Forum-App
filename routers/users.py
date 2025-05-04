@@ -1,13 +1,15 @@
 from fastapi import APIRouter, Body, Header
 from typing import Optional
 from fastapi.responses import JSONResponse
-from data.models import Users, RegisterData, LoginData
-from services.user_service import create, find_user_by_username, get_users, promote, deactivate, exists, activate, update_bio, try_login
+from data.models import Users, PrivilegedUsersResponse, RegisterData, LoginData
+from services.user_service import (create, find_user_by_username, get_users, promote, deactivate, exists,
+                                   activate, update_bio, try_login)
+from services.category_members_service import give_access, update_write_access, revoke_access, view_privileged_users
 from security.secrets import hash_password
 from security.jwt_auth import verify_access_token, create_access_token
 from security.authorization import admin_auth
 from mariadb import IntegrityError
-from common.responses import BadRequest, Created, Forbidden, Unauthorized, Succesfull, InternalServerError
+from common.responses import BadRequest, Created, Forbidden, Unauthorized, Successful, InternalServerError
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
 
@@ -74,7 +76,7 @@ def update_profile_bio(bio: str = Body(..., min_length=1, max_length=150), token
     #     return JSONResponse (status_code=400, content= {"message": f"Invalid input - {dat} , max lenght is 150 characters."})
     
     if result:
-        return Succesfull(content= f"Bio is updated")
+        return Successful(content= f"Bio is updated")
     
 
 @user_router.put('/deactivate/{username}')
@@ -92,9 +94,9 @@ def deactivate_user(username: str, token: str = Header()):
 
     result = deactivate(username)
     if result:
-        return Succesfull(content = f"{username} is now blocked.")
+        return Successful(content = f"{username} is now blocked.")
 
-    else: return Succesfull(content = f'{username} already has been blocked.')
+    else: return Successful(content = f'{username} already has been blocked.')
 
 @user_router.put('/activate/{username}')
 # Activation(Unblock) account BY ADMIN
@@ -112,9 +114,9 @@ def activate_user(username: str, token: str = Header()):
 
     result = activate(username)
     if result:
-        return Succesfull(content = f"{username} is activated.")
+        return Successful(content = f"{username} is activated.")
 
-    else: return Succesfull(content = f'{username} is already activated.')
+    else: return Successful(content = f'{username} is already activated.')
 
 
 @user_router.put('/promote/{username}')
@@ -131,7 +133,48 @@ def promote_user(username: str, token: str = Header()):
         return BadRequest(content = f'There is no account with username: {username}')
     
     result = promote(username)
-    if result:Succesfull(content = f"{username} is now Admin.")
+    if result:Successful(content = f"{username} is now Admin.")
 
-    else: return Succesfull(content = f'{username} is already Admin.')
+    else: return Successful(content = f'{username} is already Admin.')
+
+
+# Give User Category read access
+@user_router.put('/read_access/{id}/category/{category_id}')
+def give_user_category_access(id: int, category_id: int, token: str = Header()):
+    # Admin authorization returns an error or None
+    if admin_auth(token):
+        # call service
+        give_access(id, category_id)
+        return Created(content=f'User {id} has access to category {category_id}')
+
+
+# Give User a Category Write Access
+@user_router.put('/write_access/{id}/category/{category_id}')
+def give_user_category_write_access(id: int, category_id: int, token: str = Header()):
+    # Admin authorization returns an error or None
+    if admin_auth(token):
+        # call service
+        update_write_access(id, category_id, True)
+        return Created(content=f'User {id} has write access to category {category_id}')
+
+
+# Revoke User Access
+@user_router.delete('/access/{id}/category/{category_id}')
+def delete_user_category_access(id: int, category_id: int, token: str = Header()):
+    # Admin authorization returns an error or None
+    if admin_auth(token):
+        # call service
+        revoke_access(id, category_id)
+        return Created(content=f'User {id} has no access to category {category_id}')
+
+
+# View Privileged Users
+@user_router.get('/access/{category_id}')
+def get_privileged_users(category_id: int, token: str = Header()):
+    # Admin authorization returns an error or None
+    if admin_auth(token):
+        # call service
+        service_response = view_privileged_users(category_id)[0]
+        return [PrivilegedUsersResponse.from_query_result(row) for row in service_response]
+
 

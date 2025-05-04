@@ -70,12 +70,12 @@ def get_topic_with_replies(topic_id: int, get_data_func=None):
 
 
 # locks/unlocks a topic 
-def update_topic(topic_id, locked: bool, update_func=None):
+def update_topic(topic_id, locked: int, update_func=None):
     if update_func is None:
         update_func = update_query
 
     query = '''UPDATE topics SET locked = ? WHERE id = ?'''
-    params = (int(locked), topic_id)
+    params = (locked, topic_id)
     updated_status = update_func(query, params)
 
     return updated_status

@@ -51,12 +51,12 @@ def create_category(name: str, insert_func=None):
     new_category = insert_func(query, (name,))
     return new_category
 
-def lock_category(category_id: int, lock: bool, update_func=None): #locks/unlocks category only
+def lock_category(category_id: int, lock: int, update_func=None): #locks/unlocks category only
     if update_func is None:
         update_func = update_query
 
     query = '''UPDATE categories SET locked = ? WHERE id = ?'''
-    category_status = update_func(query, (int(lock), category_id))
+    category_status = update_func(query, (lock, category_id))
     return category_status
 
 def update_privacy(category_id: int, is_private: int, update_func=None):
