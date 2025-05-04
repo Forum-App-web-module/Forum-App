@@ -2,16 +2,16 @@ from data.database import read_query, insert_query
 from data.models import Topic, Replies
 
 def create_topic(title: str, category_id: int, author_id: int):
-    sql = """INSERT INTO topics (title, category_id, author_id, locked) VALUES (?, ?, ?, 0)""" # value = 0 false
+    query = """INSERT INTO topics (title, category_id, author_id, locked) VALUES (?, ?, ?, 0)""" # value = 0 false
     params = (title, category_id, author_id)
 
-    return insert_query(sql, params)
+    return insert_query(query, params)
 
 def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limit: int = 5):
     if sort_by not in ["title", "author_id"]:
         sort_by = "title"
 
-    sql = f'''
+    query = f'''
     SELECT id, title, category_id, author_id, best_reply_id, locked FROM topics
     WHERE title LIKE ?
     ORDER BY {sort_by}
@@ -19,7 +19,7 @@ def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limi
     '''
 
     params = (f"%{search}%", limit, skip)
-    rows = read_query(sql, params)
+    rows = read_query(query, params)
     topics = []
     for row in rows:
         id, title, category_id, author_id, best_reply_id, locked = row
@@ -28,8 +28,8 @@ def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limi
     return topics
 
 def get_topic_with_replies(topic_id: int):
-    sql = '''SELECT id, title, category_id, author_id, best_reply_id, locked FROM topics WHERE id = ?'''
-    rows = read_query(sql, (topic_id,))
+    query = '''SELECT id, title, category_id, author_id, best_reply_id, locked FROM topics WHERE id = ?'''
+    rows = read_query(query, (topic_id,))
     
     if not rows:
         return None # return message in router
@@ -37,13 +37,13 @@ def get_topic_with_replies(topic_id: int):
     id, title, category_id, author_id, best_reply_id, locked = rows[0]
     topic = Topic.from_query_result((id, title, category_id, author_id, best_reply_id, bool(locked)))
 
-    sql_with_replies = '''
+    query_with_replies = '''
     SELECT id, creator_id, topic_id, text, created_on
     FROM replies
     WHERE topic_id = ?
     ORDER BY created_on ASC
     '''
-    rows_replies = read_query(sql_with_replies, (topic_id,))
+    rows_replies = read_query(query_with_replies, (topic_id,))
     replies = [Replies(
         id = row[0],
         creator_id = row[1],
