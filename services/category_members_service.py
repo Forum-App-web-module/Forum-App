@@ -24,7 +24,6 @@ def give_access(category_id, user_id):
     return True if data else False
 
 
-# TODO: Pesho
 def revoke_access(category_id, user_id, update_func = None):
 
     if update_func is None:

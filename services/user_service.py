@@ -11,14 +11,18 @@ def create(user_username, user_email, user_password, insert_data_func = None):
     if insert_data_func is None:
         insert_data_func = database.insert_query
 
-    new_id = insert_data_func('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', (user_username, user_email, user_password))
+    query = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)'
+
+    new_id = insert_data_func(query, (user_username, user_email, user_password))
     return new_id
 
 def find_user_by_username(username, get_data_func = None):
     if get_data_func is None:
         get_data_func = database.read_query
 
-    data = get_data_func('SELECT id, username, email, bio, is_admin, is_active FROM users WHERE username = ?', (username,))
+    query = 'SELECT id, username, email, bio, is_admin, is_active FROM users WHERE username = ?'
+
+    data = get_data_func(query, (username,))
     if not data:
         return None
     
@@ -47,7 +51,9 @@ def get_users(search_username: str | None, search_is_admin: str | None, get_data
     if get_data_func is None:
         get_data_func = database.read_query
 
-    data = get_data_func('SELECT username, is_admin FROM users WHERE username LIKE ? and is_admin = ?', (username, is_admin))
+    query = 'SELECT username, is_admin FROM users WHERE username LIKE ? and is_admin = ?'
+
+    data = get_data_func(query, (username, is_admin))
     if not data:
         return None
     
@@ -59,7 +65,9 @@ def promote(username: str, update_func = None):
     if update_func is None:
         update_func = database.update_query
 
-    result = update_func('UPDATE users SET is_admin = ? WHERE username = ?', (1, username))
+    query = 'UPDATE users SET is_admin = ? WHERE username = ?'
+
+    result = update_func(query, (1, username))
     return result
 
 def deactivate(username: str, update_func = None):
@@ -67,7 +75,9 @@ def deactivate(username: str, update_func = None):
     if update_func is None:
         update_func = database.update_query
 
-    result = update_func('UPDATE users SET is_active = ? WHERE username = ?', (0, username))
+    query = 'UPDATE users SET is_active = ? WHERE username = ?'
+
+    result = update_func(query, (0, username))
     return result
 
 def activate(username: str, update_func = None):
@@ -75,7 +85,9 @@ def activate(username: str, update_func = None):
     if update_func is None:
         update_func = database.update_query
 
-    result = update_func('UPDATE users SET is_active = ? WHERE username = ?', (1, username))
+    query = 'UPDATE users SET is_active = ? WHERE username = ?'
+
+    result = update_func(query, (1, username))
     return result
 
 def exists(username: str, get_data_func = None):
@@ -83,7 +95,9 @@ def exists(username: str, get_data_func = None):
     if get_data_func is None:
         get_data_func = database.read_query
 
-    result = get_data_func('SELECT username FROM users WHERE username = ?', (username,))
+    query = 'SELECT username FROM users WHERE username = ?'
+
+    result = get_data_func(query, (username,))
     return result
 
 def update_bio(username: str, bio: str, update_func = None):
@@ -91,7 +105,9 @@ def update_bio(username: str, bio: str, update_func = None):
     if update_func is None:
         update_func = database.update_query
 
-    result = update_func('UPDATE users SET bio = ? WHERE username = ?', (bio, username))
+    query = 'UPDATE users SET bio = ? WHERE username = ?'
+
+    result = update_func(query, (bio, username))
     return result
 
 def try_login(username, hash_password, get_data_func = None):
@@ -99,7 +115,9 @@ def try_login(username, hash_password, get_data_func = None):
     if get_data_func is None:
         get_data_func = database.read_query
 
-    user_data = get_data_func('SELECT id, username, email, bio, is_admin, is_active from users WHERE username = ? and password = ?', (username, hash_password))[0]
+    query = 'SELECT id, username, email, bio, is_admin, is_active from users WHERE username = ? and password = ?'
+
+    user_data = get_data_func(query, (username, hash_password))[0]
 
     if user_data:
         return {
