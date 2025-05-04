@@ -1,13 +1,20 @@
-from data.database import read_query, insert_query
+from data.database import read_query, insert_query, update_query
 from data.models import Topic, Replies
 
-def create_topic(title: str, category_id: int, author_id: int):
+def create_topic(title: str, category_id: int, author_id: int, insert_func=None):
+    if insert_func is None:
+        insert_func = insert_query
+
     query = """INSERT INTO topics (title, category_id, author_id, locked) VALUES (?, ?, ?, 0)""" # value = 0 false
     params = (title, category_id, author_id)
+    new_topic = insert_func(query, params)
 
-    return insert_query(query, params)
+    return new_topic
 
-def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limit: int = 5):
+def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limit: int = 5, get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
     if sort_by not in ["title", "author_id"]:
         sort_by = "title"
 
@@ -19,7 +26,8 @@ def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limi
     '''
 
     params = (f"%{search}%", limit, skip)
-    rows = read_query(query, params)
+    rows = get_data_func(query, params)
+
     topics = []
     for row in rows:
         id, title, category_id, author_id, best_reply_id, locked = row
@@ -27,12 +35,15 @@ def get_all_topics(search: str = "", sort_by: str = "title", skip: int = 0, limi
 
     return topics
 
-def get_topic_with_replies(topic_id: int):
+def get_topic_with_replies(topic_id: int, get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
     query = '''SELECT id, title, category_id, author_id, best_reply_id, locked FROM topics WHERE id = ?'''
-    rows = read_query(query, (topic_id,))
+    rows = get_data_func(query, (topic_id,))
     
     if not rows:
-        return None # return message in router
+        return None 
     
     id, title, category_id, author_id, best_reply_id, locked = rows[0]
     topic = Topic.from_query_result((id, title, category_id, author_id, best_reply_id, bool(locked)))
@@ -43,7 +54,7 @@ def get_topic_with_replies(topic_id: int):
     WHERE topic_id = ?
     ORDER BY created_on ASC
     '''
-    rows_replies = read_query(query_with_replies, (topic_id,))
+    rows_replies = get_data_func(query_with_replies, (topic_id,))
     replies = [Replies(
         id = row[0],
         creator_id = row[1],
@@ -57,11 +68,24 @@ def get_topic_with_replies(topic_id: int):
         "replies": replies
             }
 
-def lock_topic(topic_id):
-    pass
 
-def unlock_topic(topic_id):
-    pass
+# locks/unlocks a topic 
+def update_topic(topic_id, locked: bool, update_func=None):
+    if update_func is None:
+        update_func = update_query
 
-def is_locked(topic_id):
-    pass
+    query = '''UPDATE topics SET locked = ? WHERE id = ?'''
+    params = (int(locked), topic_id)
+    updated_status = update_func(query, params)
+
+    return updated_status
+
+def is_locked(topic_id: int, get_data_func=None):
+    topic_data = get_topic_with_replies(topic_id, get_data_func)
+
+    if not topic_data:
+        return True
+    
+    
+    topic: Topic = topic_data["topic"]
+    return topic.lock
