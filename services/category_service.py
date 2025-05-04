@@ -59,12 +59,12 @@ def lock_category(category_id: int, lock: bool, update_func=None): #locks/unlock
     category_status = update_func(query, (int(lock), category_id))
     return category_status
 
-def update_privacy(category_id: int, is_private: bool, update_func=None):
+def update_privacy(category_id: int, is_private: int, update_func=None):
     if update_func is None:
         update_func = update_query
 
     query = '''UPDATE categories SET is_private = ? WHERE id = ?'''
-    new_status = update_func(query, (int(is_private), category_id))
+    new_status = update_func(query, (is_private, category_id))
     return new_status
 
 def is_locked(category_id: int):

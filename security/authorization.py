@@ -1,8 +1,9 @@
 from fastapi import HTTPException
+from common.responses import BadRequest, Unauthorized
 
 
 def admin_auth(payload):
     if payload["key"]["is_admin"] == 0:
-        raise HTTPException(status_code=403, detail='Admin role authorization is needed.')
+        return Unauthorized(content='Admin role authorization is needed.')
 
 
