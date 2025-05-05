@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Header, Body
+
+from security.authorization import admin_auth
 from services import topic_service, reply_service
 from security.jwt_auth import verify_access_token
 from common.responses import NotFound, Created
@@ -51,3 +53,20 @@ def create_reply(
     reply_service.create_reply(text, topic_id, user_id)
 
     return Created(content="Reply created")
+
+# lock topic
+@topic_router.put('/{topic_id}/lock', status_code=201)
+def lock_topic(
+    topic_id: int,
+    lock: int = Body(...,regex='^(0|1))$'),
+    token: str = Header()
+):
+    # Admin authorization returns an error or None
+    if admin_auth(token):
+        # call service
+        topic_service.update_topic(topic_id, lock)
+        return Created(content= f'Topic {topic_id} locked')
+
+
+
+
