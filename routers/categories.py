@@ -4,8 +4,8 @@ from fastapi import APIRouter, Body
 
 from security.jwt_auth import verify_access_token
 from security.authorization import admin_auth
-from services import category_service
-from common.responses import NotFound, NoContent, Created, BadRequest
+from services import category_service, category_members_service
+from common.responses import NotFound, NoContent, Created, BadRequest, Unauthorized
 
 category_router = APIRouter(prefix="/categories", tags=["Categories"])
 
@@ -54,7 +54,7 @@ def create_category(token: str = Header(), name: str = Body(..., min_length=3, m
 
 # Update category privacy
 @category_router.put('/privicy/{category_id}', status_code=201)
-def update_privacy(category_id: int, is_private: int = Body(...,regex='^(0|1))$'), token: str = Header()):
+def update_privacy(category_id: int, is_private: int = Body(...,pattern='^(0|1)$'), token: str = Header()):
     # Admin authorization returns an error or None
     if admin_auth(token):
         # call service
@@ -63,7 +63,7 @@ def update_privacy(category_id: int, is_private: int = Body(...,regex='^(0|1))$'
 
 # Lock Category
 @category_router.put('/{category_id}/lock')
-def lock_category(category_id: int, lock: int = Body(..., regex='^(1|0)$'), token: str = Header()):
+def lock_category(category_id: int, lock: int = Body(..., pattern='^(1|0)$'), token: str = Header()):
     # Admin authorization returns an error or None
     if admin_auth(token):
         # call service

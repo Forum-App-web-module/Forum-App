@@ -2,8 +2,8 @@ from fastapi import APIRouter, Body, Header
 from typing import Optional
 from fastapi.responses import JSONResponse
 from data.models import Users, PrivilegedUsersResponse, RegisterData, LoginData
-from services.user_service import (create, find_user_by_username, get_users, promote, deactivate, exists,
-                                   activate, update_bio, try_login)
+from services.user_service import (create, find_user_by_username, get_users, promote, deactivate, activate, update_bio,
+                                   exists, try_login)
 from services.category_members_service import give_access, update_write_access, revoke_access, view_privileged_users
 from security.secrets import hash_password
 from security.jwt_auth import verify_access_token, create_access_token

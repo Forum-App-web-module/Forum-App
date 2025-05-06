@@ -58,7 +58,7 @@ def create_reply(
 @topic_router.put('/{topic_id}/lock', status_code=201)
 def lock_topic(
     topic_id: int,
-    lock: int = Body(...,regex='^(0|1))$'),
+    lock: int = Body(...,pattern='^(0|1)$'),
     token: str = Header()
 ):
     # Admin authorization returns an error or None

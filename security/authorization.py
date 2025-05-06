@@ -1,8 +1,12 @@
 from fastapi import HTTPException, status
+from services.user_service import find_user_by_username
 
 
 def admin_auth(payload):
-    if payload["key"]["is_admin"] == 0:
+
+    admin_status = find_user_by_username(payload["key"]["username"])[4]
+
+    if not admin_status:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Admin role authorization is needed.'
