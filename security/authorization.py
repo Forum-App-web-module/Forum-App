@@ -4,7 +4,7 @@ from services.user_service import find_user_by_username
 
 def admin_auth(payload):
 
-    admin_status = find_user_by_username(payload["username"]).is_admin
+    admin_status = find_user_by_username(payload["key"]["username"]).is_admin
 
     if not admin_status:
         raise HTTPException(

@@ -141,8 +141,10 @@ def promote_user(username: str, token: str = Header()):
 # Give User Category read access
 @user_router.put('/read_access/{id}/category/{category_id}')
 def give_user_category_access(id: int, category_id: int, token: str = Header()):
+    payload = verify_access_token(token)
+
     # Admin authorization returns an error or None
-    if admin_auth(token):
+    if admin_auth(payload):
         # call service
         give_access(id, category_id)
         return Created(content=f'User {id} has access to category {category_id}')
@@ -151,8 +153,10 @@ def give_user_category_access(id: int, category_id: int, token: str = Header()):
 # Give User a Category Write Access
 @user_router.put('/write_access/{id}/category/{category_id}')
 def give_user_category_write_access(id: int, category_id: int, token: str = Header()):
+    payload = verify_access_token(token)
+
     # Admin authorization returns an error or None
-    if admin_auth(token):
+    if admin_auth(payload):
         # call service
         update_write_access(id, category_id, True)
         return Created(content=f'User {id} has write access to category {category_id}')
@@ -161,8 +165,10 @@ def give_user_category_write_access(id: int, category_id: int, token: str = Head
 # Revoke User Access
 @user_router.delete('/access/{id}/category/{category_id}')
 def delete_user_category_access(id: int, category_id: int, token: str = Header()):
+    payload = verify_access_token(token)
+
     # Admin authorization returns an error or None
-    if admin_auth(token):
+    if admin_auth(payload):
         # call service
         revoke_access(id, category_id)
         return Created(content=f'User {id} has no access to category {category_id}')
@@ -171,8 +177,10 @@ def delete_user_category_access(id: int, category_id: int, token: str = Header()
 # View Privileged Users
 @user_router.get('/access/{category_id}')
 def get_privileged_users(category_id: int, token: str = Header()):
+    payload = verify_access_token(token)
+
     # Admin authorization returns an error or None
-    if admin_auth(token):
+    if admin_auth(payload):
         # call service
         service_response = view_privileged_users(category_id)[0]
         return [PrivilegedUsersResponse.from_query_result(row) for row in service_response]
