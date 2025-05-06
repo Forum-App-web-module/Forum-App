@@ -120,14 +120,14 @@ def try_login(username, hash_password, get_data_func = None):
     user_data = get_data_func(query, (username, hash_password))[0]
 
     if user_data:
-        return {
+        return {"key": {
             "id" : user_data[0],
             "username" : user_data[1],
             "email" : user_data[2],
             "bio" : user_data[3],
             "is_admin" : user_data[4],
             "is_active" : user_data[5]
-        }
+        }}
     else: return False
 
     
