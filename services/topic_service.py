@@ -89,3 +89,17 @@ def is_locked(topic_id: int, get_data_func=None):
     
     topic: Topic = topic_data["topic"]
     return topic.lock
+
+def get_category_id(topic_id: int, get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''SELECT category_id FROM topics WHERE id = ?'''
+
+    topic_data = get_data_func(query, (topic_id,))
+
+    if not topic_data:
+        return None
+
+    category_id = topic_data[0][0]
+    return category_id

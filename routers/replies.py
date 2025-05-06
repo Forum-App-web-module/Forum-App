@@ -1,8 +1,10 @@
 from fastapi import APIRouter, HTTPException, Header, Body
+from typing import Literal
 
 from common.responses import BadRequest, Created
-from services import reply_service, category_service, category_members_service
+from services import reply_service, category_service, category_members_service, topic_service
 from security.jwt_auth import verify_access_token
+from security.authorization import admin_auth
 
 
 replies_router = APIRouter(prefix='/replies', tags=['Replies'])
@@ -18,12 +20,17 @@ def create_reply(
 
     # DB creator_id extract from token
     user_id = payload["key"]["id"]
+    category_id = topic_service.get_category_id(topic_id)
 
     # check Category lock
     if not category_service.is_locked(topic_id):
-        category_is_private = category_service.is_private(topic_id)
+        category_is_private = category_service.is_private(category_id)
         # check category privacy and user membership
         if category_is_private and category_members_service.is_member(topic_id, user_id):
+            reply_service.create_reply(reply, topic_id, user_id)
+            return Created(content="Reply created successfully")
+        # private category and user is Admin
+        elif category_is_private and admin_auth(payload):
             reply_service.create_reply(reply, topic_id, user_id)
             return Created(content="Reply created successfully")
         # directly create reply when not a private category
@@ -39,7 +46,7 @@ def create_reply(
 def vote_on_reply(
         topic_id: int,
         reply_id: int,
-        vote: str = Body(pattern='^(-1|1)$'),
+        vote: Literal[-1,1] = Body(...),
         token: str = Header()
 ):
 
@@ -58,6 +65,10 @@ def vote_on_reply(
     category_is_private = category_service.is_private(topic_id)
     # check privacy and user membership
     if category_is_private and category_members_service.is_member(user_id, topic_id):
+        reply_service.vote_to_db(reply_id, user_id, vote)
+        return Created(content="Vote was updated. Long live democracy!")
+    # private category and user is Admin
+    elif category_is_private and admin_auth(payload):
         reply_service.vote_to_db(reply_id, user_id, vote)
         return Created(content="Vote was updated. Long live democracy!")
     # update vote when not private

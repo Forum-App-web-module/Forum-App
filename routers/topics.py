@@ -5,6 +5,7 @@ from security.authorization import admin_auth
 from services import topic_service, reply_service
 from security.jwt_auth import verify_access_token
 from common.responses import NotFound, Created
+from routers.replies import create_reply as replies_create_reply
 
 topic_router = APIRouter(prefix='/topics', tags=["Topics"])
 
@@ -48,12 +49,7 @@ def create_reply(
     text: str = Body(...,min_length=1, max_length=400),
     token: str = Header()
 ):
-    payload = verify_access_token(token)
-    
-    user_id = payload["key"]['id']
-    reply_service.create_reply(text, topic_id, user_id)
-
-    return Created(content="Reply created")
+    return replies_create_reply(topic_id, text, token)
 
 # lock topic
 @topic_router.put('/{topic_id}/lock', status_code=201)
