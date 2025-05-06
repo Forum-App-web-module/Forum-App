@@ -20,7 +20,7 @@ def view_categories():
 def view_category(category_id: int, token: str = Header()):
     payload = verify_access_token(token)
 
-    user_id = payload["id"]
+    user_id = payload["key"]["id"]
 
     category = category_service.get_category_by_id(category_id)
     if not category:

@@ -17,11 +17,11 @@ def create_reply(
     payload = verify_access_token(token)
 
     # DB creator_id extract from token
-    user_id = payload["id"]
+    user_id = payload["key"]["id"]
 
     # check Category lock
     if not category_service.is_locked(topic_id):
-        category_is_private = category_service.is_private(topic_id)[2]
+        category_is_private = category_service.is_private(topic_id)
         # check category privacy and user membership
         if category_is_private and category_members_service.is_member(topic_id, user_id):
             reply_service.create_reply(reply, topic_id, user_id)
@@ -47,7 +47,7 @@ def vote_on_reply(
     payload = verify_access_token(token)
 
     # DB creator_id extract from token
-    user_id = payload["id"]
+    user_id = payload["key"]["id"]
     
     # validate reply belongs to topic
     try:
@@ -55,7 +55,7 @@ def vote_on_reply(
     except ValueError as e:
         return BadRequest(content=str(e))
 
-    category_is_private = category_service.is_private(topic_id)[2]
+    category_is_private = category_service.is_private(topic_id)
     # check privacy and user membership
     if category_is_private and category_members_service.is_member(user_id, topic_id):
         reply_service.vote_to_db(reply_id, user_id, vote)

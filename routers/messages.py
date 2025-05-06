@@ -14,7 +14,7 @@ def get_conversations(token: str = Header()):
     # token authentication
     payload = verify_access_token(token)
 
-    conversations = list_conversations(payload["id"])
+    conversations = list_conversations(payload["key"]["id"])
 
     if not conversations:
         return Successful(content = f'You dont have any started conversations')
@@ -34,7 +34,7 @@ def get_specific_conversation(username: str, token: str = Header()):
     if not user_information:
         return BadRequest(content = f'There is no account with username: {username}')
     
-    messages = list_messages(payload["id"], user_information.id)    
+    messages = list_messages(payload["key"]["id"], user_information.id)    
 
     if not messages:
         return NoContent(content = f'There are no messages between you and username: {username}')
@@ -53,7 +53,7 @@ def create_message(username: str, text: str = Body(..., min_length=1, max_length
     if not user_information:
         return BadRequest(content = f'There is no account with username: {username}')
     
-    result = create(payload["id"], user_information.id, text)
+    result = create(payload["key"]["id"], user_information.id, text)
 
     if result:
         Created(content = "Message is created")

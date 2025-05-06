@@ -69,7 +69,7 @@ def update_profile_bio(bio: str = Body(..., min_length=1, max_length=150), token
     # token authentication
     payload = verify_access_token(token)
     
-    result = update_bio(payload["username"], bio)
+    result = update_bio(payload["key"]["username"], bio)
 
     # following is mariadb validation error. No need to proceed if Body validation error above.
     # except DataError as dat:

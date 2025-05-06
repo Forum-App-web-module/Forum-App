@@ -7,7 +7,7 @@ from data.models import Replies
 def create_reply(reply: str, topic_id: int, user_id: int):
 
     # if not is_locked(topic_id):
-    #     category_is_private = is_private(topic_id)[2]
+    #     category_is_private = is_private(topic_id)
     #     if category_is_private and is_member(user_id, topic_id):
     #         insert_reply_to_db(reply, topic_id, user_id)
     #         return True
