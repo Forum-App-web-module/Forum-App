@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Header, Body
+from typing import Literal
 
 from security.authorization import admin_auth
 from services import topic_service, reply_service
@@ -16,7 +17,7 @@ def create_topic(
     ):
     payload = verify_access_token(token)
     
-    author_id = payload['id']
+    author_id = payload["key"]['id']
     new_id = topic_service.create_topic(title, category_id, author_id)
 
     if new_id:
@@ -49,7 +50,7 @@ def create_reply(
 ):
     payload = verify_access_token(token)
     
-    user_id = payload['id']
+    user_id = payload["key"]['id']
     reply_service.create_reply(text, topic_id, user_id)
 
     return Created(content="Reply created")
@@ -58,14 +59,19 @@ def create_reply(
 @topic_router.put('/{topic_id}/lock', status_code=201)
 def lock_topic(
     topic_id: int,
-    lock: int = Body(...,pattern='^(0|1)$'),
+    lock: Literal[0,1] = Body(...),
     token: str = Header()
 ):
+    payload = verify_access_token(token)
+
     # Admin authorization returns an error or None
-    if admin_auth(token):
+    if admin_auth(payload):
         # call service
         topic_service.update_topic(topic_id, lock)
-        return Created(content= f'Topic {topic_id} locked')
+        if lock:
+            return Created(content= f'Topic {topic_id} was locked')
+        else:
+            return Created(content= f'Topic {topic_id} was unlocked')
 
 
 
