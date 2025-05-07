@@ -3,8 +3,8 @@ from unittest.mock import Mock, create_autospec, patch
 from data.models import Replies
 from services import reply_service
 
-# mock_db = Mock()
-# reply_service.database = mock_db
+mock_db = Mock()
+reply_service.database = mock_db
 
 
 class ReplyService_Should(unittest.TestCase):
@@ -16,7 +16,7 @@ class ReplyService_Should(unittest.TestCase):
         mock_insert_query.return_value = mock_reply_data
 
         #Act
-        result = reply_service.create_reply("Test Reply", 1, 1)
+        result = reply_service.create_reply('Test Reply', 1, 1)
 
         #Assert
         # Commenting out a more readable approach but it could fail the test if the string is off
@@ -39,4 +39,6 @@ class ReplyService_Should(unittest.TestCase):
         self.assertEqual((1, 1, "Test Reply"), params_arg)
 
         self.assertEqual(mock_reply_data, result)
+
+
 

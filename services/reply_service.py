@@ -29,6 +29,8 @@ def validate_topic_and_reply(topic_id: int, reply_id: int):
     if reply_exists == 0:
         raise ValueError("Wrong parameters. Reply does not exist or does not belong to the topic.")
         # return False
+    else:
+        return reply_exists
 
 
 
