@@ -117,16 +117,16 @@ def try_login(username, hash_password, get_data_func = None):
 
     query = 'SELECT id, username, email, bio, is_admin, is_active from users WHERE username = ? and password = ?'
 
-    user_data = get_data_func(query, (username, hash_password))[0]
+    user_data = get_data_func(query, (username, hash_password))
 
     if user_data:
         return {"key": {
-            "id" : user_data[0],
-            "username" : user_data[1],
-            "email" : user_data[2],
-            "bio" : user_data[3],
-            "is_admin" : user_data[4],
-            "is_active" : user_data[5]
+            "id" : user_data[0][0],
+            "username" : user_data[0][1],
+            "email" : user_data[0][2],
+            "bio" : user_data[0][3],
+            "is_admin" : user_data[0][4],
+            "is_active" : user_data[0][5]
         }}
     else: return False
 
