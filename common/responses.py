@@ -29,7 +29,7 @@ class Created(Response):
 
 class NoContent(Response):
     def __init__(self, content=''):
-        super().__init__(status_code=204, content=content)
+        super().__init__(status_code=204)
 
 class InternalServerError(Response):
     def __init__(self, content=''):

@@ -22,10 +22,10 @@ def list_messages(con_partner_1: int, con_partner_2: int, get_data_func = None):
                                 FROM messages as m 
                                JOIN users as sender ON sender.id = m.sender_id 
                                JOIN users as receiver ON receiver.id = m.receiver_id 
-                               WHERE sender_id = ? AND receiver_id = ?'''
+                               WHERE (sender_id = ? AND receiver_id = ?) or (sender_id = ? AND receiver_id = ?)
+                               order by sent_on'''
 
-    messages_data = get_data_func(query, (con_partner_1, con_partner_2))
-
+    messages_data = get_data_func(query, (con_partner_1, con_partner_2, con_partner_2, con_partner_1))
 
     return [MessageOut.from_query_result(*row) for row in messages_data]
 

@@ -37,7 +37,7 @@ def get_specific_conversation(username: str, token: str = Header()):
     messages = list_messages(payload["key"]["id"], user_information.id)    
 
     if not messages:
-        return NoContent(content = f'There are no messages between you and username: {username}')
+        return NoContent()
 
     return messages
 
@@ -56,6 +56,6 @@ def create_message(username: str, text: str = Body(..., min_length=1, max_length
     result = create(payload["key"]["id"], user_information.id, text)
 
     if result:
-        Created(content = "Message is created")
+        return Created(content = "Message is created")
 
 
