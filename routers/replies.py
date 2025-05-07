@@ -35,7 +35,7 @@ def create_reply(topic_id: int, reply: str = Body(..., min_length=1, max_length=
         reply_service.create_reply(reply, topic_id, user_id)
         return Created(content="Reply created successfully")
 
-    return BadRequest(content="Access restricted. Contact an Admin.")
+    return BadRequest(content="Access  restricted. Contact an Admin.")
 
 
 @replies_router.put("/{topic_id}/vote/{reply_id}", status_code=201)
