@@ -5,18 +5,6 @@ from data.models import Replies
 # from category_members_service import is_member
 
 def create_reply(reply: str, topic_id: int, user_id: int):
-
-    # if not is_locked(topic_id):
-    #     category_is_private = is_private(topic_id)
-    #     if category_is_private and is_member(user_id, topic_id):
-    #         insert_reply_to_db(reply, topic_id, user_id)
-    #         return True
-    #     elif not category_is_private:
-    #         insert_reply_to_db(reply, topic_id, user_id)
-    #         return True
-    #
-    # return False
-
     query = """
                     insert into replies
                     (creator_id,
@@ -25,19 +13,7 @@ def create_reply(reply: str, topic_id: int, user_id: int):
                     created_on)
                     values (?, ?, ?, NOW())
                     """
-    insert_query(query, (user_id, topic_id, reply))
-
-
-# def insert_reply_to_db(reply, topic_id, user_id):
-#     query = """
-#                 insert into replies
-#                 (creator_id,
-#                 topic_id,
-#                 text,
-#                 created_on)
-#                 values (?, ?, ?, NOW())
-#                 """
-#     insert_query(query, (user_id, topic_id, reply))
+    return insert_query(query, (user_id, topic_id, reply))
 
 
 def validate_topic_and_reply(topic_id: int, reply_id: int):
