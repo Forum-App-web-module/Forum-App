@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="/static/css/style2.css">
+</head>
+<body>
+    <header>
+        <header>
+            <div class="header-flex">
+              <h1 class="site-title">Forum</h1>
+              <button id="theme-toggle" title="Смени тема">🌓</button>
+            </div>
+            <nav>
+              <ul>
+                <li><a href="/index.html">Начало</a></li>
+                <li><a href="/categories.html">Категории</a></li>
+                <li><a href="/profile.html">Профил</a></li>
+                <li><a href="/login.html">Вход</a></li>
+                <li><a href="/register.html">Регистрация</a></li>
+                <a href="/profile" class="view-profile-button">
+                  <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
+                  View Profile
+                </a>
+              </ul>
+            </nav>
+          </header>
+    </header>
+    
+
+    {% block body %}
+    <!-- Body here -->
+    {% endblock %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const toggleBtn = document.getElementById('theme-toggle');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const currentTheme = localStorage.getItem('theme');
+      
+          if (currentTheme === 'dark' || (!currentTheme && prefersDark)) {
+            document.body.classList.add('dark');
+          }
+      
+          if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+              document.body.classList.toggle('dark');
+              const isDark = document.body.classList.contains('dark');
+              localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+          }
+        });
+      </script>
+</body>
+</html>
