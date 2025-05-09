@@ -31,39 +31,40 @@
       </header>
 
     <main>
-        <section class="messages">
-            <h2>Входящи съобщения</h2>
+<section class="messages-grid">
+  <!-- Inbox Section -->
+  <div class="inbox">
+    <h2>Входящи съобщения</h2>
+    <div class="message-list">
+      <div class="message">
+        <span class="sender">Потребител 1</span>
+        <span class="date">2025-05-08</span>
+        <p class="message-preview">Здравей! Как си?</p>
+        <a href="/message/1" class="read-more">Прочети</a>
+      </div>
+      <div class="message">
+        <span class="sender">Потребител 2</span>
+        <span class="date">2025-05-07</span>
+        <p class="message-preview">Имаш ли време да помогнеш?</p>
+        <a href="/message/2" class="read-more">Прочети</a>
+      </div>
+    </div>
+  </div>
 
-            <!-- Списък с лични съобщения -->
-            <div class="message-list">
-                <div class="message">
-                    <span class="sender">Потребител 1</span>
-                    <span class="date">2025-05-08</span>
-                    <p class="message-preview">Здравей! Как си?</p>
-                    <a href="/message/1" class="read-more">Прочети</a>
-                </div>
-                <div class="message">
-                    <span class="sender">Потребител 2</span>
-                    <span class="date">2025-05-07</span>
-                    <p class="message-preview">Имаш ли време да помогнеш?</p>
-                    <a href="/message/2" class="read-more">Прочети</a>
-                </div>
-            </section>
-            <section class="messages">
-                <!-- Добави още съобщения тук -->
-            <h2>Изпрати ново съобщение</h2>
-            
-            <!-- Форма за ново съобщение -->
-            <form action="/send-message" method="POST" class="send-message-form">
-                <label for="recipient">Получател:</label>
-                <input type="text" id="recipient" name="recipient" required>
+  <!-- Send New Message Section -->
+  <div class="send-new">
+    <h2>Изпрати ново съобщение</h2>
+    <form action="/send-message" method="POST" class="send-message-form">
+      <label for="recipient">Получател:</label>
+      <input type="text" id="recipient" name="recipient" required>
 
-                <label for="message">Съобщение:</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
+      <label for="message">Съобщение:</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
 
-                <button type="submit">Изпрати съобщение</button>
-            </form>
-            </section>
+      <button type="submit">Изпрати съобщение</button>
+    </form>
+  </div>
+</section>
         </section>
     </main>
 
