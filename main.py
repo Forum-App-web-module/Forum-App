@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 import uvicorn
-from routers.messages import message_router
-from routers.replies import replies_router
-from routers.users import user_router
-from routers.categories import category_router
-from routers.topics import topic_router
+from routers.api.messages import message_router
+from routers.api.replies import replies_router
+from routers.api.users import user_router
+from routers.api.categories import category_router
+from routers.api.topics import topic_router
 
 app = FastAPI()
 

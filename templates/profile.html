@@ -53,13 +53,22 @@
             </div>
         </div>
     </section>
-    <section>
-      <form action="/search" method="get">
-        <label for="username">Search by Username:</label>
-        <input type="text" id="username" name="username" placeholder="Enter username" required>
-        <button type="submit">Search</button>
-      </form>
-    </section>
+ <section>
+    <form action="/users/" method="get">
+        <!-- Търсене по потребителско име -->
+        <label for="username">Търсене по потребителско име:</label>
+        <input type="text" id="username" name="username" placeholder="Въведете потребителско име">
+
+        <!-- Търсене по роля (администратор) -->
+        <label for="is_admin">Търсене по роля (администратор):</label>
+        <select id="is_admin" name="is_admin">
+            <option value="False">Всички</option>
+            <option value="True">Само администратори</option>
+        </select>
+
+        <button type="submit">Търсене</button>
+    </form>
+</section>
 </main>
 
 <footer>

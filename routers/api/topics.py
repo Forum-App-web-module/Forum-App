@@ -5,9 +5,9 @@ from security.authorization import admin_auth
 from services import topic_service, reply_service
 from security.jwt_auth import verify_access_token
 from common.responses import NotFound, Created
-from routers.replies import create_reply as replies_create_reply
+from replies import create_reply as replies_create_reply
 
-topic_router = APIRouter(prefix='/topics', tags=["Topics"])
+topic_router = APIRouter(prefix='/api/topics', tags=["Topics"])
 
 # create a new topic
 @topic_router.post('/')
