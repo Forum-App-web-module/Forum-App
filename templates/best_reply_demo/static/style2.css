@@ -1,0 +1,35 @@
+.reply {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  position: relative;
+  background-color: #fff;
+}
+
+.choose-best {
+  font-size: 24px;
+  color: #999;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.choose-best:hover {
+  color: gold;
+  transform: scale(1.2);
+}
+
+.best-reply {
+  border-color: gold;
+  box-shadow: 0 0 12px gold;
+}
+
+.best-reply .choose-best {
+  color: gold;
+  transform: scale(1.4);
+}

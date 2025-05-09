@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="bg" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Категории</title>
+    <link rel="stylesheet" href="../static/style2.css">
+    <script defer src="../static/script.js"></script>
+</head>
+<body>
+    <header>
+        <header>
+          <div class="header-flex">
+            <h1 class="site-title">My Forum</h1>
+            <button id="theme-toggle" title="Смени тема">🌓</button>
+          </div>
+          <nav>
+            <ul>
+              <li><a href="/index.html">Начало</a></li>
+              <li><a href="/categories.html">Категории</a></li>
+              <li><a href="/profile.html">Профил</a></li>
+              <li><a href="/login.html">Вход</a></li>
+              <li><a href="/register.html">Регистрация</a></li>
+              <a href="/profile" class="view-profile-button">
+                <img src="/static/images/user.jpg" alt="Profile" class="profile-pic">
+                View Profile
+              </a>
+            </ul>
+          </nav>
+        </header>
+      </header>
+    <main>
+        <section class="category-list">
+            <div class="category-card">
+                <h2><a href="/category/1">Общи дискусии</a></h2>
+                <p>Теми без ограничение.</p>
+            </div>
+        </section>
+        <section class="category-list">
+            <div class="category-card">
+                <h2><a href="/category/2">Кодиране</a></h2>
+                <p>Въпроси и отговори по програмиране.</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Моят Форум</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const toggleBtn = document.getElementById('theme-toggle');
+          if (!toggleBtn) return;
+        
+          // Чети от localStorage
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+          } else if (savedTheme === 'light') {
+            document.body.classList.remove('dark');
+          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+          }
+        
+          toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+          });
+        });
+        </script>
+</body>
+</html>

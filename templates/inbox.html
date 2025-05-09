@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лични Съобщения</title>
+    <link rel="stylesheet" href="../static/style2.css">
+    <script defer src="../static/script.js"></script>
+</head>
+<body>
+    <header>
+        <header>
+          <div class="header-flex">
+            <h1 class="site-title">My Forum</h1>
+            <button id="theme-toggle" title="Смени тема">🌓</button>
+          </div>
+          <nav>
+            <ul>
+              <li><a href="/index.html">Начало</a></li>
+              <li><a href="/categories.html">Категории</a></li>
+              <li><a href="/profile.html">Профил</a></li>
+              <li><a href="/login.html">Вход</a></li>
+              <li><a href="/register.html">Регистрация</a></li>
+              <a href="/profile" class="view-profile-button">
+                <img src="/static/images/user.jpg" alt="Profile" class="profile-pic">
+                View Profile
+              </a>
+            </ul>
+          </nav>
+        </header>
+      </header>
+
+    <main>
+        <section class="messages">
+            <h2>Входящи съобщения</h2>
+
+            <!-- Списък с лични съобщения -->
+            <div class="message-list">
+                <div class="message">
+                    <span class="sender">Потребител 1</span>
+                    <span class="date">2025-05-08</span>
+                    <p class="message-preview">Здравей! Как си?</p>
+                    <a href="/message/1" class="read-more">Прочети</a>
+                </div>
+                <div class="message">
+                    <span class="sender">Потребител 2</span>
+                    <span class="date">2025-05-07</span>
+                    <p class="message-preview">Имаш ли време да помогнеш?</p>
+                    <a href="/message/2" class="read-more">Прочети</a>
+                </div>
+            </section>
+            <section class="messages">
+                <!-- Добави още съобщения тук -->
+            <h2>Изпрати ново съобщение</h2>
+            
+            <!-- Форма за ново съобщение -->
+            <form action="/send-message" method="POST" class="send-message-form">
+                <label for="recipient">Получател:</label>
+                <input type="text" id="recipient" name="recipient" required>
+
+                <label for="message">Съобщение:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+
+                <button type="submit">Изпрати съобщение</button>
+            </form>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Моят Форум</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const toggleBtn = document.getElementById('theme-toggle');
+          if (!toggleBtn) return;
+        
+          // Чети от localStorage
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+          } else if (savedTheme === 'light') {
+            document.body.classList.remove('dark');
+          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark');
+          }
+        
+          toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+          });
+        });
+        </script>
+</body>
+</html>
