@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+
+{% block body %}
+    <main>
+        <form method="post" action="/users/login" class="form-container">
+            <h2>Влез в нашия форум</h2>
+
+            <div class="field-group">
+                <label for="username">Потребителско име</label>
+                <input type="username" id="username" name="username" required>
+            </div>
+
+            <div class="field-group">
+                <label for="password">Парола</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit">Влез</button>
+            {{ custom_msg(msg) }}
+        </form>
+    </main>
+{% endblock %}

@@ -8,7 +8,7 @@ from security.authorization import admin_auth
 from services import category_service, category_members_service
 from common.responses import NotFound, NoContent, Created, BadRequest, Unauthorized
 
-category_router = APIRouter(prefix="/categories", tags=["Categories"])
+category_router = APIRouter(prefix="/api/categories", tags=["Categories"])
 
 #view all categories, no authentication required
 @category_router.get('/')

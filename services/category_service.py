@@ -67,8 +67,8 @@ def update_privacy(category_id: int, is_private: int, update_func=None):
     new_status = update_func(query, (is_private, category_id))
     return new_status
 
-def is_locked(category_id: int):
-    category = get_category_by_id(category_id)
+def is_locked(category_id: int, get_data_func=None):
+    category = get_category_by_id(category_id, get_data_func)
     if not category:
         return True
     return category.lock

@@ -11,7 +11,7 @@ from security.authorization import admin_auth
 from mariadb import IntegrityError
 from common.responses import BadRequest, Created, Forbidden, Unauthorized, Successful, InternalServerError
 
-user_router = APIRouter(prefix='/users', tags=['Users'])
+user_router = APIRouter(prefix='/api/users', tags=['Users'])
 
 @user_router.get('/')
 # Searches user profile by filters: Username and role.

@@ -80,8 +80,10 @@ def update_topic(topic_id, locked: int, update_func=None):
 
     return updated_status
 
-def is_locked(topic_id: int, get_data_func=None):
-    topic_data = get_topic_with_replies(topic_id, get_data_func)
+def is_locked(topic_id: int, get_data_func=None, topic_fetch_func = None):
+    if topic_fetch_func is None:
+        topic_fetch_func = get_topic_with_replies
+    topic_data = topic_fetch_func(topic_id, get_data_func)
 
     if not topic_data:
         return True

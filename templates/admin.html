@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+
+{% block body %}
+<body>
+    <div class="admin-panel">
+    <h2>Admin Panel</h2>
+
+    <div class="admin-grid">
+      <!-- Category Block Section -->
+      <div class="admin-section">
+        <h3>Lock Category</h3>
+        <form>
+          <label for="category">Category Name to Block:</label>
+          <input type="text" id="category" name="category" placeholder="Category Name">
+          <div class="block-unblock-buttons">
+            <button type="button" class="block">Lock</button>
+            <button type="button" class="unblock">Unlock</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- User Block Section -->
+      <div class="admin-section">
+        <h3>Block User</h3>
+        <form>
+          <label for="username">Username to Block:</label>
+          <input type="text" id="username" name="username" placeholder="Username">
+          <div class="block-unblock-buttons">
+            <button type="button" class="block">Block</button>
+            <button type="button" class="unblock">Unblock</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Create Category Section -->
+      <div class="admin-section">
+        <h3>Create Category</h3>
+        <form>
+          <label for="category">Category Name to Create:</label>
+          <input type="text" id="category" name="category" placeholder="Category Name">
+          <div class="block-unblock-buttons">
+            <button type="button" class="create">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </body>
+{% endblock %}

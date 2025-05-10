@@ -5,7 +5,7 @@ from services.user_service import find_user_by_username
 from services.message_service import create, list_messages, list_conversations
 from common.responses import Successful, BadRequest, NoContent, Created
 
-message_router = APIRouter(prefix='/messages', tags=['Messages'])
+message_router = APIRouter(prefix='/api/messages', tags=['Messages'])
 
 @message_router.get('/')
 # Returning all conversations of the authenticated user.

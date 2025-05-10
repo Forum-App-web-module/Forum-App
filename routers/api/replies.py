@@ -7,7 +7,7 @@ from security.jwt_auth import verify_access_token
 from security.authorization import admin_auth
 
 
-replies_router = APIRouter(prefix='/replies', tags=['Replies'])
+replies_router = APIRouter(prefix='/api/replies', tags=['Replies'])
 
 def user_has_access(payload, topic_id, category_id=None):
     user_id = payload["key"]["id"]
