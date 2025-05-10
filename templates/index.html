@@ -3,16 +3,17 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <main>
-        <section class="category-list">
-            <div class="category-card">
-                <h2><a href="/category/1">Общи дискусии</a></h2>
-                <p>Говорете за всичко, което ви интересува.</p>
-            </div>
-            <div class="category-card">
-                <h2><a href="/category/2">Технологии</a></h2>
-                <p>Новини и разговори за софтуер, хардуер и иновации.</p>
-            </div>
-        </section>
-    </main>
+<body class="body">
+    <header class="header">
+        <h1 class="title">Latest News</h1>
+    </header>
+    <ul class="news-list">
+        {% for article in news %}
+            <li class="news-item">
+                <a href="{{ article.url }}" target="_blank" class="news-link">{{ article.title }}</a>
+                <p class="news-description">{{ article.description }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
 {% endblock %}

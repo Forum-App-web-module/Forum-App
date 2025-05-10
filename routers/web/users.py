@@ -54,7 +54,7 @@ def login(request: Request, username: str = Form(...), password: str = Form(...)
 
     if user: 
         token = create_access_token(user)
-        response = RedirectResponse(url="/", status_code=302)
+        response = RedirectResponse(url="/home", status_code=302)
         response.set_cookie('token', token)
         return response
     else: 
