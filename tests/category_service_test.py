@@ -70,7 +70,7 @@ class CategoryService_Should(unittest.TestCase):
 
         mock_data.assert_called_once()
 
-    def get_topics_by_category_returs_topic_list(self):
+    def test_get_topics_by_category_returs_topic_list(self):
         mock_data = Mock(return_value=[
             (1, "Topic 1", 1, 2, None, 0),
             (2, "Topic 2", 1, 2, None, 1),
@@ -95,22 +95,43 @@ class CategoryService_Should(unittest.TestCase):
 
         mock_insert.assert_called_once()
 
-#TODO
-
     def test_lock_category_updates_status(self):
-        pass
+        mock_update = Mock(return_value=1)
 
-    def test_update_privacy_updates_status(self):
-        pass
+        result = category_service.lock_category(2, 1, update_func=mock_update)
+
+        self.assertEqual(result, 1)
+        mock_update.assert_called_once()
 
     def test_is_locked_returns_true_if_category_not_found(self):
-        pass
+        mock_read = Mock(return_value=None)
+
+        result = category_service.is_locked(2, get_data_func=mock_read)
+        self.assertTrue(result)
 
     def test_is_locked_returns_correct_value(self):
-        pass
+        mock_read = Mock(return_value=[(1, "Test Category 1", False, True)])
+
+        result = category_service.is_locked(1, get_data_func=mock_read)
+        self.assertTrue(result)
+
+    def test_update_privacy_updates_status(self):
+        mock_update = Mock(return_value=1)
+
+        result = category_service.update_privacy(2, 1, update_func=mock_update)
+
+        self.assertEqual(result, 1)
+        mock_update.assert_called_once()
+
 
     def test_is_private_returns_true_if_category_not_found(self):
-        pass
+        mock_read = Mock(return_value=None)
+
+        result = category_service.is_private(2, get_data_func=mock_read)
+        self.assertTrue(result)
 
     def test_is_private_returns_correct_value(self):
-        pass
+        mock_read = Mock(return_value=[(1, "Test Category 1", True, True)])
+
+        result = category_service.is_private(1, get_data_func=mock_read)
+        self.assertTrue(result)
