@@ -16,12 +16,3 @@ def serve_index(request: Request):
         response = client.get(GNEWS_ENDPOINT)
         news_data = response.json().get("articles", [])
     return templates.TemplateResponse("index.html", {"request": request, "news": news_data})
-
-
-
-
-
-
-
-
-    return templates.TemplateResponse(request=request, name='index.html')
