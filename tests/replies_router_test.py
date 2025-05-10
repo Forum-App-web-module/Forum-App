@@ -33,7 +33,7 @@ class ReplyRouter_Should(unittest.TestCase):
         self.mock_verify_access_token = self.patcher_verify_access_token.start()
 
         # Common return for token verification
-        self.mock_verify_access_token.return_value = {'key': {'id': 1}}
+        self.mock_verify_access_token.return_value = {'key': {'id': 1, 'username': 'test_user'}}       # {'key': {'id': 1}}
         self.mock_user_has_access = True
 
     def tearDown(self):
@@ -50,9 +50,9 @@ class ReplyRouter_Should(unittest.TestCase):
         self.assertIsInstance(result, BadRequest)
         self.assertEqual(result.status_code, 400)
 
-    @patch('routers.replies.verify_access_token', return_value={'key': {'id': 1, 'username': 'test_user'}})
+    # @patch('routers.replies.verify_access_token', return_value={'key': {'id': 1, 'username': 'test_user'}})
     @patch('routers.replies.admin_auth', return_value=False)
-    def test_create_reply_returns_201_when_user_with_access(self, mock_admin_auth, mock_verify_token):
+    def test_create_reply_returns_201_when_user_with_access(self, mock_admin_auth): # mock_verify_token
         # Arrange
         self.mock_category_service.is_locked.return_value = False
         self.mock_category_service.is_private.return_value = False
