@@ -9,7 +9,11 @@ from security.authorization import admin_auth
 
 replies_router = APIRouter(prefix='/api/replies', tags=['Replies'])
 
-def user_has_access(payload, topic_id, category_id=None):
+def user_has_access(
+        payload,
+        topic_id,
+        category_id=None
+):
     user_id = payload["key"]["id"]
 
     if admin_auth(payload):
@@ -24,7 +28,11 @@ def user_has_access(payload, topic_id, category_id=None):
 
 
 @replies_router.post("/{topic_id}", status_code=201)
-def create_reply(topic_id: int, reply: str = Body(..., min_length=1, max_length=400), token: str = Header()):
+def create_reply(
+        topic_id: int,
+        reply: str = Body(..., min_length=1, max_length=400),
+        token: str = Header()
+):
     payload = verify_access_token(token)
     user_id = payload["key"]["id"]
     category_id = topic_service.get_category_id(topic_id)
@@ -40,7 +48,12 @@ def create_reply(topic_id: int, reply: str = Body(..., min_length=1, max_length=
 
 
 @replies_router.put("/{topic_id}/vote/{reply_id}", status_code=201)
-def vote_on_reply(topic_id: int, reply_id: int, vote: Literal[-1, 1] = Body(...), token: str = Header()):
+def vote_on_reply(
+        topic_id: int,
+        reply_id: int,
+        vote: Literal[-1, 1] = Body(...),
+        token: str = Header()
+):
     payload = verify_access_token(token)
     user_id = payload["key"]["id"]
 
