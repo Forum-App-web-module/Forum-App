@@ -8,7 +8,7 @@ from security.secrets import hash_password
 from security.jwt_auth import verify_access_token, create_access_token
 from security.authorization import admin_auth
 from mariadb import IntegrityError
-from common.responses import BadRequest, Created, Successful, InternalServerError
+from common.responses import BadRequest, Created, Successful, InternalServerError, NoContent
 
 user_router = APIRouter(prefix='/api/users', tags=['Users'])
 
@@ -31,10 +31,10 @@ def search_user(username: Optional[str]="", is_admin: Optional[str] = "False", t
 def register(data: RegisterData):
     try: new_id = create(data.username, data.email, hash_password(data.password))
     except IntegrityError as integ:
-        return BadRequest(content = "Invalid input - {integ}")
-    if new_id:
-        return Created(content = f"Account with username {data.username} created successfully")
-    else: return InternalServerError (content = "Server error - contact addministrator")
+        return BadRequest(content = f"Invalid input - {integ}")
+
+    return Created(content = f"Account with username {data.username} created successfully")
+
 
 
 @user_router.post('/login')
@@ -56,14 +56,14 @@ def get_profile(username: str, token: str = Header()):
     
     user_information = find_user_by_username(username)
     if not user_information:
-        return BadRequest(content = f'There is no account with username: {username}')
+        return NoContent()
     else: 
         return user_information
 
 
 @user_router.put('/bio')
 # Update user bio BY the user.
-def update_profile_bio(bio: str = Body(..., min_length=1, max_length=150), token: str = Header()):
+def update_profile_bio(bio: str = Body(..., media_type="text/plain" , min_length=1, max_length=150), token: str = Header()):
 
     # token authentication
     payload = verify_access_token(token)
