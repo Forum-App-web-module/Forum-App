@@ -11,13 +11,14 @@ replies_router = APIRouter(prefix='/api/replies', tags=['Replies'])
 
 def user_has_access(payload, topic_id, category_id=None):
     user_id = payload["key"]["id"]
+
+    if admin_auth(payload):
+        return True
     if not category_id:
         category_id = topic_id  # failsafe for now but should we develop topic_service.is_private()
     if not category_service.is_private(category_id):
         return True
     if category_members_service.is_member(topic_id, user_id):
-        return True
-    if admin_auth(payload):
         return True
     return False
 
