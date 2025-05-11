@@ -39,16 +39,16 @@ def vote_to_db(reply_id, user_id, vote):
     # record the vote in the DB
     vote_data = query_count(
         "select * from votes where user_id = ? and reply_id = ?", (user_id, reply_id))
-    if vote_data > 0: # fix this
+    if vote_data != 0: # fix this
         update_query("update votes set vote = ? where user_id = ? and reply_id = ?",
                      (int(vote), user_id, reply_id))
-        # return вота
-        # test променил
+        return vote
+        # test updated
     else:
         insert_query("insert into votes (user_id, reply_id, vote) values (?, ?, ?)",
                      (user_id, reply_id, int(vote)))
-        # return вота
-        # test появил
+        return vote
+        # test inserted
 
 
 
