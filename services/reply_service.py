@@ -1,3 +1,5 @@
+from typing import Literal
+
 from data.database import insert_query, query_count, update_query
 from data.models import Replies
 # from category_service import is_private
@@ -34,12 +36,11 @@ def validate_topic_and_reply(topic_id: int, reply_id: int):
 
 
 
-# TODO:
-def vote_to_db(reply_id, user_id, vote):
+def vote_to_db(reply_id: int, user_id: int, vote: Literal[-1,1]):
     # record the vote in the DB
     vote_data = query_count(
         "select * from votes where user_id = ? and reply_id = ?", (user_id, reply_id))
-    if vote_data != 0: # fix this
+    if vote_data != 0:
         update_query("update votes set vote = ? where user_id = ? and reply_id = ?",
                      (int(vote), user_id, reply_id))
         return vote
