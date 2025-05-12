@@ -9,3 +9,4 @@ from services import user_service
 
 class CategoryService_Should(unittest.TestCase):
     pass
+
