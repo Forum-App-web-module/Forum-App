@@ -13,7 +13,8 @@ def hash_password(password: str):
 
 def validate_password(username: str, password: str):
     hashed = hash_password(password) 
-    result = query_count('SELECT username FROM users WHERE username = ? AND password = ?', (username, hashed))[0]
+    result = query_count('SELECT username FROM users WHERE username = ? AND password = ?',
+                         (username, hashed))
 
     return result == 1
 
