@@ -11,6 +11,7 @@ def hash_password(password: str):
     solted = password + SALT
     return sha256(solted.encode("utf-8")).hexdigest()
 
+# check if deleted
 def validate_password(username: str, password: str):
     hashed = hash_password(password) 
     result = query_count('SELECT username FROM users WHERE username = ? AND password = ?',
