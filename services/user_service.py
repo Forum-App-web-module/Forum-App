@@ -129,6 +129,3 @@ def try_login(username, hash_password, get_data_func = None):
             "is_active" : user_data[0][5]
         }}
     else: return False
-
-    
-
