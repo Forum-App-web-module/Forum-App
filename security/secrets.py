@@ -11,6 +11,3 @@ SALT = getenv("SALT")
 def hash_password(password: str):
     solted = password + SALT
     return sha256(solted.encode("utf-8")).hexdigest()
-
-
-
