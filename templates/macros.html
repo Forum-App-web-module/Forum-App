@@ -1,8 +1,56 @@
 
+{% macro load_navigation(user=none) %}
+{% if user %}
+    <header>
+        <header>
+            <div class="header-flex">
+              <h1 class="site-title">ТехФорум</h1>
+              <button id="theme-toggle" title="Смени тема">🌓</button>
+            </div>
+            <nav>
+              <ul>
+                <li><a href="/index.html">Начало</a></li>
+                <li><a href="/categories.html">Категории</a></li>
+                <li><a href="/profile.html">Профил</a></li>
+                <a href="/profile" class="view-profile-button">
+                  <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
+                  Профил
+                </a>
+              </ul>
+            </nav>
+        </header>
+    </header>
+{% else %}
+    <header>
+        <header>
+            <div class="header-flex">
+              <h1 class="site-title">ТехФорум</h1>
+              <button id="theme-toggle" title="Смени тема">🌓</button>
+            </div>
+            <nav>
+              <ul>
+                <li><a href="/index.html">Начало</a></li>
+                <li><a href="/categories.html">Категории</a></li>
+                <li><a href="/profile.html">Профил</a></li>
+                <li><a href="/login.html">Вход</a></li>
+                <li><a href="/register.html">Регистрация</a></li>
+                <a href="/profile" class="view-profile-button">
+                  <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
+                  Профил
+                </a>
+              </ul>
+            </nav>
+        </header>
+    </header>
+{% endif %}
+{% endmacro %}
+
 {% macro custom_msg(msg=none) %}
     {% if msg %}
     {{ msg }}
     {% endif %}
 {% endmacro %}
+
+
 
 

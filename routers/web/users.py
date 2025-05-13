@@ -12,9 +12,10 @@ from mariadb import IntegrityError
 from common.responses import BadRequest, Created, Forbidden, Unauthorized, Successful, InternalServerError
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
+from common.template_config import CustomJinja2Templatges
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
-templates = Jinja2Templates(directory="templates")
+templates = CustomJinja2Templatges(directory="templates")
 
 
 @user_router.get('/')

@@ -6,10 +6,11 @@
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
     <title>Вход</title>
     <link rel="stylesheet" href="/static/css/style2.css">
-    {% from 'macros.html' import custom_msg %}
+    {% from 'macros.html' import custom_msg, load_navigation %}
+    {{ load_navigation(get_user(request)) }}
 </head>
 <body>
-    <header>
+    <!-- <header>
         <header>
             <div class="header-flex">
               <h1 class="site-title">ТехФорум</h1>
@@ -29,7 +30,7 @@
               </ul>
             </nav>
           </header>
-    </header>
+    </header> -->
     
 
     {% block body %}

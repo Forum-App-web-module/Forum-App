@@ -2,10 +2,11 @@ from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 import httpx
+from common.template_config import CustomJinja2Templatges
 
 
 index_router = APIRouter(prefix='')
-templates = Jinja2Templates(directory="templates")
+templates = CustomJinja2Templatges(directory="templates")
 
 GNEWS_API_KEY = "ee81d4c6bf5f7583160aec788147a75f"
 GNEWS_ENDPOINT = "https://gnews.io/api/v4/top-headlines?lang=en&token=" + GNEWS_API_KEY
