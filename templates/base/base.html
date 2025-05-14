@@ -6,32 +6,10 @@
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
     <title>Вход</title>
     <link rel="stylesheet" href="/static/css/style2.css">
-    {% from 'macros.html' import custom_msg, load_navigation %}
+    {% from 'macros.html' import custom_msg, load_navigation, load_privacy, load_privacy2 %}
     {{ load_navigation(get_user(request)) }}
 </head>
 <body>
-    <!-- <header>
-        <header>
-            <div class="header-flex">
-              <h1 class="site-title">ТехФорум</h1>
-              <button id="theme-toggle" title="Смени тема">🌓</button>
-            </div>
-            <nav>
-              <ul>
-                <li><a href="/index.html">Начало</a></li>
-                <li><a href="/categories.html">Категории</a></li>
-                <li><a href="/profile.html">Профил</a></li>
-                <li><a href="/login.html">Вход</a></li>
-                <li><a href="/register.html">Регистрация</a></li>
-                <a href="/profile" class="view-profile-button">
-                  <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
-                  Профил
-                </a>
-              </ul>
-            </nav>
-          </header>
-    </header> -->
-    
 
     {% block body %}
     <!-- Body here -->
@@ -56,5 +34,12 @@
           }
         });
       </script>
+
+
+      <br>
+      <br>
 </body>
+<footer>
+  {{ load_privacy2() }}
+</footer>
 </html>

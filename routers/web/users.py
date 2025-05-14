@@ -46,7 +46,7 @@ def search_user(request: Request, username: Optional[str] = Form(...), is_admin:
 
 @user_router.get('/login')
 def serve_login(request:Request):
-    return templates.TemplateResponse(request=request, name="login.html")
+    return templates.TemplateResponse(request=request, name="auth/login.html")
 
 @user_router.post('/login')
 def login(request: Request, username: str = Form(...), password: str = Form(...)):
@@ -59,7 +59,7 @@ def login(request: Request, username: str = Form(...), password: str = Form(...)
         response.set_cookie('token', token)
         return response
     else: 
-        return templates.TemplateResponse(request=request, name="login.html", context={"msg": "Wrong Credentials"})
+        return templates.TemplateResponse(request=request, name="auth/login.html", context={"msg": "Wrong Credentials"})
 
 
 # @user_router.get('/{username}')

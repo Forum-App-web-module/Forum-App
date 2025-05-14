@@ -15,5 +15,4 @@ def get_user_if_token(request: Request):
     token = request.cookies.get('token')
     if token:
         token = eval(token).get('JWT')
-        print(token)
         return verify_access_token(token)

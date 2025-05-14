@@ -45,6 +45,91 @@
 {% endif %}
 {% endmacro %}
 
+{% macro load_privacy() %}
+<div id="cookieBanner" class="cookie-banner">
+  <p><strong>Ние използваме бисквитки!</strong><br>
+    Този уебсайт използва бисквитки за персонализиране на съдържанието и подобряване на потребителското изживяване. 
+    За повече информация относно бисквитките прочети нашата <br>
+    <a href="#">Политика за поверителност</a>.
+  </p>
+  <div class="cookie-buttons">
+    <button id="acceptCookies">Приемам</button> <button id="settingsCookies">Настройки</button>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    if (!localStorage.getItem('cookiesAccepted')) {
+      document.getElementById('cookieBanner').style.display = 'block';
+    }
+
+    document.getElementById('acceptCookies').onclick = () => {
+      localStorage.setItem('cookiesAccepted', 'yes');
+      document.getElementById('cookieBanner').style.display = 'none';
+    };
+
+    document.getElementById('settingsCookies').onclick = () => {
+      alert("Тук ще показваш настройки на бисквитки.");
+    };
+  });
+</script>
+
+{% endmacro %}
+
+{% macro load_privacy2() %}
+<div id="cookieBanner" class="cookie-banner">
+  <p><strong>Ние използваме бисквитки!</strong><br>
+    Този уебсайт използва бисквитки за персонализиране на съдържанието и подобряване на потребителското изживяване.
+    За повече информация прочети нашата <a href=/policy>Политика за поверителност</a>.
+  </p>
+  <div class="cookie-buttons">
+    <button id="acceptCookies">Приемам</button>
+    <button id="settingsCookies">Настройки</button>
+  </div>
+</div>
+
+<!-- Настройки банер -->
+<div id="cookieSettingsBanner" class="cookie-banner" style="display: none;">
+  <p><strong>Настройки на бисквитките</strong></p>
+  <form id="cookieSettingsForm">
+    <div class="cookie-setting-option">
+      <input type="checkbox" name="auth" checked disabled>
+      <label for="auth">Задължителни бисквитки (автентикация)</label>
+    </div>
+    <div class="cookie-buttons">
+      <button type="button" id="saveSettings">Запази</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    const cookieBanner = document.getElementById('cookieBanner');
+    const settingsBanner = document.getElementById('cookieSettingsBanner');
+
+    if (!localStorage.getItem('cookiesAccepted')) {
+      cookieBanner.style.display = 'block';
+    }
+
+    document.getElementById('acceptCookies').onclick = () => {
+      localStorage.setItem('cookiesAccepted', 'yes');
+      cookieBanner.style.display = 'none';
+    };
+
+    document.getElementById('settingsCookies').onclick = () => {
+      cookieBanner.style.display = 'none';
+      settingsBanner.style.display = 'block';
+    };
+
+    document.getElementById('saveSettings').onclick = () => {
+      localStorage.setItem('cookiesAccepted', 'yes');
+      settingsBanner.style.display = 'none';
+    };
+  });
+</script>
+{% endmacro %}
+
+
 {% macro custom_msg(msg=none) %}
     {% if msg %}
     {{ msg }}

@@ -6,6 +6,7 @@ from common.template_config import CustomJinja2Templatges
 
 
 index_router = APIRouter(prefix='')
+
 templates = CustomJinja2Templatges(directory="templates")
 
 GNEWS_API_KEY = "ee81d4c6bf5f7583160aec788147a75f"
@@ -18,4 +19,6 @@ def serve_index(request: Request):
         news_data = response.json().get("articles", [])
     return templates.TemplateResponse("index.html", {"request": request, "news": news_data})
 
-
+@index_router.get('/policy')
+def serve_policy(request: Request):
+    return templates.TemplateResponse(name = "admin_privacy/privacy_policy.html", request=request)
