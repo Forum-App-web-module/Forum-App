@@ -1,0 +1,62 @@
+<div id="cookieBanner" class="cookie-banner">
+  <p><strong>Ние използваме бисквитки!</strong><br>
+    Този уебсайт използва бисквитки за персонализиране на съдържанието и подобряване на потребителското изживяване. 
+    За повече информация относно бисквитките прочети нашата <a href="#">Политика за поверителност</a>.
+  </p>
+  <div class="cookie-buttons">
+    <button id="acceptCookies">Приемам</button>
+    <button id="settingsCookies">Настройки</button>
+  </div>
+</div>
+
+<style>
+  .cookie-banner {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #111;
+    color: white;
+    padding: 20px;
+    z-index: 9999;
+    font-family: sans-serif;
+    text-align: center;
+  }
+
+  .cookie-banner a {
+    color: #00bfff;
+    text-decoration: underline;
+  }
+
+  .cookie-buttons {
+    margin-top: 10px;
+  }
+
+  .cookie-buttons button {
+    background: white;
+    color: black;
+    border: 1px solid white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  window.addEventListener('load', () => {
+    if (!localStorage.getItem('cookiesAccepted')) {
+      document.getElementById('cookieBanner').style.display = 'block';
+    }
+
+    document.getElementById('acceptCookies').onclick = () => {
+      localStorage.setItem('cookiesAccepted', 'yes');
+      document.getElementById('cookieBanner').style.display = 'none';
+    };
+
+    document.getElementById('settingsCookies').onclick = () => {
+      alert("Тук ще показваш настройки на бисквитки.");
+    };
+  });
+</script>

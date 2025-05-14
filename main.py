@@ -12,7 +12,7 @@ from fastapi.staticfiles import StaticFiles
 # from routers.web.replies import replies_router as web_replies_router
 # from routers.web.topics import topic_router as web_topic_router
 from routers.web.users import user_router as web_user_router
-from routers.web.home import index_router as web_index_router
+from routers.web.main import index_router as web_index_router
 
 app = FastAPI()
 
