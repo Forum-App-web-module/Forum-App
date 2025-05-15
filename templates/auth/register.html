@@ -2,7 +2,7 @@
 
 {% block body %}
     <main>
-        <form method="POST" action="/register" class="form-container">
+        <form method="POST" action="/users/register" class="form-container">
             <h2>Регистрирай се в нашия форум</h2>
             
             <div class="field-group">
@@ -20,12 +20,8 @@
                 <input type="password" id="password" name="password" required>
             </div>
 
-            <div class="field-group">
-                <label for="confirm-password">Потвърди парола</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
-            </div>
-
             <button type="submit">Регистрирай се</button>
+            {{ custom_msg(msg) }}
         </form>
     </main>
     

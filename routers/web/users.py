@@ -13,6 +13,7 @@ from common.responses import BadRequest, Created, Forbidden, Unauthorized, Succe
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from common.template_config import CustomJinja2Templatges
+from pydantic import ValidationError
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
 templates = CustomJinja2Templatges(directory="templates")
@@ -32,16 +33,29 @@ def search_user(request: Request, username: Optional[str] = Form(...), is_admin:
 
     return templates.TemplateResponse(request=request, name="users_search_results.html", context={'users': users_list})
 
+@user_router.get('/register')
+def serve_register(request:Request):
+    return templates.TemplateResponse(request=request, name="auth/register.html")
 
-# @user_router.post('/register', status_code=201)
-# # Creates user profile
-# def register(data: RegisterData):
-#     try: new_id = create(data.username, data.email, hash_password(data.password))
-#     except IntegrityError as integ:
-#         return BadRequest(content = "Invalid input - {integ}")
-#     if new_id:
-#         return Created(content = f"Account with username {data.username} created successfully")
-#     else: return InternalServerError (content = "Server error - contact addministrator")
+
+@user_router.post('/register', status_code=201)
+# Creates user profile
+def register(request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...)):
+    try: data = RegisterData(username=username, email=email, password=password)
+    except ValidationError as val:
+        return templates.TemplateResponse(request=request, name="auth/register.html", context={"msg":f"Invalid input"})
+
+    try: new_id = create(username, email, hash_password(password))
+    except IntegrityError as integ:
+        return templates.TemplateResponse(request=request, name="auth/register.html", context={"msg":f"Invalid input - {integ}"})
+    
+    if new_id:
+        user = try_login(username, hash_password(password))
+        token = create_access_token(user)
+        response = RedirectResponse(url="/home", status_code=302)
+        response.set_cookie('token', token)
+        return response
+ 
 
 
 @user_router.get('/login')
