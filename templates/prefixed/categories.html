@@ -7,17 +7,13 @@
 
 {% block body %}
         <main>
+            {% for category in categories %}
         <section class="category-list">
             <div class="category-card">
-                <h2><a href="/category/1">Общи дискусии</a></h2>
-                <p>Теми без ограничение.</p>
+                <h2><a href="/category/{{category.id}}">{{category.name}}</a></h2>
             </div>
         </section>
-        <section class="category-list">
-            <div class="category-card">
-                <h2><a href="/category/2">Кодиране</a></h2>
-                <p>Въпроси и отговори по програмиране.</p>
-            </div>
-        </section>
+            {% endfor %}
+
     </main>
 {% endblock %}
