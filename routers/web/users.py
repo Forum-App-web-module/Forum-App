@@ -14,6 +14,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from common.template_config import CustomJinja2Templatges
 from pydantic import ValidationError
+from common.auth import get_user_if_token
 
 user_router = APIRouter(prefix='/users', tags=['Users'])
 templates = CustomJinja2Templatges(directory="templates")
@@ -76,18 +77,31 @@ def login(request: Request, username: str = Form(...), password: str = Form(...)
         return templates.TemplateResponse(request=request, name="auth/login.html", context={"msg": "Wrong Credentials"})
 
 
-# @user_router.get('/{username}')
+@user_router.get('/profile')
+# Returns User profile information
+def get_profile(request: Request):
+
+    # token authentication
+    payload = get_user_if_token(request)
+    username = payload["key"]['username']
+    user_information = find_user_by_username(username)
+    if not user_information:
+        return templates.TemplateResponse(request=request, name="index.html", context={"msg":f'There is no account with username: {username}'})
+    else: 
+        return templates.TemplateResponse(request=request, name = "prefixed/profile.html")
+
+# @user_router.get('/profile{username}')
 # # Returns User profile information
-# def get_profile(username: str, token: str = Header()):
+# def get_profile(request: Request):
 
 #     # token authentication
-#     verify_access_token(token)
-    
+#     payload = verify_access_token(request.cookies.get('token'))
+#     username = payload["key"]['username']
 #     user_information = find_user_by_username(username)
 #     if not user_information:
-#         return BadRequest(content = f'There is no account with username: {username}')
+#         return templates.TemplateResponse(request=request, name="index.html", context={"msg":f'There is no account with username: {username}'})
 #     else: 
-#         return user_information
+#         return templates.TemplateResponse(request=request, name = "prefixed/profile.html")
 
 
 # @user_router.put('/bio')
