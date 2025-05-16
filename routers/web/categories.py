@@ -4,11 +4,12 @@ from typing import Optional
 from fastapi.templating import Jinja2Templates
 
 from common.auth import get_user_if_token
+from common.template_config import CustomJinja2Templatges
 from security.jwt_auth import verify_access_token
 from services.category_service import get_all_public, get_all, get_allowed
 
 category_router = APIRouter(prefix='')
-templates = Jinja2Templates(directory="templates")
+templates = CustomJinja2Templatges(directory="templates")
 
 
 @category_router.get('/categories')
