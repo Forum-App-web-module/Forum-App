@@ -6,8 +6,10 @@ from fastapi.templating import Jinja2Templates
 from common.auth import get_user_if_token
 from common.template_config import CustomJinja2Templatges
 from security.jwt_auth import verify_access_token
-from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category
+from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category, is_private
 from services.topic_service import get_all_topics
+from services.category_members_service import is_member
+from fastapi.responses import RedirectResponse
 
 category_router = APIRouter(prefix='')
 templates = CustomJinja2Templatges(directory="templates")
@@ -31,33 +33,40 @@ def serve_categories(request: Request):
 
 # View topics for a category
 @category_router.get('/categories/{category_id}/topics')
-def serve_category_topics(request: Request, category_id: int, token: str = Header()):
+def serve_category_topics(request: Request, category_id: int):
     # token authentication
     payload = get_user_if_token(request)
 
     if not payload:
+        if not is_private(category_id):
+            topics = get_topics_by_category(category_id)
+            return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics})
+
+    if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
         topics = get_topics_by_category(category_id)
-        return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics}
+        return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics})
+
+    response = RedirectResponse(url="/categories", status_code=302)
+    return response
 
 
+# @category_router.get('/{category_id}/topics')
+# def view_category_topics(category_id: int, token: str = Header()):
+#     payload = verify_access_token(token)
 
-@category_router.get('/{category_id}/topics')
-def view_category_topics(category_id: int, token: str = Header()):
-    payload = verify_access_token(token)
+#     user_id = payload["key"]["id"]
 
-    user_id = payload["key"]["id"]
+#     category = category_service.get_category_by_id(category_id)
+#     if not category:
+#         return NotFound(content="No category found with this ID")
+#     if category.is_private:
 
-    category = category_service.get_category_by_id(category_id)
-    if not category:
-        return NotFound(content="No category found with this ID")
-    if category.is_private:
+#         if not category_members_service.is_member(category_id, user_id):
+#             return Unauthorized(content="This category is private, you are not a member.")
 
-        if not category_members_service.is_member(category_id, user_id):
-            return Unauthorized(content="This category is private, you are not a member.")
+#     topics = category_service.get_topics_by_category(category_id)
+#     if not topics:
+#         return NoContent(content="No topics found for this category")
 
-    topics = category_service.get_topics_by_category(category_id)
-    if not topics:
-        return NoContent(content="No topics found for this category")
-
-    return topics
+#     return topics
 
