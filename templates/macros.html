@@ -136,8 +136,11 @@
     {% endif %}
 {% endmacro %}
 
-{% macro load_footer() %}
+
+{% macro load_footer(user=none) %}
+{% if user %}
 <a href="/profile">
     <button type="button">Изход</button>
 </a>
+{% endif %}
 {% endmacro %}
