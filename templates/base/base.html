@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
-    <title>Вход</title>
+    {% block head %}
+    <!--Title here-->
+    {% endblock %}
     <link rel="stylesheet" href="/static/css/style2.css">
     {% from 'macros.html' import custom_msg, load_navigation, load_privacy, load_privacy2, load_footer %}
     {{ load_navigation(get_user(request)) }}

@@ -8,7 +8,39 @@ def get_all(get_data_func=None):
     query = '''SELECT id, name, is_private, locked FROM categories'''
     rows = get_data_func(query)
 
-    return [Category.from_query_result(row) for row in rows]  
+    return [Category.from_query_result(row) for row in rows]
+
+def get_all_public(get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''
+        SELECT id, name, is_private, locked 
+        FROM categories 
+        WHERE is_private = 0
+        '''
+    rows = get_data_func(query)
+
+    return [Category.from_query_result(row) for row in rows]
+
+def get_allowed(id: int, get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''
+    SELECT c.id, c.name, c.is_private, c.locked
+    FROM category_members cm
+    JOIN categories c
+    ON cm.category_id = c.id
+    WHERE user_id = 3
+    UNION
+    SELECT * FROM categories
+    WHERE is_private = 0
+    '''
+
+    rows = get_data_func(query)
+
+    return [Category.from_query_result(row) for row in rows]
 
 def get_category_by_id(category_id: int, get_data_func=None):
     if get_data_func is None:

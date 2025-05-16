@@ -2,11 +2,15 @@
 
 {% extends "base/base.html" %}
 
+{% block head %}
+<title>ТехФорум</title>
+{% endblock %}
+
 {% block body %}
 <body class="body">
     <h1 class="title">{{ custom_msg(msg) }}</h1>
     <br>
-    <h2 class="title">Latest News</h1>
+    <h2 class="title">Latest News</h2>
     <ul class="news-list">
         {% for article in news %}
             <li class="news-item">
