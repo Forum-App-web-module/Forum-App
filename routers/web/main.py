@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 import httpx
 from common.template_config import CustomJinja2Templatges
 
@@ -22,3 +22,21 @@ def serve_index(request: Request):
 @index_router.get('/policy')
 def serve_policy(request: Request):
     return templates.TemplateResponse(name = "admin_privacy/privacy_policy.html", request=request)
+
+@index_router.get('/logout')
+def serve_logout(request: Request):
+    response = RedirectResponse(url="/home", status_code=302)
+    response.delete_cookie('token')
+    return response
+
+
+
+
+
+
+
+
+
+
+
+
