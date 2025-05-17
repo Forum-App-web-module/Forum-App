@@ -1,0 +1,10 @@
+ALTER DATABASE forum_app
+CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_general_ci;
+ALTER TABLE categories CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE category_members CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE messages CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE replies CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE topics CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE votes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;

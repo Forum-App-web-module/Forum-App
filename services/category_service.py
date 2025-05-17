@@ -54,6 +54,19 @@ def get_category_by_id(category_id: int, get_data_func=None):
     id, name, is_private, locked = rows[0]
     return Category.from_query_result((id, name, bool(is_private), bool(locked)))
 
+def get_category_by_name(category_id: str, get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''SELECT id, name, is_private, locked FROM categories WHERE name = ?'''
+    rows = get_data_func(query, (category_id,))
+    if not rows:
+        return None # return message in router
+    
+    id, name, is_private, locked = rows[0]
+    return Category.from_query_result((id, name, bool(is_private), bool(locked)))
+
+
 def get_topics_by_category(category_id: int, search: str = "", sort_by: str = "title", skip: int = 0, limit: int = 5, get_data_func=None):
     if get_data_func is None:
         get_data_func = read_query

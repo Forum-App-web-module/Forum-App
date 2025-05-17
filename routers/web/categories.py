@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Header, Request, Form
+from fastapi import APIRouter, Body, Header, Request, Form, Path
 from typing import Optional
 
 from fastapi.templating import Jinja2Templates
@@ -6,10 +6,11 @@ from fastapi.templating import Jinja2Templates
 from common.auth import get_user_if_token
 from common.template_config import CustomJinja2Templatges
 from security.jwt_auth import verify_access_token
-from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category, is_private
+from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category, is_private, get_category_by_name, lock_category, create_category
 from services.topic_service import get_all_topics, get_topic_with_replies
 from services.category_members_service import is_member
 from fastapi.responses import RedirectResponse
+from security.authorization import admin_auth
 
 category_router = APIRouter(prefix='')
 templates = CustomJinja2Templatges(directory="templates")
@@ -124,10 +125,29 @@ def serve_topic_replies(request: Request, category_id: int, topic_id: int):
 #     return topics
 
 # Lock Category
-@category_router.put('/{category_id}/lock')
-def lock_the_category(request: Request, category_id: int, category: str = Form(...), action: int = Form(...)):
+
+@category_router.post('/categories/lock')
+def lock_the_category(request: Request, category_name: str = Form(...), action: int = Form(...)):
     payload = get_user_if_token(request)
+    if not category_name:
+        return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, context={"msg": f"Please input category name!", 'section': 'category'})
     # Admin authorization returns an error or None
     if payload and payload["key"]["is_admin"] == True:
-        lock_category(category_id, action)
-        return Created(content=f'Category {category_id} locked')
+        id = get_category_by_name(category_name)
+        if not id:
+            return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, context={"msg": f"Category doesn't exist!", 'section': 'category'})
+        lock_category(id, action)
+        return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, context={"msg": f"Category {category_name} is {'locked!' if action else 'unlocked!'}", 'section': 'category'})
+
+# Create category
+@category_router.post('/categories', status_code=201)
+def create_categories(request: Request, category: str = Form(...)):
+    payload = get_user_if_token(request)
+
+    # Admin authorization returns an error or None
+    if admin_auth(payload):
+        # call service
+        create_category(category)
+        return templates.TemplateResponse(name = "admin_privacy/admin.html", 
+                                          request=request, 
+                                          context={"msg": f"Category {category} is created", 'section': 'create_category'})

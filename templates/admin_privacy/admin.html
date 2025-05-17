@@ -8,47 +8,72 @@
 {% block body %}
 <body>
     <div class="admin-panel">
-    <h2>Admin Panel</h2>
-
+    <h2>Админ панел</h2>
     <div class="admin-grid">
-      <!-- Category Block Section -->
-      <div class="admin-section">
-        <h3>Lock Category</h3>
-        <form>
-          <label for="category">Category Name to Block:</label>
-          <input type="text" id="category" name="category" placeholder="Category Name">
-          <div class="block-unblock-buttons">
-            <a href="/{{category.id}}/lock"><button type="button" class="block" onclick="document.getElementById('action').value = '1'">Lock</button></a>
-            <a href="/{{category.id}}/unlock"><button type="button" class="unblock" onclick="document.getElementById('action').value = '0'" >Unlock</button></a>
-          </div>
-        </form>
+
+    <div class="admin-section">
+  <h3>Категории</h3>
+  <form method="post" action="/categories/lock">
+    <label for="category">Име на категория:</label>
+    <input type="text" id="category" name="category_name" placeholder="Category Name">
+
+    <!-- Hidden input to track the action -->
+    <input type="hidden" id="action" name="action" value="1">
+
+    <div class="block-unblock-buttons">
+      <button type="submit" class="block" onclick="document.getElementById('action').value = '1'; this.form.action='/categories/lock';">
+        Заключи
+      </button>
+      <button type="submit" class="unblock" onclick="document.getElementById('action').value = '0'; this.form.action='/categories/lock';">
+        Отключи
+      </button>
+      
+    </div>
+    <div> 
+      {% if section == "category" %}
+        {{ custom_msg(msg) }} 
+      {% endif %}
       </div>
+  </form>
+</div>
 
       <!-- User Block Section -->
       <div class="admin-section">
-        <h3>Block User</h3>
-        <form>
-          <label for="username">Username to Block:</label>
-          <input type="text" id="username" name="username" placeholder="Username">
-          <div class="block-unblock-buttons">
-            <button type="button" class="block">Block</button>
-            <button type="button" class="unblock">Unblock</button>
-          </div>
-        </form>
+  <h3>Потребители</h3>
+  <form method="post">
+    <label for="username">Никнейм</label>
+    <input type="text" id="username" name="username" placeholder="Username" required>
+    <div class="block-unblock-buttons">
+      <button type="submit" class="block" formaction="/users/deactivate">Блокирай</button>
+      <button type="submit" class="unblock" formaction="/users/activate">Отблокирай</button>
+    </div>
+    <div> 
+      {% if section == "user" %}
+        {{ custom_msg(msg) }} 
+      {% endif %}
       </div>
+  </form>
+</div>
 
       <!-- Create Category Section -->
       <div class="admin-section">
-        <h3>Create Category</h3>
-        <form>
-          <label for="category">Category Name to Create:</label>
+        <h3>Създай категория</h3>
+        <form method="post" action="/categories">
+          <label for="category">Име на категорията</label>
           <input type="text" id="category" name="category" placeholder="Category Name">
           <div class="block-unblock-buttons">
-            <button type="button" class="create">Create</button>
+            <button type="submit" class="create">Създай</button>
           </div>
+          <div> 
+      {% if section == "create_category" %}
+        {{ custom_msg(msg) }} 
+      {% endif %}
+      </div>
         </form>
       </div>
     </div>
+    </div>
   </div>
+  
   </body>
 {% endblock %}
