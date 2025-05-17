@@ -55,7 +55,31 @@ def serve_category_topics(request: Request, category_id: int):
 def serve_topic_replies(request: Request, topic_id: int):
     replies = get_topic_with_replies(topic_id)
 
-    return templates.TemplateResponse(request=request, name="prefixed/replies.html", context={"replies": replies})
+    if replies is None:
+        return templates.TemplateResponse(
+            request=request,
+            name="prefixed/replies.html",
+            context={
+                "request": request,
+                "error_code": "topic_not_found",
+                "topic": None,
+                "replies": []
+            },
+            status_code=404
+        )
+
+
+    return templates.TemplateResponse(
+        request=request,
+        name="prefixed/replies.html",
+        context={
+            "request": request,
+            "topic": replies["topic"],
+            "replies": replies["replies"],
+            "msg": None
+        }
+    )
+
 
 
 # #view topic by id, show replies
