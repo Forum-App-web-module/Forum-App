@@ -7,6 +7,12 @@
 
 {% block body %}
     <main>
+        <div>
+            <a href="/home" class="image-button">
+                <img src="/static/images/plus-circle.256x256.png" alt="Add topic">
+            </a>
+        </div>
+
         {% if not topics %}
             <div style="display: flex; justify-content: center; align-items: center; height: 200px;">
                 <p style="margin: 0;">Тази Категория няма Теми.</p>

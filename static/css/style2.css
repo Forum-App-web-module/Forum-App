@@ -679,6 +679,29 @@ body.dark .send-message-form button:hover {
   object-fit: cover;
 }
 
+.image-button {
+    position: absolute;
+    top: 9rem;
+    left: 5rem;
+    z-index: 1000;
+    display: inline-block;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.image-button:hover {
+    background-color: skyblue;
+}
+
+.image-button img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    display: block;
+}
+
 .form-container {
   margin-top: 50px;
 }
