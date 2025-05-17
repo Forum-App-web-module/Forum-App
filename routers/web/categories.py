@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 from common.auth import get_user_if_token
 from common.template_config import CustomJinja2Templatges
 from security.jwt_auth import verify_access_token
-from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category, is_private
+from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category, is_private, lock_category
 from services.topic_service import get_all_topics
 from services.category_members_service import is_member
 from fastapi.responses import RedirectResponse
@@ -70,3 +70,11 @@ def serve_category_topics(request: Request, category_id: int):
 
 #     return topics
 
+# Lock Category
+@category_router.put('/{category_id}/lock')
+def lock_the_category(request: Request, category_id: int, category: str = Form(...), action: int = Form(...)):
+    payload = get_user_if_token(request)
+    # Admin authorization returns an error or None
+    if payload and payload["key"]["is_admin"] == True:
+        lock_category(category_id, action)
+        return Created(content=f'Category {category_id} locked')

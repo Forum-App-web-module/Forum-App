@@ -18,8 +18,8 @@
           <label for="category">Category Name to Block:</label>
           <input type="text" id="category" name="category" placeholder="Category Name">
           <div class="block-unblock-buttons">
-            <button type="button" class="block">Lock</button>
-            <button type="button" class="unblock">Unlock</button>
+            <a href="/{{category.id}}/lock"><button type="button" class="block" onclick="document.getElementById('action').value = '1'">Lock</button></a>
+            <a href="/{{category.id}}/unlock"><button type="button" class="unblock" onclick="document.getElementById('action').value = '0'" >Unlock</button></a>
           </div>
         </form>
       </div>

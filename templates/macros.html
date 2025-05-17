@@ -11,7 +11,11 @@
               <ul>
                 <li><a href="/home">Начало</a></li>
                 <li><a href="/categories">Категории</a></li>
-                <li><a href="/profile">Профил</a></li>
+
+                {% if user.key.is_admin==1 %}
+                <li><a href="/admin">Админ панел</a></li>
+                {% endif %}
+
                 <a href="/users/profile" class="view-profile-button">
                   <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
                   Профил
