@@ -11,7 +11,9 @@
             <section class="category-list">
                 <div class="category-card">
                     <h2><a href="/topic/{{topic.id}}">{{ topic.title }}</a></h2>
-                        {% if title.lock %}
+<!--                    <h2><a href="/categories/{{category_id}}/topics/{{topic_id}}/replies">{{ topic.title }}</a></h2>-->
+
+                        {% if topic.title.lock %}
                             <p>Заключено съдържание - нямате право да пишете по темата.</p>
                         {% else %}
                             <p>Отключено съдържание - имате право да пишете по темата.</p>

@@ -47,6 +47,7 @@ def serve_category_topics(request: Request, category_id: int):
 
 
 # View replies for a topic
+# Duplicate of serve_topic in web\topics
 @category_router.get('/categories/{category_id}/topics/{topic_id}/replies')
 def serve_topic_replies(request: Request, category_id: int, topic_id: int):
     payload = get_user_if_token(request)

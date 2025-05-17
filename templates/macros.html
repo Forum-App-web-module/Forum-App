@@ -127,18 +127,16 @@
 
 {% macro custom_msg(msg=none) %}
     {% if msg %}
-    {{ msg }}
+        {{ msg }}
     {% endif %}
 {% endmacro %}
 
 
 
-
-
 {% macro load_footer(user=none) %}
-{% if user %}
-<a href="/logout">
-    <button type="button">Изход</button>
-</a>
-{% endif %}
+    {% if user %}
+        <a href="/logout" style="float: right;">
+            <button type="button">Изход</button>
+        </a>
+    {% endif %}
 {% endmacro %}

@@ -41,15 +41,16 @@
                 <p>Няма отговори все още.</p>
             {% endfor %}
         </section>
-
-        <section class="reply-form" style="margin-top: 2rem;">
-            <h3>Добави отговор</h3>
-            <form method="post" action="/topics/{{ topic.id }}/reply">
-                <label for="content">Съобщение:</label>
-                <textarea id="content" name="content" rows="4" required></textarea>
-                <button type="submit">Изпрати</button>
-            </form>
-        </section>
+        {% if not topic.title.lock and write_access %}
+            <section class="reply-form" style="margin-top: 2rem;">
+                <h3>Добави отговор</h3>
+                <form method="post" action="/topics/{{ topic.id }}/reply">
+                    <label for="content">Съобщение:</label>
+                    <textarea id="content" name="content" rows="4" required></textarea>
+                    <button type="submit">Изпрати</button>
+                </form>
+            </section>
+        {% endif %}
     {% endif %}
 
 </main>

@@ -41,8 +41,11 @@
       <br>
       <br>
 </body>
-<footer>
-  {{ load_privacy() }}
-  {{ load_footer(get_user(request)) }}
+<footer style="display: flex; justify-content: center; align-items: center; position: relative; height: 80px;">
+    {{ load_privacy() }}
+    <div style="margin-left: auto; margin-right: 1rem;">
+        {{ load_footer(get_user(request)) }}
+    </div>
 </footer>
+
 </html>
