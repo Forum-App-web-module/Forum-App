@@ -1,41 +1,56 @@
-
 {% extends "base/base.html" %}
 
 {% block head %}
-<title>Тема</title>
+<title>
+    {% if topic %}
+        {{ topic.title }}
+    {% else %}
+        Грешка
+    {% endif %}
+</title>
 {% endblock %}
 
 {% block body %}
-    <main>
+<main class="content-wrapper">
+
+    {% if error_code == "topic_not_found" %}
+        <div class="error-message">
+            <h2>Грешка</h2>
+            <p>Темата не съществува или нямате достъп.</p>
+            <!-- <a href="/categories"><button>⬅ Обратно към категориите</button></a> -->
+        </div>
+    {% else %}
+
         <article class="topic-post">
-            <h2>Какво мислите за Python?</h2>
-            <p><strong>Потребител1</strong> каза:</p>
-            <p>Python е страхотен език за начинаещи и професионалисти!</p>
+            <header>
+                <h2 style="color: white;">{{ topic.title }}</h2>
+                <p><strong>Автор:</strong> {{ topic.author_username }}</p>
+                <p><strong>Категория:</strong> {{ topic.category_name }}</p>
+            </header>
         </article>
 
         <section class="replies">
             <h3>Отговори</h3>
-            <div class="reply" id="reply-1">
-              <p><strong>Потребител1</strong></p>
-              <p>Абсолютно съм съгласен, FastAPI е невероятно!</p>
-              <div class="meta">Публикувано на: 08.05.2025</div>
-              
-              <div class="comment-votes">
-                <button class="upvote-btn" onclick="vote('up', this)">👍</button>
-                <span class="vote-count">0</span>
-                <button class="downvote-btn" onclick="vote('down', this)">👎</button>
-              </div>
-            </div>
+            {% for reply in replies %}
+                <div class="reply" style="margin-bottom: 1rem;">
+                    Автор: {{ reply.username }}<br>
+                    Отговор: {{ reply.text }}<br>
+                    Публикувано на: {{ reply.created_at }}
+                </div>
+            {% else %}
+                <p>Няма отговори все още.</p>
+            {% endfor %}
         </section>
 
-
-        <section class="reply-form">
+        <section class="reply-form" style="margin-top: 2rem;">
             <h3>Добави отговор</h3>
-            <form method="post" action="/topic/1/reply">
+            <form method="post" action="/topics/{{ topic.id }}/reply">
                 <label for="content">Съобщение:</label>
                 <textarea id="content" name="content" rows="4" required></textarea>
                 <button type="submit">Изпрати</button>
             </form>
         </section>
-    </main>
+    {% endif %}
+
+</main>
 {% endblock %}
