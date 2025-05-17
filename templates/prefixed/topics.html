@@ -7,6 +7,12 @@
 
 {% block body %}
     <main>
+        {% if not topics %}
+            <div style="display: flex; justify-content: center; align-items: center; height: 200px;">
+                <p style="margin: 0;">Тази Категория няма Теми.</p>
+            </div>
+
+        {% endif %}
         {% for topic in topics %}
             <section class="category-list">
                 <div class="category-card">
