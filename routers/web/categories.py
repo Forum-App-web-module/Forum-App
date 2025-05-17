@@ -52,33 +52,45 @@ def serve_category_topics(request: Request, category_id: int):
 
 # View replies for a topic
 @category_router.get('/categories/{category_id}/topics/{topic_id}/replies')
-def serve_topic_replies(request: Request, topic_id: int):
-    replies = get_topic_with_replies(topic_id)
+def serve_topic_replies(request: Request, category_id: int, topic_id: int):
+    payload = get_user_if_token(request)
 
-    if replies is None:
+    if not payload:
+        if not is_private(category_id):
+            replies = get_topic_with_replies(topic_id)
+            if replies is None:
+                return None # templates.TemplateResponse something
+            
+            return templates.TemplateResponse(
+                request=request,
+                name="prefixed/replies.html",
+                context={
+                    "request": request,
+                    "topic": replies["topic"],
+                    "replies": replies["replies"],
+                    "msg": None
+                }
+            )
+        else:
+            return RedirectResponse(url="/categories", status_code=302)
+        
+    if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
+        replies = get_topic_with_replies(topic_id)
+        if replies is None:
+            return None # templates.TemplateResponse something
+        
         return templates.TemplateResponse(
             request=request,
             name="prefixed/replies.html",
             context={
                 "request": request,
-                "error_code": "topic_not_found",
-                "topic": None,
-                "replies": []
-            },
-            status_code=404
+                "topic": replies["topic"],
+                "replies": replies["replies"],
+                "msg": None
+            }
         )
-
-
-    return templates.TemplateResponse(
-        request=request,
-        name="prefixed/replies.html",
-        context={
-            "request": request,
-            "topic": replies["topic"],
-            "replies": replies["replies"],
-            "msg": None
-        }
-    )
+    else:
+        return RedirectResponse(url="/categories", status_code=302)
 
 
 
