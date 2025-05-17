@@ -673,8 +673,8 @@ body.dark .send-message-form button:hover {
 }
 
 .profile-pic {
-  width: 24px;
-  height: 24px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -1256,3 +1256,4 @@ body.dark button:hover {
 .privacy-policy article {
   margin-bottom: 1.5rem;
 }
+
