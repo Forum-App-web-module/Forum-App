@@ -37,11 +37,23 @@ def serve_category_topics(request: Request, category_id: int):
     if not payload:
         if not is_private(category_id):
             topics = get_topics_by_category(category_id)
-            return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics})
+            return templates.TemplateResponse(
+                request=request,
+                name="prefixed/topics.html",
+                context={"topics": topics,
+                         "category_id": category_id,
+                         }
+            )
 
     if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
         topics = get_topics_by_category(category_id)
-        return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics})
+        return templates.TemplateResponse(
+            request=request,
+            name="prefixed/topics.html",
+            context={"topics": topics,
+                         "category_id": category_id,
+                         }
+        )
     else:
         response = RedirectResponse(url="/categories", status_code=302)
         return response

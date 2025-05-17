@@ -42,9 +42,10 @@
             {% endfor %}
         </section>
         {% if not topic.title.lock and write_access %}
+
             <section class="reply-form" style="margin-top: 2rem;">
                 <h3>Добави отговор</h3>
-                <form method="post" action="/topics/{{ topic.id }}/reply">
+                <form method="post" action="/replies/{{ topic.id }}/new">
                     <label for="content">Съобщение:</label>
                     <textarea id="content" name="content" rows="4" required></textarea>
                     <button type="submit">Изпрати</button>
