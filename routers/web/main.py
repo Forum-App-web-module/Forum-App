@@ -29,6 +29,9 @@ def serve_logout(request: Request):
     response.delete_cookie('token')
     return response
 
+@index_router.get('/admin')
+def serve_policy(request: Request):
+    return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request)
 
 
 

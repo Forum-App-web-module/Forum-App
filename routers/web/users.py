@@ -90,6 +90,74 @@ def get_profile(request: Request):
     else: 
         return templates.TemplateResponse(request=request, name = "prefixed/profile.html")
 
+@user_router.post('/deactivate')
+# Deactivation(block) of account BY ADMIN
+def deactivate_user(request: Request, username: str = Form(...)):
+
+    # token authentication
+    payload = get_user_if_token(request)
+
+    #  ADMIN authorization
+    admin_auth(payload)
+
+    if not exists(username):
+        return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, 
+                                          context={"msg": f'There is no account with username: {username}', 'section': 'user'}) 
+    result = deactivate(username)
+    if result:
+        return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, 
+                                          context={"msg": f'{username} is now blocked.', 'section': 'user'}) 
+
+    else: return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, 
+                                          context={"msg": f'{username} already has been blocked.', 'section': 'user'}) 
+
+
+                                        
+@user_router.post('/activate')
+# activation of account BY ADMIN
+def activate_user(request: Request, username: str = Form(...)):
+
+    # token authentication
+    payload = get_user_if_token(request)
+
+    #  ADMIN authorization
+    admin_auth(payload)
+
+    if not exists(username):
+        return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, 
+                                          context={"msg": f'There is no account with username: {username}', 'section': 'user'}) 
+    result = activate(username)
+    if result:
+        return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, 
+                                          context={"msg": f'{username} is now unblocked.', 'section': 'user'}) 
+
+    else: return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, 
+                                          context={"msg": f'{username} already has been unblocked.', 'section': 'user'}) 
+
+# @user_router.put('/activate/{username}')
+# # Activation(Unblock) account BY ADMIN
+# def activate_user(username: str, token: str = Header()):
+
+#     # token authentication
+#     payload = verify_access_token(token)
+
+#     #  ADMIN authorization
+#     admin_auth(payload)
+
+# #  requires ADMIN authorization
+#     if not exists(username):
+#         return BadRequest(content = f'There is no account with username: {username}')
+
+#     result = activate(username)
+#     if result:
+#         return Successful(content = f"{username} is activated.")
+
+#     else: return Successful(content = f'{username} is already activated.')
+
+
+
+
+
 # @user_router.get('/profile{username}')
 # # Returns User profile information
 # def get_profile(request: Request):
@@ -121,44 +189,6 @@ def get_profile(request: Request):
 #         return Successful(content= f"Bio is updated")
     
 
-# @user_router.put('/deactivate/{username}')
-# # Deactivation(block) of account BY ADMIN
-# def deactivate_user(username: str, token: str = Header()):
-
-#     # token authentication
-#     payload = verify_access_token(token)
-
-#     #  ADMIN authorization
-#     admin_auth(payload)
-
-#     if not exists(username):
-#         return BadRequest(content = f'There is no account with username: {username}')
-
-#     result = deactivate(username)
-#     if result:
-#         return Successful(content = f"{username} is now blocked.")
-
-#     else: return Successful(content = f'{username} already has been blocked.')
-
-# @user_router.put('/activate/{username}')
-# # Activation(Unblock) account BY ADMIN
-# def activate_user(username: str, token: str = Header()):
-
-#     # token authentication
-#     payload = verify_access_token(token)
-
-#     #  ADMIN authorization
-#     admin_auth(payload)
-
-# #  requires ADMIN authorization
-#     if not exists(username):
-#         return BadRequest(content = f'There is no account with username: {username}')
-
-#     result = activate(username)
-#     if result:
-#         return Successful(content = f"{username} is activated.")
-
-#     else: return Successful(content = f'{username} is already activated.')
 
 
 # @user_router.put('/promote/{username}')

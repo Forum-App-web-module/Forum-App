@@ -1,75 +1,48 @@
 
 {% macro load_navigation(user=none) %}
-    {% if user %}
+{% if user %}
+    <header>
         <header>
-            <header>
-                <div class="header-flex">
-                  <h1 class="site-title">ТехФорум</h1>
-                  <button id="theme-toggle" title="Смени тема">🌓</button>
-                </div>
-                <nav>
-                  <ul>
-                    <li><a href="/home">Начало</a></li>
-                    <li><a href="/categories">Категории</a></li>
-                    <li><a href="/profile">Профил</a></li>
-                    <a href="/users/profile" class="view-profile-button">
-                      <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
-                      Профил
-                    </a>
-                  </ul>
-                </nav>
-            </header>
+            <div class="header-flex">
+              <h1 class="site-title">ТехФорум</h1>
+              <button id="theme-toggle" title="Смени тема">🌓</button>
+            </div>
+            <nav>
+              <ul>
+                <li><a href="/home">Начало</a></li>
+                <li><a href="/categories">Категории</a></li>
+
+                {% if user.key.is_admin==1 %}
+                <li><a href="/admin">Админ панел</a></li>
+                {% endif %}
+
+                <a href="/users/profile" class="view-profile-button">
+                  <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
+                  Профил
+                </a>
+              </ul>
+            </nav>
         </header>
-    {% else %}
+    </header>
+{% else %}
+    <header>
         <header>
-            <header>
-                <div class="header-flex">
-                  <h1 class="site-title">ТехФорум</h1>
-                  <button id="theme-toggle" title="Смени тема">🌓</button>
-                </div>
-                <nav>
-                  <ul>
-                    <li><a href="/home">Начало</a></li>
-                    <li><a href="/categories">Категории</a></li>
-                    <li><a href="/users/login">Вход</a></li>
-                    <li><a href="/users/register">Регистрация</a></li>
-                  </ul>
-                </nav>
-            </header>
+            <div class="header-flex">
+              <h1 class="site-title">ТехФорум</h1>
+              <button id="theme-toggle" title="Смени тема">🌓</button>
+            </div>
+            <nav>
+              <ul>
+                <li><a href="/home">Начало</a></li>
+                <li><a href="/categories">Категории</a></li>
+                <li><a href="/users/login">Вход</a></li>
+                <li><a href="/users/register">Регистрация</a></li>
+              </ul>
+            </nav>
         </header>
-    {% endif %}
+    </header>
+{% endif %}
 {% endmacro %}
-
-<!-- {% macro load_privacy() %}
-<div id="cookieBanner" class="cookie-banner">
-  <p><strong>Ние използваме бисквитки!</strong><br>
-    Този уебсайт използва бисквитки за персонализиране на съдържанието и подобряване на потребителското изживяване. 
-    За повече информация относно бисквитките прочети нашата <br>
-    <a href="#">Политика за поверителност</a>.
-  </p>
-  <div class="cookie-buttons">
-    <button id="acceptCookies">Приемам</button> <button id="settingsCookies">Настройки</button>
-  </div>
-</div>
-
-<script>
-  window.addEventListener('load', () => {
-    if (!localStorage.getItem('cookiesAccepted')) {
-      document.getElementById('cookieBanner').style.display = 'block';
-    }
-
-    document.getElementById('acceptCookies').onclick = () => {
-      localStorage.setItem('cookiesAccepted', 'yes');
-      document.getElementById('cookieBanner').style.display = 'none';
-    };
-
-    document.getElementById('settingsCookies').onclick = () => {
-      alert("Тук ще показваш настройки на бисквитки.");
-    };
-  });
-</script>
-
-{% endmacro %} -->
 
 {% macro load_privacy() %}
 <div id="cookieBanner" class="cookie-banner">
