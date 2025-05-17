@@ -8,11 +8,11 @@
 {% block body %}
     <main>
         <article class="topic-post">
-            <h2>Какво мислите за Python?</h2>
+            <h2><a href="/categories/{{category.id}}"></h2>
             <p><strong>Потребител1</strong> каза:</p>
             <p>Python е страхотен език за начинаещи и професионалисти!</p>
         </article>
-
+            {% for reply in replies %}
         <section class="replies">
             <h3>Отговори</h3>
             <div class="reply" id="reply-1">
