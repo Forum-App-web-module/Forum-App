@@ -7,17 +7,32 @@
 
 {% block body %}
     <main>
-        <section class="category-list">
-            <div class="category-card">
-                <h2><a href="/category/1">Име на Тема</a></h2>
-                <p>Теми без ограничение.</p>
+        <div>
+            <a href="/home" class="image-button">
+                <img src="/static/images/plus-circle.256x256.png" alt="Add topic">
+            </a>
+        </div>
+
+        {% if not topics %}
+            <div style="display: flex; justify-content: center; align-items: center; height: 200px;">
+                <p style="margin: 0;">Тази Категория няма Теми.</p>
             </div>
-        </section>
-        <section class="category-list">
-            <div class="category-card">
-                <h2><a href="/category/2">Друго име на тема</a></h2>
-                <p>Въпроси и отговори по програмиране.</p>
-            </div>
-        </section>
+
+        {% endif %}
+        {% for topic in topics %}
+            <section class="category-list">
+                <div class="category-card">
+                    <h2><a href="/topic/{{topic.id}}">{{ topic.title }}</a></h2>
+<!--                    <h2><a href="/categories/{{category_id}}/topics/{{topic_id}}/replies">{{ topic.title }}</a></h2>-->
+
+                        {% if topic.title.lock %}
+                            <p>Заключено съдържание - нямате право да пишете по темата.</p>
+                        {% else %}
+                            <p>Отключено съдържание - имате право да пишете по темата.</p>
+                        {% endif %}
+                </div>
+            </section>
+        {% endfor %}
     </main>
 {% endblock %}
+

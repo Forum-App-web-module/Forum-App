@@ -1,3 +1,32 @@
+from fastapi import APIRouter, Body, Header, Request, Form
+from fastapi.responses import RedirectResponse
+
+from common.auth import get_user_if_token
+from common.template_config import CustomJinja2Templatges
+from services.category_service import is_private
+from services.topic_service import get_topic_with_replies, get_category_id
+from services.category_members_service import is_member
+
+replies_router = APIRouter(prefix='')
+templates = CustomJinja2Templatges(directory="templates")
+
+
+@replies_router.post('/topics/{ topic.id }/reply')
+def upload_reply(
+        request: Request,
+        topic_id: int,
+        reply: str = Body(..., min_length=1, max_length=400)
+    ):
+
+    # token authentication
+    payload = get_user_if_token(request)
+
+
+
+
+
+
+
 # @replies_router.post("/{topic_id}", status_code=201)
 # def create_reply(
 #         topic_id: int,

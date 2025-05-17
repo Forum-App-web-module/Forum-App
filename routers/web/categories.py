@@ -1,8 +1,4 @@
-from fastapi import APIRouter, Body, Header, Request, Form, Path
-from typing import Optional
-
-from fastapi.templating import Jinja2Templates
-
+from fastapi import APIRouter, Body, Header, Request, Form
 from common.auth import get_user_if_token
 from common.template_config import CustomJinja2Templatges
 from security.jwt_auth import verify_access_token
@@ -52,6 +48,7 @@ def serve_category_topics(request: Request, category_id: int):
 
 
 # View replies for a topic
+# Duplicate of serve_topic in web\topics
 @category_router.get('/categories/{category_id}/topics/{topic_id}/replies')
 def serve_topic_replies(request: Request, category_id: int, topic_id: int):
     payload = get_user_if_token(request)
@@ -148,6 +145,6 @@ def create_categories(request: Request, category: str = Form(...)):
     if admin_auth(payload):
         # call service
         create_category(category)
-        return templates.TemplateResponse(name = "admin_privacy/admin.html", 
-                                          request=request, 
+        return templates.TemplateResponse(name = "admin_privacy/admin.html",
+                                          request=request,
                                           context={"msg": f"Category {category} is created", 'section': 'create_category'})
