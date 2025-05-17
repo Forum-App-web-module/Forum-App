@@ -1,8 +1,4 @@
 from fastapi import APIRouter, Body, Header, Request, Form
-from typing import Optional
-
-from fastapi.templating import Jinja2Templates
-
 from common.auth import get_user_if_token
 from common.template_config import CustomJinja2Templatges
 from security.jwt_auth import verify_access_token
@@ -41,10 +37,10 @@ def serve_category_topics(request: Request, category_id: int):
         if not is_private(category_id):
             topics = get_topics_by_category(category_id)
             return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics})
-
-    if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
-        topics = get_topics_by_category(category_id)
-        return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics})
+    else:
+        if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
+            topics = get_topics_by_category(category_id)
+            return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics})
 
     response = RedirectResponse(url="/categories", status_code=302)
     return response

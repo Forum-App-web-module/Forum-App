@@ -1,43 +1,43 @@
 
 {% macro load_navigation(user=none) %}
-{% if user %}
-    <header>
+    {% if user %}
         <header>
-            <div class="header-flex">
-              <h1 class="site-title">ТехФорум</h1>
-              <button id="theme-toggle" title="Смени тема">🌓</button>
-            </div>
-            <nav>
-              <ul>
-                <li><a href="/home">Начало</a></li>
-                <li><a href="/categories">Категории</a></li>
-                <li><a href="/profile">Профил</a></li>
-                <a href="/users/profile" class="view-profile-button">
-                  <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
-                  Профил
-                </a>
-              </ul>
-            </nav>
+            <header>
+                <div class="header-flex">
+                  <h1 class="site-title">ТехФорум</h1>
+                  <button id="theme-toggle" title="Смени тема">🌓</button>
+                </div>
+                <nav>
+                  <ul>
+                    <li><a href="/home">Начало</a></li>
+                    <li><a href="/categories">Категории</a></li>
+                    <li><a href="/profile">Профил</a></li>
+                    <a href="/users/profile" class="view-profile-button">
+                      <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
+                      Профил
+                    </a>
+                  </ul>
+                </nav>
+            </header>
         </header>
-    </header>
-{% else %}
-    <header>
+    {% else %}
         <header>
-            <div class="header-flex">
-              <h1 class="site-title">ТехФорум</h1>
-              <button id="theme-toggle" title="Смени тема">🌓</button>
-            </div>
-            <nav>
-              <ul>
-                <li><a href="/home">Начало</a></li>
-                <li><a href="/categories">Категории</a></li>
-                <li><a href="/users/login">Вход</a></li>
-                <li><a href="/users/register">Регистрация</a></li>
-              </ul>
-            </nav>
+            <header>
+                <div class="header-flex">
+                  <h1 class="site-title">ТехФорум</h1>
+                  <button id="theme-toggle" title="Смени тема">🌓</button>
+                </div>
+                <nav>
+                  <ul>
+                    <li><a href="/home">Начало</a></li>
+                    <li><a href="/categories">Категории</a></li>
+                    <li><a href="/users/login">Вход</a></li>
+                    <li><a href="/users/register">Регистрация</a></li>
+                  </ul>
+                </nav>
+            </header>
         </header>
-    </header>
-{% endif %}
+    {% endif %}
 {% endmacro %}
 
 <!-- {% macro load_privacy() %}
