@@ -7,31 +7,91 @@
 {% endblock %}
 
 {% block body %}
+<style>.message-list-header,
+.message {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.message-list-header {
+  font-weight: bold;
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #999;
+}
+
+.message-list-header > div,
+.message > span,
+.message > p,
+.message > a {
+  flex-shrink: 0;
+}
+
+.message-list-header > div:nth-child(1),
+.message > span:nth-child(1) {
+  flex: 2; /* Sender */
+}
+
+.message-list-header > div:nth-child(2),
+.message > span:nth-child(2) {
+  flex: 3; /* Date */
+}
+
+.message-list-header > div:nth-child(3),
+.message > p:nth-child(3) {
+  flex: 4; /* Message preview */
+  margin: 0;
+}
+
+.message-list-header > div:nth-child(4),
+.message > a:nth-child(4) {
+  flex: 1; /* Action link */
+  text-decoration: none;
+  color: #007BFF;
+}
+
+.message > a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>
         <main>
 <section class="messages-grid">
   <!-- Inbox Section -->
   <div class="inbox">
-    <h2>Входящи съобщения</h2>
-    <div class="message-list">
-      <div class="message">
-        <span class="sender">Потребител 1</span>
-        <span class="date">2025-05-08</span>
-        <p class="message-preview">Здравей! Как си?</p>
-        <a href="/message/1" class="read-more">Прочети</a>
-      </div>
-      <div class="message">
-        <span class="sender">Потребител 2</span>
-        <span class="date">2025-05-07</span>
-        <p class="message-preview">Имаш ли време да помогнеш?</p>
-        <a href="/message/2" class="read-more">Прочети</a>
-      </div>
-    </div>
+  <h2>Съобщения</h2>
+
+  <div class="message-list-header">
+    <div>Изпращач</div>
+    <div>Дата</div>
+    <div>Последно съобщение</div>
+    <div>Действия</div>
   </div>
 
+<div class="message-list">
+  {% for message in messages %}
+  <div class="message">
+    <span>
+      {% if message.sender_username == (get_user(request)).key.username %}
+        Ти
+      {% else %}
+        {{ message.sender_username }}
+      {% endif %}
+    </span>
+    <span>{{ message.sent_on.strftime('%Y-%m-%d') }}</span>
+    <p>{{ message.text }}</p>
+    <a href="/message/{{ message.id }}" class="read-more">Прочети</a>
+  </div>
+  {% endfor %}
+</div>
+</div>
   <!-- Send New Message Section -->
   <div class="send-new">
     <h2>Изпрати ново съобщение</h2>
-    <form action="/send-message" method="POST" class="send-message-form">
+    <form action="/message/" method="POST" class="send-message-form">
       <label for="recipient">Получател:</label>
       <input type="text" id="recipient" name="recipient" required>
 

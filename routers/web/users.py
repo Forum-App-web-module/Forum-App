@@ -88,7 +88,7 @@ def get_profile(request: Request):
     if not user_information:
         return templates.TemplateResponse(request=request, name="index.html", context={"msg":f'There is no account with username: {username}'})
     else: 
-        return templates.TemplateResponse(request=request, name = "prefixed/profile.html")
+        return templates.TemplateResponse(request=request, name = "prefixed/profile.html", context={"user": user_information})
 
 @user_router.post('/deactivate')
 # Deactivation(block) of account BY ADMIN
@@ -134,25 +134,20 @@ def activate_user(request: Request, username: str = Form(...)):
     else: return templates.TemplateResponse(name = "admin_privacy/admin.html", request=request, 
                                           context={"msg": f'{username} already has been unblocked.', 'section': 'user'}) 
 
-# @user_router.put('/activate/{username}')
-# # Activation(Unblock) account BY ADMIN
-# def activate_user(username: str, token: str = Header()):
 
-#     # token authentication
-#     payload = verify_access_token(token)
 
-#     #  ADMIN authorization
-#     admin_auth(payload)
+@user_router.post('/bio')
+# Update user bio BY the user.
+def update_profile_bio(request: Request, bio: str = Form(...) ):
 
-# #  requires ADMIN authorization
-#     if not exists(username):
-#         return BadRequest(content = f'There is no account with username: {username}')
+    # token authentication
+    payload = get_user_if_token(request)
+    
+    result = update_bio(payload["key"]["username"], bio)
 
-#     result = activate(username)
-#     if result:
-#         return Successful(content = f"{username} is activated.")
-
-#     else: return Successful(content = f'{username} is already activated.')
+    if result:
+        response = RedirectResponse(url="/users/profile", status_code=302)
+        return response
 
 
 
