@@ -6,8 +6,8 @@ from fastapi.templating import Jinja2Templates
 from common.auth import get_user_if_token
 from common.template_config import CustomJinja2Templatges
 from security.jwt_auth import verify_access_token
-from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category, is_private, lock_category
-from services.topic_service import get_all_topics
+from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category, is_private
+from services.topic_service import get_all_topics, get_topic_with_replies
 from services.category_members_service import is_member
 from fastapi.responses import RedirectResponse
 
@@ -45,10 +45,63 @@ def serve_category_topics(request: Request, category_id: int):
     if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
         topics = get_topics_by_category(category_id)
         return templates.TemplateResponse(request=request, name="prefixed/topics.html",context={"topics": topics})
+    else:
+        response = RedirectResponse(url="/categories", status_code=302)
+        return response
 
-    response = RedirectResponse(url="/categories", status_code=302)
-    return response
 
+# View replies for a topic
+@category_router.get('/categories/{category_id}/topics/{topic_id}/replies')
+def serve_topic_replies(request: Request, category_id: int, topic_id: int):
+    payload = get_user_if_token(request)
+
+    if not payload:
+        if not is_private(category_id):
+            replies = get_topic_with_replies(topic_id)
+            if replies is None:
+                return None # templates.TemplateResponse something
+            
+            return templates.TemplateResponse(
+                request=request,
+                name="prefixed/replies.html",
+                context={
+                    "request": request,
+                    "topic": replies["topic"],
+                    "replies": replies["replies"],
+                    "msg": None
+                }
+            )
+        else:
+            return RedirectResponse(url="/categories", status_code=302)
+        
+    if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
+        replies = get_topic_with_replies(topic_id)
+        if replies is None:
+            return None # templates.TemplateResponse something
+        
+        return templates.TemplateResponse(
+            request=request,
+            name="prefixed/replies.html",
+            context={
+                "request": request,
+                "topic": replies["topic"],
+                "replies": replies["replies"],
+                "msg": None
+            }
+        )
+    else:
+        return RedirectResponse(url="/categories", status_code=302)
+
+
+
+# #view topic by id, show replies
+# @topic_router.get('/{topic_id}')
+# def view_topic_by_id(topic_id: int):
+#     topic_replies = topic_service.get_topic_with_replies(topic_id)
+#     if not topic_replies: 
+#         return NotFound(content="No topic found for the given ID")
+    
+#     return topic_replies
 
 # @category_router.get('/{category_id}/topics')
 # def view_category_topics(category_id: int, token: str = Header()):
