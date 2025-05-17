@@ -17,33 +17,32 @@
         <div class="error-message">
             <h2>Грешка</h2>
             <p>Темата не съществува или нямате достъп.</p>
-            <a href="/categories"><button>⬅ Обратно към категориите</button></a>
+            <!-- <a href="/categories"><button>⬅ Обратно към категориите</button></a> -->
         </div>
-
     {% else %}
+
         <article class="topic-post">
             <header>
-                <h2>{{ topic.title }}</h2>
-                <p><strong>Автор ID:</strong> {{ topic.author_id }}</p>
-                <p>Категория ID: {{ topic.category_id }}</p>
-                <p class="meta">Тема ID: {{ topic.id }}</p>
+                <h2 style="color: white;">{{ topic.title }}</h2>
+                <p><strong>Автор:</strong> {{ topic.author_username }}</p>
+                <p><strong>Категория:</strong> {{ topic.category_name }}</p>
             </header>
         </article>
 
         <section class="replies">
             <h3>Отговори</h3>
             {% for reply in replies %}
-            <div class="reply">
-                <p><strong>Потребител ID: {{ reply.creator_id }}</strong></p>
-                <p>{{ reply.text }}</p>
-                <div class="meta">Публикувано на: {{ reply.created_at }}</div>
-            </div>
+                <div class="reply" style="margin-bottom: 1rem;">
+                    Автор: {{ reply.username }}<br>
+                    Отговор: {{ reply.text }}<br>
+                    Публикувано на: {{ reply.created_at }}
+                </div>
             {% else %}
-            <p>Няма отговори все още.</p>
+                <p>Няма отговори все още.</p>
             {% endfor %}
         </section>
 
-        <section class="reply-form">
+        <section class="reply-form" style="margin-top: 2rem;">
             <h3>Добави отговор</h3>
             <form method="post" action="/topics/{{ topic.id }}/reply">
                 <label for="content">Съобщение:</label>
