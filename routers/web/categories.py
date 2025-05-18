@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Body, Header, Request, Form, Query
 from common.auth import get_user_if_token
 from common.template_config import CustomJinja2Templatges
-from security.jwt_auth import verify_access_token
 from services.category_service import (get_all_public, get_all, get_allowed, get_topics_by_category,
             is_private, get_category_by_name, lock_category, create_category, count_topics_by_category)
 from services.topic_service import get_all_topics, get_topic_with_replies
@@ -62,7 +61,7 @@ def serve_category_topics(
                 }
             )
 
-    if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
+    if payload or is_member(category_id, payload["key"]["id"]):
         topics = get_topics_by_category(category_id, search, sort_by, skip, per_page)
         total = count_topics_by_category(category_id, search)
         total_pages = (total + per_page - 1) // per_page
@@ -79,9 +78,6 @@ def serve_category_topics(
                 "total_pages": total_pages
             }
         )
-    else:
-        response = RedirectResponse(url="/categories", status_code=302)
-        return response
 
 
 # View replies for a topic
@@ -126,37 +122,6 @@ def serve_topic_replies(request: Request, category_id: int, topic_id: int):
         )
     else:
         return RedirectResponse(url="/categories", status_code=302)
-
-
-
-# #view topic by id, show replies
-# @topic_router.get('/{topic_id}')
-# def view_topic_by_id(topic_id: int):
-#     topic_replies = topic_service.get_topic_with_replies(topic_id)
-#     if not topic_replies: 
-#         return NotFound(content="No topic found for the given ID")
-    
-#     return topic_replies
-
-# @category_router.get('/{category_id}/topics')
-# def view_category_topics(category_id: int, token: str = Header()):
-#     payload = verify_access_token(token)
-
-#     user_id = payload["key"]["id"]
-
-#     category = category_service.get_category_by_id(category_id)
-#     if not category:
-#         return NotFound(content="No category found with this ID")
-#     if category.is_private:
-
-#         if not category_members_service.is_member(category_id, user_id):
-#             return Unauthorized(content="This category is private, you are not a member.")
-
-#     topics = category_service.get_topics_by_category(category_id)
-#     if not topics:
-#         return NoContent(content="No topics found for this category")
-
-#     return topics
 
 # Lock Category
 

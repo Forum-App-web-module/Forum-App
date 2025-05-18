@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Request
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 import httpx
 from common.template_config import CustomJinja2Templatges
 from dotenv import load_dotenv

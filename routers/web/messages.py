@@ -28,20 +28,3 @@ def get_conversations(request: Request):
             private_messages.append(messages[-1])
 
     return templates.TemplateResponse(request=request, name="prefixed/messages.html",context={"messages": private_messages})
-
-
-# @message_router.post('/{username}')
-# # Creating new message between the authenticated user and user in path parameter.
-# def create_message(username: str, text: str = Body(..., min_length=1, max_length=200), token: str = Header()):
-    
-#      # token authentication
-#     payload = verify_access_token(token)
-    
-#     user_information = find_user_by_username(username)
-#     if not user_information:
-#         return BadRequest(content = f'There is no account with username: {username}')
-    
-#     result = create(payload["key"]["id"], user_information.id, text)
-
-#     if result:
-#         return Created(content = "Message is created")

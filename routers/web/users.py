@@ -135,7 +135,6 @@ def activate_user(request: Request, username: str = Form(...)):
                                           context={"msg": f'{username} already has been unblocked.', 'section': 'user'}) 
 
 
-
 @user_router.post('/bio')
 # Update user bio BY the user.
 def update_profile_bio(request: Request, bio: str = Form(...) ):
