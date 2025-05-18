@@ -3,13 +3,15 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 import httpx
 from common.template_config import CustomJinja2Templatges
+from dotenv import load_dotenv
+from os import getenv
 
+load_dotenv(dotenv_path="key_example.env")
+GNEWS_API_KEY = getenv("GNEWS_API_KEY")
 
 index_router = APIRouter(prefix='')
-
 templates = CustomJinja2Templatges(directory="templates")
 
-GNEWS_API_KEY = "ee81d4c6bf5f7583160aec788147a75f"
 GNEWS_ENDPOINT = "https://gnews.io/api/v4/top-headlines?lang=en&token=" + GNEWS_API_KEY
 
 @index_router.get('/home')

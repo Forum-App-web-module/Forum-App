@@ -153,6 +153,15 @@ The two services on their side, use the Pydantic models and interact with the Da
 ## API Documentation
 Refer to the FastAPI swagger for the backend API docs. - http://127.0.0.1:8000/docs
 
+📰 News Integration on Homepage.
+- The homepage of this forum displays real-time news headlines using the GNews API. This feature brings fresh global updates directly to the users as they visit the site.
+
+  Provider: GNews.io
+
+  Endpoint: https://gnews.io/api/v4/top-headlines
+
+  Data Format: JSON
+
 ## Testing
    The tests are written using the `unittest` framework.
    All tests are located in Forum-App/tests/  
