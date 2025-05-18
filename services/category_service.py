@@ -8,7 +8,39 @@ def get_all(get_data_func=None):
     query = '''SELECT id, name, is_private, locked FROM categories'''
     rows = get_data_func(query)
 
-    return [Category.from_query_result(row) for row in rows]  
+    return [Category.from_query_result(row) for row in rows]
+
+def get_all_public(get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''
+        SELECT id, name, is_private, locked 
+        FROM categories 
+        WHERE is_private = 0
+        '''
+    rows = get_data_func(query)
+
+    return [Category.from_query_result(row) for row in rows]
+
+def get_allowed(id: int, get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''
+    SELECT c.id, c.name, c.is_private, c.locked
+    FROM category_members cm
+    JOIN categories c
+    ON cm.category_id = c.id
+    WHERE user_id = 3
+    UNION
+    SELECT * FROM categories
+    WHERE is_private = 0
+    '''
+
+    rows = get_data_func(query)
+
+    return [Category.from_query_result(row) for row in rows]
 
 def get_category_by_id(category_id: int, get_data_func=None):
     if get_data_func is None:
@@ -22,19 +54,34 @@ def get_category_by_id(category_id: int, get_data_func=None):
     id, name, is_private, locked = rows[0]
     return Category.from_query_result((id, name, bool(is_private), bool(locked)))
 
+def get_category_by_name(category_id: str, get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''SELECT id, name, is_private, locked FROM categories WHERE name = ?'''
+    rows = get_data_func(query, (category_id,))
+    if not rows:
+        return None # return message in router
+    
+    id, name, is_private, locked = rows[0]
+    return Category.from_query_result((id, name, bool(is_private), bool(locked)))
+
+
 def get_topics_by_category(category_id: int, search: str = "", sort_by: str = "title", skip: int = 0, limit: int = 5, get_data_func=None):
     if get_data_func is None:
         get_data_func = read_query
     
-    if sort_by not in ["title", "author_id"]:
-        sort_by = "title"
+    if sort_by not in ["title_asc", "title_desc"]:
+        sort_by = "title_asc"
+
+    order_by = "ORDER BY title ASC" if sort_by == "title_asc" else "ORDER BY title DESC"
 
     query = f'''
         SELECT id, title, category_id, author_id, best_reply_id, locked
         FROM topics
         WHERE category_id = ?
-            AND title LIKE ?
-        ORDER BY {sort_by}
+          AND title LIKE ?
+        {order_by}
         LIMIT ? OFFSET ?
     '''
 
@@ -79,3 +126,16 @@ def is_private(category_id: int, get_data_func=None):
     if not category:
         return True
     return category.is_private
+
+def count_topics_by_category(category_id: int, search: str = "", get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''
+        SELECT COUNT(*) FROM topics
+        WHERE category_id = ?
+          AND title LIKE ?
+    '''
+    params = (category_id, f"%{search}%")
+    result = get_data_func(query, params)
+    return result[0][0] if result else 0

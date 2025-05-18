@@ -1,0 +1,79 @@
+
+{% extends "base/base.html" %}
+
+{% block head %}
+<title>Админ</title>
+{% endblock %}
+
+{% block body %}
+<body>
+    <div class="admin-panel">
+    <h2>Админ панел</h2>
+    <div class="admin-grid">
+
+    <div class="admin-section">
+  <h3>Категории</h3>
+  <form method="post" action="/categories/lock">
+    <label for="category">Име на категория:</label>
+    <input type="text" id="category" name="category_name" placeholder="Category Name">
+
+    <!-- Hidden input to track the action -->
+    <input type="hidden" id="action" name="action" value="1">
+
+    <div class="block-unblock-buttons">
+      <button type="submit" class="block" onclick="document.getElementById('action').value = '1'; this.form.action='/categories/lock';">
+        Заключи
+      </button>
+      <button type="submit" class="unblock" onclick="document.getElementById('action').value = '0'; this.form.action='/categories/lock';">
+        Отключи
+      </button>
+      
+    </div>
+    <div> 
+      {% if section == "category" %}
+        {{ custom_msg(msg) }} 
+      {% endif %}
+      </div>
+  </form>
+</div>
+
+      <!-- User Block Section -->
+      <div class="admin-section">
+  <h3>Потребители</h3>
+  <form method="post">
+    <label for="username">Никнейм</label>
+    <input type="text" id="username" name="username" placeholder="Username" required>
+    <div class="block-unblock-buttons">
+      <button type="submit" class="block" formaction="/users/deactivate">Блокирай</button>
+      <button type="submit" class="unblock" formaction="/users/activate">Отблокирай</button>
+    </div>
+    <div> 
+      {% if section == "user" %}
+        {{ custom_msg(msg) }} 
+      {% endif %}
+      </div>
+  </form>
+</div>
+
+      <!-- Create Category Section -->
+      <div class="admin-section">
+        <h3>Създай категория</h3>
+        <form method="post" action="/categories">
+          <label for="category">Име на категорията</label>
+          <input type="text" id="category" name="category" placeholder="Category Name">
+          <div class="block-unblock-buttons">
+            <button type="submit" class="create">Създай</button>
+          </div>
+          <div> 
+      {% if section == "create_category" %}
+        {{ custom_msg(msg) }} 
+      {% endif %}
+      </div>
+        </form>
+      </div>
+    </div>
+    </div>
+  </div>
+  
+  </body>
+{% endblock %}

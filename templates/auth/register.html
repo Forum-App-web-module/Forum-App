@@ -1,0 +1,32 @@
+{% extends "base/base.html" %}
+
+{% block head %}
+<title>Регистрация</title>
+{% endblock %}
+
+{% block body %}
+    <main>
+        <form method="POST" action="/users/register" class="form-container">
+            <h2>Регистрирай се в нашия форум</h2>
+            
+            <div class="field-group">
+                <label for="username">Потребителско име</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="field-group">
+                <label for="email">Имейл</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="field-group">
+                <label for="password">Парола</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit">Регистрирай се</button>
+            {{ custom_msg(msg) }}
+        </form>
+    </main>
+    
+{% endblock %}

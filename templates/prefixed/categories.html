@@ -1,0 +1,19 @@
+
+{% extends "base/base.html" %}
+
+{% block head %}
+<title>Категории</title>
+{% endblock %}
+
+{% block body %}
+        <main>
+            {% for category in categories %}
+        <section class="category-list">
+            <div class="category-card">
+                <h2><a href="/categories/{{category.id}}/topics">{{category.name}}</a></h2>
+            </div>
+        </section>
+            {% endfor %}
+
+    </main>
+{% endblock %}

@@ -673,17 +673,38 @@ body.dark .send-message-form button:hover {
 }
 
 .profile-pic {
-  width: 24px;
-  height: 24px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.image-button {
+    position: absolute;
+    top: 9rem;
+    left: 5rem;
+    z-index: 1000;
+    display: inline-block;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.image-button:hover {
+    background-color: skyblue;
+}
+
+.image-button img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    display: block;
 }
 
 .form-container {
   margin-top: 50px;
 }
-
-
 
 .comment-votes {
   position: absolute;
@@ -795,13 +816,13 @@ body.dark .admin-panel h2 {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 300px;
+  height: 200px;
 }
 
 .admin-section h3 {
@@ -1111,3 +1132,149 @@ body.dark button:hover {
     margin-top: 0.5rem;
     color: #555;
 }
+
+/* .cookie-banner {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(17, 17, 17, 0.85);
+  color: white;
+  padding: 20px;
+  z-index: 9999;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.cookie-banner a {
+  color: #00bfff;
+  text-decoration: underline;
+}
+
+.cookie-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cookie-buttons button {
+  background: white;
+  color: black;
+  border: 1px solid white;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+} */
+
+
+.cookie-banner {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(17, 17, 17, 0.85);
+  color: white;
+  padding: 20px;
+  z-index: 9999;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.cookie-banner a {
+  color: #00bfff;
+  text-decoration: underline;
+}
+
+.cookie-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cookie-buttons button {
+  background: white;
+  color: black;
+  border: 1px solid white;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Стил за банера с настройки */
+#cookieSettingsBanner {
+  display: none;  /* Скрит по подразбиране */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(17, 17, 17, 0.85);
+  color: white;  /* Белия текст */
+  padding: 20px;
+  z-index: 9999;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#cookieSettingsBanner p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: white;  /* Белия текст */
+}
+
+/* Подравняване на чекбокс и текст на един ред */
+.cookie-setting-option {
+  display: flex;
+  align-items: center;  /* Подравняване на чекбокса и текста по вертикала */
+  justify-content: start;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: white;  /* Белия текст */
+}
+
+.cookie-setting-option input[type="checkbox"] {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.cookie-setting-option label {
+  color: white;  /* Белия текст за етикетите */
+}
+
+/* Стил на бутоните */
+.cookie-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.cookie-buttons button {
+  background: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 14px;
+}
+
+.privacy-policy {
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.privacy-policy h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.privacy-policy article {
+  margin-bottom: 1.5rem;
+}
+

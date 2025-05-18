@@ -1,8 +1,115 @@
 
+{% macro load_navigation(user=none) %}
+{% if user %}
+    <header>
+        <header>
+            <div class="header-flex">
+              <h1 class="site-title">ТехФорум</h1>
+              <button id="theme-toggle" title="Смени тема">🌓</button>
+            </div>
+            <nav>
+              <ul>
+                <li><a href="/home">Начало</a></li>
+                <li><a href="/categories">Категории</a></li>
+
+                {% if user.key.is_admin==1 %}
+                <li><a href="/admin">Админ панел</a></li>
+                {% endif %}
+
+                <a href="/users/profile" class="view-profile-button">
+                  <img src="/static/images/profile_view.jpg" alt="Profile" class="profile-pic">
+                  Профил
+                </a>
+              </ul>
+            </nav>
+        </header>
+    </header>
+{% else %}
+    <header>
+        <header>
+            <div class="header-flex">
+              <h1 class="site-title">ТехФорум</h1>
+              <button id="theme-toggle" title="Смени тема">🌓</button>
+            </div>
+            <nav>
+              <ul>
+                <li><a href="/home">Начало</a></li>
+                <li><a href="/categories">Категории</a></li>
+                <li><a href="/users/login">Вход</a></li>
+                <li><a href="/users/register">Регистрация</a></li>
+              </ul>
+            </nav>
+        </header>
+    </header>
+{% endif %}
+{% endmacro %}
+
+{% macro load_privacy() %}
+<div id="cookieBanner" class="cookie-banner">
+  <p><strong>Ние използваме бисквитки!</strong><br>
+    Този уебсайт използва бисквитки за персонализиране на съдържанието и подобряване на потребителското изживяване.
+    За повече информация прочети нашата <a href=/policy>Политика за поверителност</a>.
+  </p>
+  <div class="cookie-buttons">
+    <button id="acceptCookies">Приемам</button>
+    <button id="settingsCookies">Настройки</button>
+  </div>
+</div>
+
+<!-- Настройки банер -->
+<div id="cookieSettingsBanner" class="cookie-banner" style="display: none;">
+  <p><strong>Настройки на бисквитките</strong></p>
+  <form id="cookieSettingsForm">
+    <div class="cookie-setting-option">
+      <input type="checkbox" name="auth" checked disabled>
+      <label for="auth">Задължителни бисквитки (автентикация)</label>
+    </div>
+    <div class="cookie-buttons">
+      <button type="button" id="saveSettings">Запази</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  window.addEventListener('load', () => {
+    const cookieBanner = document.getElementById('cookieBanner');
+    const settingsBanner = document.getElementById('cookieSettingsBanner');
+
+    if (!localStorage.getItem('cookiesAccepted')) {
+      cookieBanner.style.display = 'block';
+    }
+
+    document.getElementById('acceptCookies').onclick = () => {
+      localStorage.setItem('cookiesAccepted', 'yes');
+      cookieBanner.style.display = 'none';
+    };
+
+    document.getElementById('settingsCookies').onclick = () => {
+      cookieBanner.style.display = 'none';
+      settingsBanner.style.display = 'block';
+    };
+
+    document.getElementById('saveSettings').onclick = () => {
+      localStorage.setItem('cookiesAccepted', 'yes');
+      settingsBanner.style.display = 'none';
+    };
+  });
+</script>
+{% endmacro %}
+
+
 {% macro custom_msg(msg=none) %}
     {% if msg %}
-    {{ msg }}
+        {{ msg }}
     {% endif %}
 {% endmacro %}
 
 
+
+{% macro load_footer(user=none) %}
+    {% if user %}
+        <a href="/logout" style="float: right;">
+            <button type="button">Изход</button>
+        </a>
+    {% endif %}
+{% endmacro %}

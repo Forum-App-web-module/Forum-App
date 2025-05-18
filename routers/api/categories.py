@@ -1,6 +1,4 @@
-from email.header import Header
-
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Header
 from typing import Literal
 
 from security.jwt_auth import verify_access_token
@@ -36,7 +34,19 @@ def view_category(category_id: int, token: str = Header()):
 
 #View topics for a category
 @category_router.get('/{category_id}/topics')
-def view_category_topics(category_id: int):
+def view_category_topics(category_id: int, token: str = Header()):
+    payload = verify_access_token(token)
+
+    user_id = payload["key"]["id"]
+
+    category = category_service.get_category_by_id(category_id)
+    if not category:
+        return NotFound(content="No category found with this ID")
+    if category.is_private:
+
+        if not category_members_service.is_member(category_id, user_id):
+            return Unauthorized(content="This category is private, you are not a member.")
+        
     topics = category_service.get_topics_by_category(category_id)
     if not topics:
         return NoContent(content="No topics found for this category")

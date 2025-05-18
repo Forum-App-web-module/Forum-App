@@ -132,7 +132,8 @@ def promote_user(username: str, token: str = Header()):
         return BadRequest(content = f'There is no account with username: {username}')
     
     result = promote(username)
-    if result:Successful(content = f"{username} is now Admin.")
+    if result:
+        return Successful(content = f"{username} is now Admin.")
 
     else: return Successful(content = f'{username} is already Admin.')
 
@@ -145,20 +146,20 @@ def give_user_category_access(id: int, category_id: int, token: str = Header()):
     # Admin authorization returns an error or None
     if admin_auth(payload):
         # call service
-        give_access(id, category_id)
+        give_access(category_id, id)
         return Created(content=f'User {id} has access to category {category_id}')
 
 
 # Give User a Category Write Access
 @user_router.put('/write_access/{id}/category/{category_id}')
-def give_user_category_write_access(id: int, category_id: int, token: str = Header()):
+def update_user_category_write_access(id: int, category_id: int, token: str = Header(), current_access: bool = Body(...)):
     payload = verify_access_token(token)
 
     # Admin authorization returns an error or None
     if admin_auth(payload):
         # call service
-        update_write_access(id, category_id, True)
-        return Created(content=f'User {id} has write access to category {category_id}')
+        update_write_access(id, category_id, current_access)
+        return Successful()
 
 
 # Revoke User Access
@@ -181,7 +182,7 @@ def get_privileged_users(category_id: int, token: str = Header()):
     # Admin authorization returns an error or None
     if admin_auth(payload):
         # call service
-        service_response = view_privileged_users(category_id)[0]
+        service_response = view_privileged_users(category_id)
         return [PrivilegedUsersResponse.from_query_result(row) for row in service_response]
 
 

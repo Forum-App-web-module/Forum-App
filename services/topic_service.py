@@ -39,34 +39,54 @@ def get_topic_with_replies(topic_id: int, get_data_func=None):
     if get_data_func is None:
         get_data_func = read_query
 
-    query = '''SELECT id, title, category_id, author_id, best_reply_id, locked FROM topics WHERE id = ?'''
-    rows = get_data_func(query, (topic_id,))
-    
-    if not rows:
-        return None 
-    
-    id, title, category_id, author_id, best_reply_id, locked = rows[0]
-    topic = Topic.from_query_result((id, title, category_id, author_id, best_reply_id, bool(locked)))
-
-    query_with_replies = '''
-    SELECT id, creator_id, topic_id, text, created_on
-    FROM replies
-    WHERE topic_id = ?
-    ORDER BY created_on ASC
+    topic_query = '''
+        SELECT t.id, t.title, t.category_id, t.author_id, u.username, t.best_reply_id, t.locked
+        FROM topics t
+        JOIN users u ON t.author_id = u.id
+        WHERE t.id = ?
     '''
-    rows_replies = get_data_func(query_with_replies, (topic_id,))
-    replies = [Replies(
-        id = row[0],
-        creator_id = row[1],
-        topic_id = row[2],
-        text = row[3],
-        created_at = row[4]
-    ) for row in rows_replies]
+    topic_rows = get_data_func(topic_query, (topic_id,))
+    if not topic_rows:
+        return None
+
+    id, title, category_id, author_id, author_username, best_reply_id, locked = topic_rows[0]
+    topic = Topic.from_query_result((id, title, category_id, author_id, best_reply_id, bool(locked)))
+    topic_dict = topic.model_dump() #topic.dict
+    topic_dict["author_username"] = author_username
+
+    #category name, needed for the html
+    category_query = "SELECT name FROM categories WHERE id = ?"
+    category_rows = get_data_func(category_query, (category_id,))
+    topic_dict["category_name"] = category_rows[0][0] if category_rows else "Неизвестна категория"
+
+    #replies+username name, needed for the html
+    replies_query = '''
+        SELECT r.id, r.creator_id, u.username, r.topic_id, r.text, r.created_on
+        FROM replies r
+        JOIN users u ON r.creator_id = u.id
+        WHERE r.topic_id = ?
+        ORDER BY r.created_on ASC
+    '''
+    rows_replies = get_data_func(replies_query, (topic_id,))
+    replies = []
+    for row in rows_replies:
+        id, creator_id, username, topic_id_fk, text, created_at = row
+        reply = Replies(
+            id=id,
+            creator_id=creator_id,
+            topic_id=topic_id_fk,
+            text=text,
+            created_at=created_at
+        )
+        reply_dict = reply.model_dump()
+        reply_dict["username"] = username
+        replies.append(reply_dict)
 
     return {
-        "topic": topic,
+        "topic": topic_dict,
         "replies": replies
-            }
+    }
+
 
 
 # locks/unlocks a topic 
