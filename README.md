@@ -137,9 +137,17 @@ The application is a web-based forum that enables users to share knowledge, expe
 ![Database Schema](static/images/db_schema_.png)
 
 
-## N-Tier Architecture
+## N-Tier Architecture  
+From an MVC perspective:
+- **View** - Web Server and the Client/UI
+- **Controller** - Application/Business Logic
+- **Model** - Data and Database Layers
 
-<img src="static/images/Forum%20App%20Architecture%20Diagram.png" alt="N-Tier Layers" width="800"/>
+Through the FastAPI server, the client calls the routers which interact with Security and Service Layers.  
+The two services on their side, use the Pydantic models and interact with the Database via Database Connector.
+
+
+<img src="static/images/Forum%20App%20Architecture%20Diagram.png" alt="N-Tier Layers" width="888"/>
 
 
 ## API Documentation
