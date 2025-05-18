@@ -107,13 +107,13 @@ The application is a web-based forum that enables users to share knowledge, expe
    `.venv\Scripts\activate.ps1` 
 
 3. **Install the required dependencies:**   
-   `pip install -r requirements.txt`
-   *If adiitional dependecy is installed use the bellow command to update the file*  
+   `pip install -r requirements.txt`  
+   *If additional dependecy is installed use the bellow command to update the file*  
    *pip freeze > requirements.txt*
 
 4. **Set up your environment variables:**  
     Copy the environment file:  
-   `cp key_example.env .env` 
+   `cp key_example.env .env`  
     Fill in the required values (e.g., database credentials, secret keys)
 
 5. **Run the application**:  
