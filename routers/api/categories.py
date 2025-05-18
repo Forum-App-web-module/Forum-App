@@ -1,6 +1,4 @@
-from email.header import Header
-
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Header
 from typing import Literal
 
 from security.jwt_auth import verify_access_token

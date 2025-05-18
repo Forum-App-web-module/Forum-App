@@ -22,12 +22,12 @@ app.include_router(api_replies_router)
 app.include_router(api_category_router)
 app.include_router(api_topic_router)
 
-app.include_router(web_index_router)
-app.include_router(web_message_router)
-app.include_router(web_user_router)
-app.include_router(web_replies_router)
-app.include_router(web_category_router)
-app.include_router(web_topic_router)
+app.include_router(web_index_router, include_in_schema=False)
+app.include_router(web_message_router, include_in_schema=False)
+app.include_router(web_user_router, include_in_schema=False)
+app.include_router(web_replies_router, include_in_schema=False)
+app.include_router(web_category_router, include_in_schema=False)
+app.include_router(web_topic_router, include_in_schema=False)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

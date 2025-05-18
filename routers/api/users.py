@@ -146,7 +146,7 @@ def give_user_category_access(id: int, category_id: int, token: str = Header()):
     # Admin authorization returns an error or None
     if admin_auth(payload):
         # call service
-        give_access(id, category_id)
+        give_access(category_id, id)
         return Created(content=f'User {id} has access to category {category_id}')
 
 
@@ -159,7 +159,7 @@ def update_user_category_write_access(id: int, category_id: int, token: str = He
     if admin_auth(payload):
         # call service
         update_write_access(id, category_id, current_access)
-        return Successful
+        return Successful()
 
 
 # Revoke User Access
