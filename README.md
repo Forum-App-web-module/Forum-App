@@ -151,6 +151,7 @@ The two services on their side, use the Pydantic models and interact with the Da
 
 
 ## API Documentation
+Refer to the FastAPI swagger for the backend API docs. - http://127.0.0.1:8000/docs
 
 ## Testing
    The tests are written using the `unittest` framework.
@@ -165,110 +166,12 @@ The two services on their side, use the Pydantic models and interact with the Da
     - python -m unittest discover Forum-App/tests
 
 ## Future Improvements / Roadmap
+- Map missing frontend to the backend functionality
+- Host the Database
+- Host the Web Server
+- Develop further CI/CD
 
 
 ---
 
-📘 README Structure for a Web Project
-1. Project Title and Description  
-What to include:
-
-- Project name.
-
-- A brief summary of what the project does.
-
-- Its main features or goals.
-
-- Target users or use cases.
-
-2. Table of Contents (optional but useful for longer READMEs)  
-What to include:
-
-- Quick navigation to sections like Installation, Usage, Architecture, etc.
-
-3. Team Information  
-What to include:
-
-- Names of the team members and their roles.
-
-- Optionally, include links to GitHub or LinkedIn profiles.
-
-4. Tech Stack  
-What to include:
-
-- Languages, frameworks, and tools used (e.g., React, Node.js, PostgreSQL).
-
-- Brief explanation of why certain tools were chosen, if relevant.
-
-5. Features  
-What to include:
-
-- A bullet list or short description of the core features (e.g., user authentication, thread posting, comment system).
-
-- Indicate if any features are planned or in development.
-
-6. Installation and Setup Instructions  
-What to include:
-
-- Prerequisites (Node.js, PostgreSQL, etc.).
-
-- How to clone the repo.
-
-- Steps to run the project locally.
-
-- Any environment variables that need to be set.
-
-7. Architecture Overview  
-What to include:
-
-- A high-level explanation of how the app is structured (frontend/backend/services/layers).
-
-- Include your services and layers diagram here.
-
-- Describe how different components interact.
-
-8. Database Design  
-What to include:
-
-- Explanation of the database schema and relationships.
-
-- Insert your database diagram image here.
-
-- Mention any migrations or seed data used.
-
-9. API Documentation  
-What to include:
-
-- List of main endpoints (GET, POST, etc.).
-
-- Expected request/response formats.
-
-- Authentication or security notes, if relevant.
-
-10. Testing  
-What to include:
-
-- Testing tools or libraries used.
-
-- How to run the tests.
-
-- Any notable coverage or testing strategy details.
-
-11. Future Improvements / Roadmap  
-What to include:
-
-- Planned features or upgrades.
-
-- Potential refactors or architectural changes.
-
-- Deployment
-
-
-
-13. Challenges and Learnings  | Presentation
-What to include:
-
-- Technical or team-related challenges faced.
-
-- Key lessons learned during development.
-
+📘
