@@ -21,12 +21,6 @@ The application is a web-based forum that enables users to share knowledge, expe
 
 ---
 
-## About the Project
-
-Describe the purpose and goals of the Forum app. What problems does it solve? Who is it for?
-
----
-
 ## Team Members
 
 - **Boris Tsonkov**
@@ -58,7 +52,7 @@ Describe the purpose and goals of the Forum app. What problems does it solve? Wh
 ###  Authentication
 
 - **User Registration**
-  - Allows new users to register with unique credentials, username, email and password are required.
+  - Allows new users to register with unique credentials; username, email and password are required.
 - **User Login**
   - Authenticates users and returns a JWT token for secure access.
 
@@ -104,25 +98,25 @@ Describe the purpose and goals of the Forum app. What problems does it solve? Wh
 
 ## Installation
 
-1. Clone the repository  :
+1. **Clone the repository:**  
    `git clone https://github.com/Forum-App-web-module/Forum-App.git`  
    `cd forum-app`
 
-2. (Optional, Recommended) Create and activate a virtual environment:  
+2. **(Optional, Recommended) Create and activate a virtual environment:**  
    `python -m venv venv`  
    `.venv\Scripts\activate.ps1` 
 
-3. Install the required dependencies:  
+3. **Install the required dependencies:**   
    `pip install -r requirements.txt`
    *If adiitional dependecy is installed use the bellow command to update the file*  
    *pip freeze > requirements.txt*
 
-4. Set up your environment variables:  
-    Copy the example environment file:  
+4. **Set up your environment variables:**  
+    Copy the environment file:  
    `cp key_example.env .env` 
     Fill in the required values (e.g., database credentials, secret keys)
 
-5. Run the application:  
+5. **Run the application**:  
    `uvicorn main:app --reload`  
    *Use `--port {port_number}` if you want to run the app on a different port (default is `8000`)*
 
