@@ -25,57 +25,126 @@ Installing dependencies: pip install -r requirements.txt
 - [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Architecture Overview](#architecture-overview)
 - [Database Design](#database-design)
 - [API Documentation](#api-documentation)
 - [Testing](#testing)
-- [Deployment](#deployment)
-- [Challenges and Learnings](#challenges-and-learnings)
-- [Future Improvements](#future-improvements)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
+- [Future Improvements / Roadmap](#future-improvements--roadmap)
 
 ---
 
-## 📝 About the Project
+## About the Project
 
 Describe the purpose and goals of the Forum app. What problems does it solve? Who is it for?
 
 ---
 
-## 👥 Team Members
+## Team Members
 
-- **[Your Name]** – Role / Contributions
-- **[Teammate 1]** – Role / Contributions
-- **[Teammate 2]** – Role / Contributions
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend:** e.g., React, Tailwind CSS
-- **Backend:** e.g., Node.js, Express
-- **Database:** e.g., PostgreSQL
-- **Tools & Libraries:** e.g., Prisma, JWT, Axios
+- **Boris Tsonkov**
+- **Petar Pavlov**
+- **Dilyana Bozhinova**
 
 ---
 
-## ✨ Features
+## Tech Stack
 
-- User authentication (signup/login)
-- Create, read, and manage discussion threads
-- Commenting system
-- Voting or likes (optional)
-- Role-based access (admin, user)
+- **Frontend:** HTML, CSS
+- **Backend:** Python FastAPI
+- **Database:** MariaDB
+- **Tools & Libraries:** 
+   FastAPI  
+   JWT  
+   Jinja2    
+   python-dotenv  
+   MariaDB Python driver (mariadb)  
+   Pydantic  
+   Uvicorn  
+   HTTPX  
+   python-multipart  
 
 ---
 
-## ⚙️ Installation
+## Features
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/forum-app.git
+###  Authentication
+
+- **User Registration**
+  - Allows new users to register with unique credentials, username, email and password are required.
+- **User Login**
+  - Authenticates users and returns a JWT token for secure access.
+
+###  Admin Access
+
+- **Create & Manage Categories**
+  - Admins can create, lock, and toggle visibility of categories.
+- **Manage User Permissions**
+  - Grant or revoke read/write access to private categories.
+- **View Privileged Users**
+  - List users with special access to a category and their roles.
+- **Moderate Topics**
+  - Lock topics to prevent further replies.
+
+###  Category and Topic Interactions
+
+- **Create Topics**
+  - Authenticated users can post topics in the choosen category.
+- **Create Replies**
+  - Users can post replies to specific topics.
+- **View Topics and Replies**
+  - Browse all topics and see replies under each.
+- **View Categories**
+  - Lists all categories, with filtering by category and support for pagination/search.
+- **Private Categories**
+  - Access controlled by admin-granted permissions.
+  - Only admins and category members can access a private category.
+
+###  Messaging
+
+- **Send Messages**
+  - Authenticated users can message others with plain text content.
+
+
+###  Voting and Feedback
+
+- **Upvote/Downvote Replies**
+  - Authenticated users can vote once per reply and change their vote later.
+- **Choose Best Reply**
+  - Topic authors can select one reply as the “best” answer.
+
+---
+
+## Installation
+
+1. Clone the repository  :
+   `git clone https://github.com/Forum-App-web-module/Forum-App.git`  
+   `cd forum-app`
+
+2. (Optional) Create and activate a virtual environment:  
+   `python -m venv venv`  
+   `venv\Scripts\activate` (on Windows)  
+
+3. Install the required dependencies:  
+   `pip install -r requirements.txt`
+
+4. Set up your environment variables:  
+    Copy the example environment file:  
+   `cp key_example.env .env` 
+    Fill in the required values (e.g., database credentials, secret keys)
+
+5. Run the application:  
+   `uvicorn main:app --reload`  
+   *Use `--port {port_number}` if you want to run the app on a different port (default is `8000`)*
+
+## Architecture Overview
+
+## Database Design
+
+## API Documentation
+
+## Testing
+
+## Future Improvements / Roadmap
 
 
 ---
@@ -129,16 +198,7 @@ What to include:
 
 - Any environment variables that need to be set.
 
-7. Usage  
-What to include:
-
-- How to interact with the app.
-
-- Screenshots or brief demos of major interactions (optional).
-
-- Any useful tips for navigating or testing the app.
-
-8. Architecture Overview  
+7. Architecture Overview  
 What to include:
 
 - A high-level explanation of how the app is structured (frontend/backend/services/layers).
@@ -147,7 +207,7 @@ What to include:
 
 - Describe how different components interact.
 
-9. Database Design  
+8. Database Design  
 What to include:
 
 - Explanation of the database schema and relationships.
@@ -156,7 +216,7 @@ What to include:
 
 - Mention any migrations or seed data used.
 
-10. API Documentation  
+9. API Documentation  
 What to include:
 
 - List of main endpoints (GET, POST, etc.).
@@ -165,7 +225,7 @@ What to include:
 
 - Authentication or security notes, if relevant.
 
-11. Testing  
+10. Testing  
 What to include:
 
 - Testing tools or libraries used.
@@ -174,41 +234,21 @@ What to include:
 
 - Any notable coverage or testing strategy details.
 
-12. Deployment  
-What to include:
-
-- Where the app is hosted (e.g., Vercel, Heroku).
-
-- Link to the live version, if available.
-
-- Steps or workflow used for deployment (CI/CD pipeline, etc.).
-
-13. Challenges and Learnings  
-What to include:
-
-- Technical or team-related challenges faced.
-
-- Key lessons learned during development.
-
-14. Future Improvements / Roadmap  
+11. Future Improvements / Roadmap  
 What to include:
 
 - Planned features or upgrades.
 
 - Potential refactors or architectural changes.
 
-15. License  
+- Deployment
+
+
+
+13. Challenges and Learnings  | Presentation
 What to include:
 
-- License type (e.g., MIT).
+- Technical or team-related challenges faced.
 
-- Link to the full license text if applicable.
-
-16. Acknowledgments  
-What to include:
-
-- Any libraries, tutorials, mentors, or inspirations that helped.
-
-
-
+- Key lessons learned during development.
 
