@@ -38,18 +38,18 @@ Describe the purpose and goals of the Forum app. What problems does it solve? Wh
 ## Tech Stack
 
 - **Frontend:** HTML, CSS
-- **Backend:** Python FastAPI
+- **Backend:** FastAPI (Python)
 - **Database:** MariaDB
 - **Tools & Libraries:** 
-   FastAPI  
-   JWT  
-   Jinja2    
-   python-dotenv  
-   MariaDB Python driver (mariadb)  
-   Pydantic  
-   Uvicorn  
-   HTTPX  
-   python-multipart  
+   - FastAPI  
+   - JWT  
+   - Jinja2    
+   - python-dotenv  
+   - MariaDB Python driver (`mariadb`)  
+   - Pydantic  
+   - Uvicorn  
+   - HTTPX  
+   - python-multipart  
 
 ---
 
@@ -130,9 +130,32 @@ Describe the purpose and goals of the Forum app. What problems does it solve? Wh
 
 ## Database Design
 
+### The schema covers the following key entities
+
+- **users** – stores user data such as credentials, status (active or not), role (admin or not), bio
+- **categories** – holds categry info - id, name, lock and privacy status
+- **topics** – created by users under a category; can be locked or have a “best reply”.
+- **replies** – comments made by users under topics; can be voted and marked as best.
+- **votes** – tracks upvotes/downvotes on replies by users.
+- **messages** – handles direct messaging between users.
+- **category_members** – manages access to private categories.
+
+![Database Schema](static/images/db_schema_.png)
+
+
 ## API Documentation
 
 ## Testing
+   The tests are written using the `unittest` framework.
+   All tests are located in Forum-App/tests/  
+### Coverage:  
+   - user authentication and authorization  
+   - category, topic, reply logic  
+   - internal service layer functionality  
+   - API routers  
+
+### Tests execution:  
+    - python -m unittest discover Forum-App/tests
 
 ## Future Improvements / Roadmap
 
