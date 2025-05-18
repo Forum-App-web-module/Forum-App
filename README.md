@@ -137,6 +137,11 @@ The application is a web-based forum that enables users to share knowledge, expe
 ![Database Schema](static/images/db_schema_.png)
 
 
+## N-Tier Architecture
+
+<img src="static/images/Forum%20App%20Architecture%20Diagram.png" alt="N-Tier Layers" width="800"/>
+
+
 ## API Documentation
 
 ## Testing
