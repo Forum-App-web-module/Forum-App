@@ -1,0 +1,1847 @@
+{
+	"info": {
+		"_postman_id": "df9b221f-688e-47b7-92b8-15ab24473b12",
+		"name": "Forum Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43737203"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "View all categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/categories/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"categories",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View category by ID",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/categories/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View topics for a category",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/categories/1/topics",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"categories",
+										"1",
+										"topics"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create category",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"Машини\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/categories/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"categories",
+										""
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lock Category",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/categories/2/lock?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"categories",
+										"2",
+										"lock"
+									],
+									"query": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update category privacy",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/categories/privicy/2",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"categories",
+										"privicy",
+										"2"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Messages",
+					"item": [
+						{
+							"name": "Get all conversations of auth.user",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/messages",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"messages"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get specific conversation",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/messages/Miracle",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"messages",
+										"Miracle"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Creating new message",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"Какво се е случило?\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/messages/Miracle",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"messages",
+										"Miracle"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Replies",
+					"item": [
+						{
+							"name": "Create reply",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"Повишен ли е разхода?\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/replies/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"replies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Vote on reply",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "-1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/replies/1/vote/5",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"replies",
+										"1",
+										"vote",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Vote on reply Copy",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/replies/2/top/7",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"replies",
+										"2",
+										"top",
+										"7"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Topics",
+					"item": [
+						{
+							"name": "Create a new topic",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"title\": \"audi A5\",\"category_id\": 1}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/topics/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"topics",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View all topics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/topics/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"topics",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show replies",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/topics/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"topics",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create a reply for a topic",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\"Audi A6 или BMW 5\"",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/topics/1/replies",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"topics",
+										"1",
+										"replies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lock topic",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/topics/1/lock",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"topics",
+										"1",
+										"lock"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Searches user profile",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users?username=Miracle",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "is_admin",
+											"value": "True",
+											"disabled": true
+										},
+										{
+											"key": "is_admin",
+											"value": "False",
+											"disabled": true
+										},
+										{
+											"key": "username",
+											"value": "Miracle"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Creates user profile",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\": \"Kingston\", \"email\": \"Kingston@example.com\", \"password\": \"kingston\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/register",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login account",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\": \"Kingston\", \"password\": \"kingston\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Returns User profile information",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/Kingston",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"Kingston"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deactivation(block) of account",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/deactivate/Kingston",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"deactivate",
+										"Kingston"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activation(block) of account Copy",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/deactivate/Kingston",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"deactivate",
+										"Kingston"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Promote user to Admin",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/promote/Kingston",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"promote",
+										"Kingston"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Give User Category read access",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/read_access/42/category/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"read_access",
+										"42",
+										"category",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Give User a Category Write Access",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "true",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/write_access/42/category/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"write_access",
+										"42",
+										"category",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Give User a Category Write Access Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "true",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/access/42/category/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"access",
+										"42",
+										"category",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Give User a Category Write Access Copy 2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/users/access/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"users",
+										"access",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "web",
+			"item": [
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "View all categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/categories/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"categories",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View topics for a category",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/categories/1/topics",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"categories",
+										"1",
+										"topics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "View replies for a topic",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/categories/1/topics/1/replies",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"categories",
+										"1",
+										"topics",
+										"1",
+										"replies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Lock/Unlock Category",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "category_name",
+											"value": "Машини",
+											"type": "text"
+										},
+										{
+											"key": "action",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/categories/lock",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"categories",
+										"lock"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create category",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "category_name",
+											"value": "Машини",
+											"type": "text"
+										},
+										{
+											"key": "action",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/categories/lock",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"categories",
+										"lock"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Main",
+					"item": [
+						{
+							"name": "Serve Home page",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/home",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"home"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Serve policy page",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/policy",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"policy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Serve logout page",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/logout",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Serve admin panel page",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "token",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOnsiaWQiOjQ1LCJ1c2VybmFtZSI6Ik1lbmRvc2EiLCJlbWFpbCI6Ik1lbmRvc2FAZXhhbXBsZS5jb20iLCJiaW8iOm51bGwsImlzX2FkbWluIjowLCJpc19hY3RpdmUiOjF9fQ.0w1XVv-8I9aNxUAh8QLY8RPwlD4-5dVz5aSF1m5o-VA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/admin",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Messages",
+					"item": [
+						{
+							"name": "Returning all conversations",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/messages",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"messages"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Replies",
+					"item": [
+						{
+							"name": "post new reply",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "content",
+											"value": "Опел Инсигния или Форд Мондео?",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/replies/1/new",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"replies",
+										"1",
+										"new"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Topics",
+					"item": [
+						{
+							"name": "View topic by id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/topic/2",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"topic",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create topic and first reply",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "Дизел срещу бензин",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "Какво ще ми препоръчате за първа кола?",
+											"type": "text"
+										},
+										{
+											"key": "category_id",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/topics/new",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"topics",
+										"new"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Serve register page",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/topic/2",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"topic",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "Tester1",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "Tester1@example.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "tester1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/users/register",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Serve login page",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/users/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "Tester1",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "Tester1@example.com",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "password",
+											"value": "tester1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/users/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Returns User profile information",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/users/profile",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"users",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Block account",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "Tester1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/users/deactivate",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"users",
+										"deactivate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unblock account",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "Tester1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/users/activate",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"users",
+										"activate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unblock account Copy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "bio",
+											"value": "Testing bio router",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/users/bio",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"users",
+										"bio"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
