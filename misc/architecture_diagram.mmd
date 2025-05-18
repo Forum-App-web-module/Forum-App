@@ -1,0 +1,45 @@
+---
+config:
+  layout: fixed
+---
+flowchart TD
+ subgraph Client_UI_Layer["<b>Client / UI Layer</b>"]
+        n1["Browser"]
+        n2["Backend API"]
+  end
+ subgraph Web_Server["<b>Web Server (FastAPI Routers)</b>"]
+        WebRouter["Web Routers<br>(FastAPI + Jinja2)"]
+        APIRouter["API Routers<br>(FastAPI /api/*)"]
+  end
+ subgraph Business_Logic["<b>Application / Business Logic Layer</b>"]
+        Security["Security Layer<br>(Authentication, Authorization)"]
+        Service_Layer["Service Layer<br>(User, Category, Topic, Reply, Message, Category Member)"]
+  end
+ subgraph Data_Layer["<b>Data Layer</b>"]
+        Models["Models<br>(Pydantic)"]
+        Connector["Database Connector"]
+  end
+ subgraph Database["<b>Database Layer</b>"]
+        n4["MariaDB"]
+  end
+    n1 <--> WebRouter
+    n2 <--> APIRouter
+    Web_Server --> Business_Logic
+    Security --> Service_Layer
+    Service_Layer --> Models & Connector
+    Connector --> Database
+    n1@{ icon: "azure:reserved-ip-addresses-classic", pos: "b"}
+    n2@{ icon: "azure:powershell", pos: "b"}
+    WebRouter@{ shape: lin-proc}
+    APIRouter@{ shape: lin-proc}
+    Security@{ shape: subproc}
+    Service_Layer@{ shape: subproc}
+    Models@{ shape: braces}
+    Connector@{ shape: in-out}
+    n4@{ icon: "azure:azure-database-mariadb-server", pos: "b", h: 80}
+    classDef hidden display:none
+    style Web_Server fill:#E1BEE7
+    style Business_Logic fill:#E1BEE7
+    style Database fill:#E1BEE7
+    style Data_Layer fill:#E1BEE7
+    style Client_UI_Layer fill:#E1BEE7
