@@ -1,22 +1,10 @@
 # Forum-App
-Telerik Alpha Python - 1st team project in Web module
+This is the first project developed during the Web module of the Telerik Academy Alpha Python program.
 
-If venv is not installed: python -m venv venv
-To activate the virtual environment: .venv\Scripts\activate.ps1
-
-
-When new dependency is added: pip freeze > requirements.txt 
-then commit the changes made.
-
-Installing dependencies: pip install -r requirements.txt
+The application is a web-based forum that enables users to share knowledge, experiences, and opinions across various discussion topics. It includes user authentication, topic management, commenting, messaging, and administrative controls.
 
 -------------------------------------------------------------------------
 
-# 📚 The Forum App
-
-> A collaborative web application built by [Your Name], [Teammate 1], and [Teammate 2].
-
----
 
 ## 🧭 Table of Contents
 
@@ -120,12 +108,14 @@ Describe the purpose and goals of the Forum app. What problems does it solve? Wh
    `git clone https://github.com/Forum-App-web-module/Forum-App.git`  
    `cd forum-app`
 
-2. (Optional) Create and activate a virtual environment:  
+2. (Optional, Recommended) Create and activate a virtual environment:  
    `python -m venv venv`  
-   `venv\Scripts\activate` (on Windows)  
+   `.venv\Scripts\activate.ps1` 
 
 3. Install the required dependencies:  
    `pip install -r requirements.txt`
+   *If adiitional dependecy is installed use the bellow command to update the file*  
+   *pip freeze > requirements.txt*
 
 4. Set up your environment variables:  
     Copy the example environment file:  
