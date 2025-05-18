@@ -13,6 +13,10 @@ templates = CustomJinja2Templatges(directory="templates")
 
 def helper_serve_topic_replies(request: Request ,id: int, category_id, write_flag = True):
     topic_replies = get_topic_with_replies(id)
+
+    if topic_replies is None:
+        return RedirectResponse(url="/categories", status_code=302)
+    
     return templates.TemplateResponse(
         request=request,
         name="prefixed/replies.html",

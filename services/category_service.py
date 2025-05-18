@@ -71,15 +71,17 @@ def get_topics_by_category(category_id: int, search: str = "", sort_by: str = "t
     if get_data_func is None:
         get_data_func = read_query
     
-    if sort_by not in ["title", "author_id"]:
-        sort_by = "title"
+    if sort_by not in ["title_asc", "title_desc"]:
+        sort_by = "title_asc"
+
+    order_by = "ORDER BY title ASC" if sort_by == "title_asc" else "ORDER BY title DESC"
 
     query = f'''
         SELECT id, title, category_id, author_id, best_reply_id, locked
         FROM topics
         WHERE category_id = ?
-            AND title LIKE ?
-        ORDER BY {sort_by}
+          AND title LIKE ?
+        {order_by}
         LIMIT ? OFFSET ?
     '''
 
@@ -124,3 +126,16 @@ def is_private(category_id: int, get_data_func=None):
     if not category:
         return True
     return category.is_private
+
+def count_topics_by_category(category_id: int, search: str = "", get_data_func=None):
+    if get_data_func is None:
+        get_data_func = read_query
+
+    query = '''
+        SELECT COUNT(*) FROM topics
+        WHERE category_id = ?
+          AND title LIKE ?
+    '''
+    params = (category_id, f"%{search}%")
+    result = get_data_func(query, params)
+    return result[0][0] if result else 0

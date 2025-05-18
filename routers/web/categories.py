@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Body, Header, Request, Form
+from fastapi import APIRouter, Body, Header, Request, Form, Query
 from common.auth import get_user_if_token
 from common.template_config import CustomJinja2Templatges
 from security.jwt_auth import verify_access_token
-from services.category_service import get_all_public, get_all, get_allowed, get_topics_by_category, is_private, get_category_by_name, lock_category, create_category
+from services.category_service import (get_all_public, get_all, get_allowed, get_topics_by_category,
+            is_private, get_category_by_name, lock_category, create_category, count_topics_by_category)
 from services.topic_service import get_all_topics, get_topic_with_replies
 from services.category_members_service import is_member
 from fastapi.responses import RedirectResponse
@@ -30,29 +31,53 @@ def serve_categories(request: Request):
 
 # View topics for a category
 @category_router.get('/categories/{category_id}/topics')
-def serve_category_topics(request: Request, category_id: int):
+def serve_category_topics(
+    request: Request,
+    category_id: int,
+    search: str = Query(default="", alias="search"),
+    sort_by: str = Query(default="title_asc", alias="sort"),
+    page: int = Query(default=1, ge=1),
+    per_page: int = Query(default=5, ge=1, le=100)
+):
+    skip = (page - 1) * per_page
     # token authentication
     payload = get_user_if_token(request)
 
     if not payload:
         if not is_private(category_id):
-            topics = get_topics_by_category(category_id)
+            topics = get_topics_by_category(category_id, search, sort_by, skip, per_page)
+            total = count_topics_by_category(category_id, search)
+            total_pages = (total + per_page - 1) // per_page
             return templates.TemplateResponse(
                 request=request,
                 name="prefixed/topics.html",
-                context={"topics": topics,
-                         "category_id": category_id,
-                         }
+                context={
+                    "topics": topics,
+                    "category_id": category_id,
+                    "search": search,
+                    "sort_by": sort_by,
+                    "page": page,
+                    "per_page": per_page,
+                    "total_pages": total_pages
+                }
             )
 
     if payload["key"]["is_admin"] or is_member(category_id, payload["key"]["id"]):
-        topics = get_topics_by_category(category_id)
+        topics = get_topics_by_category(category_id, search, sort_by, skip, per_page)
+        total = count_topics_by_category(category_id, search)
+        total_pages = (total + per_page - 1) // per_page
         return templates.TemplateResponse(
             request=request,
             name="prefixed/topics.html",
-            context={"topics": topics,
-                         "category_id": category_id,
-                         }
+            context={
+                "topics": topics,
+                "category_id": category_id,
+                "search": search,
+                "sort_by": sort_by,
+                "page": page,
+                "per_page": per_page,
+                "total_pages": total_pages
+            }
         )
     else:
         response = RedirectResponse(url="/categories", status_code=302)
