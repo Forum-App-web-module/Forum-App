@@ -139,8 +139,8 @@ The application is a web-based forum that enables users to share knowledge, expe
 
 ## N-Tier Architecture  
 From an MVC perspective:
-- **View** - Web Server and the Client/UI
-- **Controller** - Application/Business Logic
+- **View** - Client/UI
+- **Controller** - Web Server and Application/Business Logic
 - **Model** - Data and Database Layers
 
 Through the FastAPI server, the client calls the routers which interact with Security and Service Layers.  
